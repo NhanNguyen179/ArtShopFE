@@ -59,7 +59,7 @@ export const SideMenu = () => {
                     <ListItemIcon>
                         <ConfirmationNumberOutlined/>
                     </ListItemIcon>
-                    <ListItemText primary={'Đơn đặt hàng của tôi'} />
+                    <ListItemText primary={'Sản phẩm đang đấu giá'} />
                 </ListItem>
 
                 <ListItem 
@@ -115,7 +115,7 @@ export const SideMenu = () => {
                 <Divider />
                 <ListSubheader>Bảng quản trị</ListSubheader>
 
-                <ListItem button>
+                <ListItem button href='/admin/product'>
                     <ListItemIcon>
                         <CategoryOutlined/>
                     </ListItemIcon>

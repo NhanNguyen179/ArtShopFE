@@ -1,110 +1,130 @@
-import { useContext, useState } from 'react'
-import NextLink from 'next/link'
-import { AppBar, Toolbar, Link, Typography, Box, Button, IconButton, Badge, Input, InputAdornment } from "@mui/material"
-import { ClearOutlined, SearchOutlined, ShoppingCartOutlined } from '@mui/icons-material'
-import { useRouter } from 'next/router'
-import { UiContext } from '../../context/ui/UiContext';
-import { CartContext } from '../../context'
+import { useContext, useState } from "react";
+import NextLink from "next/link";
+import {
+  AppBar,
+  Toolbar,
+  Link,
+  Typography,
+  Box,
+  Button,
+  IconButton,
+  Badge,
+  Input,
+  InputAdornment,
+} from "@mui/material";
+import {
+  ClearOutlined,
+  SearchOutlined,
+  ShoppingCartOutlined,
+} from "@mui/icons-material";
+import { useRouter } from "next/router";
+import { UiContext } from "../../context/ui/UiContext";
+import { CartContext } from "../../context";
 
 export const Navbar = () => {
-  const { asPath, push }= useRouter();
+  const { asPath, push } = useRouter();
   const { toggleSideMenu } = useContext(UiContext);
   const { numberOfItems } = useContext(CartContext);
   const [isSearchVisible, setIsSearchVisible] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
-  const onSearchTerm = ()=> {
-      if(searchTerm.trim().length == 0 ) return;
-      push(`/search/${searchTerm}`);
-  }
+  const [searchTerm, setSearchTerm] = useState("");
+  const onSearchTerm = () => {
+    if (searchTerm.trim().length == 0) return;
+    push(`/search/${searchTerm}`);
+  };
   return (
     <AppBar>
-      <Toolbar>
-        <NextLink href='/' passHref>
-          <Link display="flex" alignItems='center'>
-            <Typography variant='h6'>Teslo</Typography>
-            <Typography sx={{
-              ml: 0.5
-            }}>Shop</Typography>
+      <Toolbar sx={{ backgroundColor: "rgb(240, 240, 240)" }}>
+        <NextLink href="/" passHref>
+          <Link display="flex" alignItems="center">
+            <Typography variant="h6">Art</Typography>
+            <Typography
+              sx={{
+                ml: 0.5,
+              }}
+            >
+              Shop
+            </Typography>
           </Link>
         </NextLink>
-        <Box  flex={1}/>
+        <Box flex={1} />
 
         <Box
-            sx={{ display: isSearchVisible ? 'none' : { xs:'none', sm:'block' }}}
-            className='fadeIn'
+          sx={{
+            display: isSearchVisible ? "none" : { xs: "none", sm: "block" },
+          }}
+          className="fadeIn"
         >
-          <NextLink href='/category/men' passHref>
+          <NextLink href="/category/men" passHref>
             <Link>
-              <Button color={ asPath === '/category/men' ? 'primary' : 'info' }>Men</Button>
+              <Button color={asPath === "/category/men" ? "primary" : "info"}>
+                <Typography variant="h2">Auction</Typography>
+              </Button>
             </Link>
           </NextLink>
-          <NextLink href='/category/women' passHref>
+          <NextLink href="/category/women" passHref>
             <Link>
-              <Button color={ asPath === '/category/women' ? 'primary' : 'info' }>Women</Button>
+              <Button color={asPath === "/category/women" ? "primary" : "info"}>
+                <Typography variant="h2">Buy</Typography>
+              </Button>
             </Link>
           </NextLink>
-          <NextLink href='/category/kid' passHref>
+          <NextLink href="/category/kid" passHref>
             <Link>
-              <Button color={ asPath === '/category/kid' ? 'primary' : 'info' }>Kid</Button>
+              <Button color={asPath === "/category/kid" ? "primary" : "info"}>
+                <Typography variant="h2">About us</Typography>
+              </Button>
             </Link>
           </NextLink>
         </Box>
 
-        <Box  flex={1}/>
-        {
-          isSearchVisible
-          ?(
+        <Box flex={1} />
+        {isSearchVisible ? (
           <Input
-            className='fadeIn'
-            sx={{ display: { xs:'none', sm:'flex' }}}
+            className="fadeIn"
+            sx={{ display: { xs: "none", sm: "flex" } }}
             autoFocus
             value={searchTerm}
-            onChange={ (e)=> setSearchTerm(e.target.value) }
-            onKeyPress={(e)=> e.key === 'Enter' ? onSearchTerm() : null }
-            type='text'
+            onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyPress={(e) => (e.key === "Enter" ? onSearchTerm() : null)}
+            type="text"
             placeholder="Tìm kiếm..."
             endAdornment={
-                <InputAdornment position="end">
-                    <IconButton
-                    onClick={ () => setIsSearchVisible(false) }
-                    >
-                     <ClearOutlined />
-                    </IconButton>
-                </InputAdornment>
-            } />
-          )
-          :
+              <InputAdornment position="end">
+                <IconButton onClick={() => setIsSearchVisible(false)}>
+                  <ClearOutlined />
+                </IconButton>
+              </InputAdornment>
+            }
+          />
+        ) : (
           <IconButton
-            sx={{display: {xs: 'none', sm:'block'}}}
-            onClick={ () => setIsSearchVisible(true) }
-            >
+            sx={{ display: { xs: "none", sm: "block" } }}
+            onClick={() => setIsSearchVisible(true)}
+          >
             <SearchOutlined />
           </IconButton>
-        }
-
+        )}
 
         <IconButton
-          sx={{display: {xs: 'flex', sm:'none'}}}
-          onClick={ toggleSideMenu }
+          sx={{ display: { xs: "flex", sm: "none" } }}
+          onClick={toggleSideMenu}
         >
-            <SearchOutlined />
+          <SearchOutlined />
         </IconButton>
-        <NextLink href='/cart' passHref>
+        <NextLink href="/cart" passHref>
           <Link>
             <IconButton>
-              <Badge badgeContent={numberOfItems > 9 ? '+9' : numberOfItems } color='secondary'>
-                <ShoppingCartOutlined/>
+              <Badge
+                badgeContent={numberOfItems > 9 ? "+9" : numberOfItems}
+                color="secondary"
+              >
+                <ShoppingCartOutlined />
               </Badge>
             </IconButton>
           </Link>
         </NextLink>
-        <Button
-          onClick={ toggleSideMenu }
-        >
-          Menu
-        </Button>
+        <Button onClick={toggleSideMenu}>Menu</Button>
       </Toolbar>
-
     </AppBar>
-  )
-}
+  );
+};

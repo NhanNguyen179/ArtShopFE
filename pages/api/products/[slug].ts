@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { IProduct } from '../../../interfaces'
-import { Product } from '../../../models'
 import { seedData } from '../../../database'
 type Data = 
   | { message: string }

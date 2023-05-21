@@ -1,48 +1,59 @@
 import {
+  Box,
   Card,
   CardActionArea,
   CardMedia,
   Grid,
+  ImageList,
   Typography,
 } from "@mui/material";
 import type { NextPage } from "next";
 import { ShopLayout } from "../components/layouts";
 import { ProductList } from "../components/products";
 import { FullScreenLoading } from "../components/ui";
-import { useProducts, useHomeProducts } from "../hooks/useProducts";
+import { useEffect, useState } from "react";
+import productAPI from "./api/productApiFunction";
+import { SeedProduct } from "../database/seed-data";
 
 const HomePage: NextPage = () => {
-  const { homeProducts,isLoadingHomeProducts } = useHomeProducts("/products");
+  const [listProduct, setListProduct] = useState<SeedProduct[]>();
 
-  const arrayCategories = ["Tranh tĩnh vật"];
+  const getProducts = () => {
+    productAPI.getProduct().then((rs: any) => setListProduct(rs));
+  };
+  useEffect(() => {
+    getProducts();
+  }, []);
+
   return (
     <ShopLayout
-      title={"Tesla Shop - Home"}
+      title={"Art Shop - Home"}
       pageDescription={"Find best Tesla products"}
+      isPublic={true}
     >
-      <Typography variant="h1" component="h1">
-        Cửa hàng
-      </Typography>
-      <Typography variant="h2" sx={{ mb: 1 }}>
-        Tất cả các sản phẩm
-      </Typography>
-      {isLoadingHomeProducts ? (
-        <FullScreenLoading />
-      ) : (
-        arrayCategories.map((categoryItem, index) => {
-          const product = homeProducts.filter(
-            (item) => item.category && item.category.name === categoryItem
-          );
-          return (
+      {listProduct ? (
+        <>
+          <ImageList
+            variant="masonry"
+            sx={{
+              columnCount: {
+                xs: "1 !important",
+                sm: "2 !important",
+                md: "2 !important",
+                lg: "4 !important",
+                xl: "4 !important",
+              },
+            }}
+            gap={12}
+          >
             <>
-              <Typography variant="h1" sx={{ mb: 1 }}>
-                {categoryItem}
-              </Typography>
-              <ProductList products={product} key={index} />
-              <br/>
+              <ProductList products={listProduct} />
+              <br />
             </>
-          );
-        })
+          </ImageList>
+        </>
+      ) : (
+        <FullScreenLoading />
       )}
     </ShopLayout>
   );

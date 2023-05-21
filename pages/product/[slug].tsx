@@ -1,12 +1,7 @@
-import { Box, Button, Chip, Grid, Typography } from "@mui/material";
-import {
-  GetServerSideProps,
-  GetStaticPaths,
-  NextPage,
-  GetStaticProps,
-} from "next";
+import { Box, Button, Chip, Grid, Modal, Typography } from "@mui/material";
+import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { ShopLayout } from "../../components/layouts";
 import { ProductSlideShow, SizeSelector } from "../../components/products";
 import { ItemCounter } from "../../components/ui";
@@ -16,72 +11,78 @@ import { ICartProduct } from "../../interfaces/cart";
 import { IValidSize } from "../../interfaces/products";
 import { CartContext } from "../../context/cart/CartContext";
 import { SeedProduct } from "../../database/seed-data";
+import { ListTickets } from "../../components/ticket/ListTickets";
+import { AuctionModal } from "../../components/modal/AuctionModal";
+import productAPI from "../api/productApiFunction";
 interface Props {
   product: SeedProduct;
 }
 
 const ProductPage: NextPage<Props> = ({ product }) => {
-  const { addProductToCart } = useContext(CartContext);
-  const router = useRouter();
-  const [tempCartProduct, setTempCartProduct] = useState<ICartProduct>({
-    _id: "1",
-    image: product.images[0],
-    price: product.price,
-    slug: product.slug,
-    title: product.name,
-  });
-  const selectedSize = (size: IValidSize) => {
-    setTempCartProduct((currentProduct) => ({
-      ...currentProduct,
-      size,
-    }));
-  };
-  const onUpdateQuantity = (quantity: number) => {
-    setTempCartProduct((currentProduct) => ({
-      ...currentProduct,
-      quantity,
-    }));
-  };
-  const onAddProduct = () => {
-    if (product.sold) {
-      return;
-    }
-    addProductToCart(tempCartProduct);
-    router.push("/cart");
-  };
-
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  
   return (
-    <ShopLayout title={product.name} pageDescription={product.description}>
+    <ShopLayout title={product.name} pageDescription={product.description} isPublic={true}>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <AuctionModal />
+      </Modal>
       <Grid container spacing={3}>
         <Grid item xs={12} sm={7}>
           <ProductSlideShow images={product.images} />
         </Grid>
         <Grid item xs={12} sm={5}>
           <Box display="flex" flexDirection="column">
-            {/* Titulos */}
-            <Typography variant="h1" component="h1">
-              {product.name}
-            </Typography>
-            <Typography
-              variant="subtitle1"
-              component="h2"
-            >{`$${product.price}`}</Typography>
-            <Button
+            <div className="w-full ">
+              <p className="border-b border-gray-400 border-opacity-70 pb-2 text-lg font-bold font-serif">
+                {" "}
+                {product.author.name}
+              </p>
+              <div className="border-b border-gray-400 border-opacity-70 mb-2 p-2 pl-0 text-sm text-gray-400">
+                <p>Ngày bắt đầu: 11/11/2023</p>
+                <p>Ngày kết thúc: 11/12/2023</p>
+                <p>Số người tham gia: 11/12/2023</p>
+              </div>
+
+              <div className="border-b border-gray-400 border-opacity-70 mb-2 p-2 pl-0 text-md">
+                <p className="font-bold text-md">Về tác phẩm: </p>
+                <p>{product.description}</p>
+              </div>
+            </div>
+            <ListTickets></ListTickets>
+            <div className="flex h-28 w-full mt-4">
+              <div className=" h-full w-1/2 bg-red-700 flex items-center justify-center rounded-s-3xl border-r-2 animate-pulse cursor-pointer">
+                <p
+                  className="text-4xl text-white font-extrabold"
+                  onClick={handleOpen}
+                >
+                  {" "}
+                  Đấu giá{" "}
+                </p>
+              </div>
+              <div className=" h-full w-1/2 bg-red-800 flex items-center justify-center rounded-e-3xl  cursor-pointer">
+                <p
+                  className="text-4xl text-white font-extrabold"
+                  onClick={handleOpen}
+                >
+                  {" "}
+                  +1000${" "}
+                </p>
+              </div>
+            </div>
+            {/* <Button
               color="secondary"
               onClick={onAddProduct}
               disabled={product.sold}
             >
               {product.sold ? "Đấu giá" : "Đã bán"}
-            </Button>
-
-            <Box sx={{ mt: 3 }}>
-              <Typography variant="subtitle2">Descripcion:</Typography>
-              <Typography variant="body2">{product.description}</Typography>
-            </Box>
-            <Box sx={{ mt: 3 }}>
-              <Typography variant="subtitle2">Gender:</Typography>
-              <Typography variant="body2">{product.description}</Typography>
-            </Box>
+            </Button> */}
           </Box>
         </Grid>
       </Grid>
@@ -90,38 +91,12 @@ const ProductPage: NextPage<Props> = ({ product }) => {
 };
 
 //Get Static Paths
-export const getStaticPaths: GetStaticPaths = async (ctx) => {
-  const productSlugs = seedData.initialData.products;
-
-  return {
-    paths: productSlugs.map(({ slug }) => ({
-      params: {
-        slug,
-      },
-    })),
-    fallback: "blocking",
-  };
-};
-
-//Get Server Side Props
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const { slug = "" } = params as { slug: string };
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const product = seedData.initialData.products[0];
-
-  if (!product) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-  }
-
   return {
     props: {
       product,
     },
-    revalidate: 60 * 60 * 24,
   };
 };
 

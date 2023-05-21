@@ -8,7 +8,7 @@ const Custom404 = () => {
           <SentimentVeryDissatisfiedOutlinedIcon sx={{ fontSize: 60 }}  />
           <Typography variant="h1" component='h1' fontSize={60} fontWeight={200}>404</Typography>
           <Typography variant="h2" component='h2' fontSize={80} fontWeight={200} marginLeft={2} sx={{ display: {xs:'none', sm:'block'}}} >|</Typography>
-          <Typography marginLeft={2}>No hay nada que mostrar aqui</Typography>
+          <Typography marginLeft={2}>Không tìm thấy đường dẫn này</Typography>
         </Box>
     </ShopLayout>
   )

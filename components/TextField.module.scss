@@ -1,0 +1,28 @@
+@charset "UTF-8";
+
+
+
+.input {
+  box-sizing: border-box;
+  outline: none;
+  border-radius: 8px;
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+  min-width: 0;
+  align-items: center;
+  font-weight: 500;
+  letter-spacing: -0.61px;
+  padding: 0 0 0 10px;
+  font-style: normal;
+  line-height: 14px;
+  height: 46px;
+  width: 100%;
+  border: 1px solid black;
+  &::placeholder {
+    color: var(--theme-secondary-text);
+    opacity: 0.5;
+  }
+
+  
+}
+

@@ -1,15 +1,18 @@
-// interface Props {
-//   products: SeedProduct[];
-// }
+import { FC } from "react";
+import { UserAuctionProduct } from "../Type";
 import styles from "./Ticket.module.scss";
 
-export const Ticket = ({}) => {
+interface Props {
+  auctionItem: UserAuctionProduct;
+}
+
+export const Ticket: FC<Props> = ({ auctionItem }) => {
   return (
     <div className={styles["ticketContainer"]}>
       <div className={styles["ticket"]}>
-        <div className={styles["ticketTitle"]}>1000$</div>
+        <div className={styles["ticketTitle"]}>{auctionItem.auction_price}$</div>
         <div className={styles["ticketDetail"]}>
-          <div>Mr.Nguyễn Văn Nhân</div>
+          <div>Mr.{auctionItem.user.email}</div>
         </div>
         <div className={styles["ticketRip"]}>
           <div className={styles["circleLeft"]}></div>
@@ -17,10 +20,10 @@ export const Ticket = ({}) => {
           <div className={styles["circleRight"]}></div>
         </div>
         <div className={styles["ticketSubDetail"]}>
-          <div className={styles["code"]}>LO-2314XXX</div>
+          <div className={styles["code"]}>{auctionItem.is_success}</div>
           <div className={styles["date"]}>
             {" "}
-            Jan 14<sup>th</sup> 2023
+            {auctionItem.create_at}
           </div>
         </div>
       </div>

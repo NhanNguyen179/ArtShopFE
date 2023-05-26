@@ -29,7 +29,7 @@ export const ProductCard: FC<Props> = ({ product }) => {
   }, [isHovered, product.images]);
   return (
     <ImageListItem>
-      <NextLink href={`/product/${product.slug}`} passHref>
+      <NextLink href={`/product/${product.id}`} passHref>
         <Link>
           <div style={{ width: "320px", height: "auto" }}>
             <img

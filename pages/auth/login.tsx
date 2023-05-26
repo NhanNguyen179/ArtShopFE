@@ -1,17 +1,7 @@
-// import {
-//   Box,
-//   Button,
-//   FormControl,
-//   Grid,
-//   Link,
-//   TextField,
-//   Typography,
-// } from "@mui/material";
 import React from "react";
 import { AuthLayout } from "../../components/layouts/AuthLayout";
 
 import NextLink from "next/link";
-import { useForm, SubmitHandler } from "react-hook-form";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
@@ -36,22 +26,13 @@ export interface ILoginFormInput {
   password: string;
 }
 
-const defaultValues = {
-  email: "",
-  password: "",
-};
-
 const LoginPage = () => {
-  const { handleSubmit, control, watch } = useForm({
-    defaultValues,
-    mode: "onChange",
-  });
   const router = useRouter();
 
   const formik = useFormik({
     initialValues: {
-      email: "demo@devias.io",
-      password: "Password123!",
+      email: "admin@gmail.com",
+      password: "admin123",
       submit: null,
     },
     validationSchema: Yup.object({
@@ -149,9 +130,7 @@ const LoginPage = () => {
                   value={formik.values.password}
                 />
               </Stack>
-              <FormHelperText sx={{ mt: 1 }}>
-                Optionally you can skip.
-              </FormHelperText>
+
               {formik.errors.submit && (
                 <Typography color="error" sx={{ mt: 3 }} variant="body2">
                   {formik.errors.submit}

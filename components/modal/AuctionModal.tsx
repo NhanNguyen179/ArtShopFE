@@ -1,22 +1,19 @@
-// interface Props {
-//   products: SeedProduct[];
-// }
-import { Box, Button, Grid, Typography } from "@mui/material";
-import RFTextField from "../RFTextField";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { Box, Button, Grid, Stack, TextField, Typography } from "@mui/material";
+import { SeedProduct } from "../../database/seed-data";
+import { FC } from "react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { toast } from "react-toastify";
+import auctionAPI from "../../pages/api/auction";
 
 const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
   border: "2px solid #000",
+  maxHeight: "600px",
   boxShadow: 24,
   pt: 2,
   px: 4,
   pb: 3,
+  width: "500px",
 };
 
 export interface ILoginFormInput {
@@ -29,56 +26,107 @@ const defaultValues = {
   password: "",
 };
 
-export const AuctionModal = ({}) => {
-  const { handleSubmit, control, watch } = useForm({
-    defaultValues,
-    mode: "onChange",
-  });
-  const onSubmit: SubmitHandler<ILoginFormInput> = async (values) => {
-    console.log({ values });
-  };
+interface Props {
+  product: SeedProduct;
+}
 
+export const AuctionModal: FC<Props> = ({ product }) => {
+  
+  const formik = useFormik({
+    initialValues: {
+      productId: product.id,
+      highestPrice: product.price,
+      auctionPrice: 0,
+    },
+    validationSchema: Yup.object({
+      auctionPrice: Yup.number()
+        .required("Xin hãy điền giá đấu giá")
+        .min(product.price, "Giá lớn hơn giá hiện tại"),
+    }),
+    onSubmit: async (values, helpers) => {
+      try {
+        const { productId, auctionPrice } = values;
+        await auctionAPI.createAuction(productId, auctionPrice);
+        toast.success("Đấu giá thành công!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      } catch (err) {
+        toast.error("Đấu giá thất bại!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        helpers.setStatus({ success: false });
+        helpers.setErrors({ submit: err.message });
+        helpers.setSubmitting(false);
+      }
+    },
+  });
   return (
     <Box sx={style}>
-      <Typography id="modal-modal-title" variant="h1" component="h1" sx={{
-        marginBottom:'10px'
-      }}>
-        Tên sản phẩm
+      <Typography
+        id="modal-modal-title"
+        variant="h1"
+        component="h1"
+        sx={{
+          marginBottom: "10px",
+        }}
+      >
+        {product.name}
       </Typography>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Typography> Giá hiện tại: </Typography>
-            <RFTextField
-              name="email"
-              inputType="email"
-              placeholder="1000$"
-              disabled={true}
-              control={control}
-            />
-          </Grid>
-          <Grid item xs={12}>
-          <Typography> Giá đặt: </Typography>
-            <RFTextField
-              label="Password"
-              inputType="password"
-              name="password"
-              placeholder="Nhập giá muốn tham gia......"
-              control={control}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Button
-              color="secondary"
-              className="circular-btn"
-              size="large"
-              fullWidth
-              type="submit"
-            >
-              Đấu giá
-            </Button>
-          </Grid>
-        </Grid>
+      <form noValidate onSubmit={formik.handleSubmit}>
+        <Stack spacing={3}>
+          <TextField
+            error={
+              !!(formik.touched.highestPrice && formik.errors.highestPrice)
+            }
+            fullWidth
+            helperText={
+              formik.touched.highestPrice && formik.errors.highestPrice
+            }
+            label="Giá cao nhất hiện tại"
+            name="highestPrice"
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            type="number"
+            value={formik.values.highestPrice}
+            disabled={true}
+          />
+          <TextField
+            error={
+              !!(formik.touched.auctionPrice && formik.errors.auctionPrice)
+            }
+            fullWidth
+            label="Giá đặt"
+            name="auctionPrice"
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            type="number"
+            value={formik.values.auctionPrice}
+          />
+          <Button
+            fullWidth
+            size="medium"
+            sx={{ mt: 3 }}
+            type="submit"
+            variant="outlined"
+            color="primary"
+          >
+            Đấu giá sản phẩm
+          </Button>
+        </Stack>
       </form>
     </Box>
   );

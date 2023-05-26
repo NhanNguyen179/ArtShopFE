@@ -10,7 +10,7 @@ import {
 import { Button } from "@mui/material";
 import { useFormik } from "formik";
 import authorAPI from "../../pages/api/author";
-
+import { toast } from "react-toastify";
 const style = {
   border: "2px solid #000",
   maxHeight: "600px",
@@ -31,6 +31,16 @@ const AddAuthorModal = ({ open, close }) => {
     onSubmit: async (values, helpers) => {
       try {
         await authorAPI.addAuthor(values);
+        toast.success("Thêm tác giả thành công!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
         close();
       } catch (err) {
         console.log(err);

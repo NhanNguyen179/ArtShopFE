@@ -69,7 +69,7 @@ export const AuthLayout:FC<Props> = ({children, title}) => {
               </Box>
             </Typography>
             <Typography align="center" sx={{ mb: 3 }} variant="subtitle1">
-              A professional kit that comes with ready-to-use MUI components.
+              Website đấu giá tranh ảnh.
             </Typography>
           </Box>
         </Grid>

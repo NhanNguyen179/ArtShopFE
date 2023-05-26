@@ -4,6 +4,7 @@ import { styled } from "@mui/material/styles";
 import { SideNav } from "./side-nav";
 import { TopNav } from "./top-nav";
 import Auth from "../../Auth";
+import { SideMenu } from "../../ui";
 
 const SIDE_NAV_WIDTH = 280;
 
@@ -32,8 +33,11 @@ export const DashBoardLayout = (props) => {
     <>
       <Auth isPublic={isPublic}>
         <TopNav onNavOpen={() => setOpenNav(true)} />
+        <SideMenu />
+
         <SideNav onClose={() => setOpenNav(false)} open={openNav} />
         <LayoutRoot>
+
           <LayoutContainer>{children}</LayoutContainer>
         </LayoutRoot>
       </Auth>

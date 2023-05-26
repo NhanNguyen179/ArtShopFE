@@ -1,7 +1,6 @@
 import bcrypt from "bcryptjs";
 
 export interface SeedProduct {
-  map: any;
   description: string;
   images: string[];
   slug: string;

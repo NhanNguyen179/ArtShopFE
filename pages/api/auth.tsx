@@ -4,6 +4,13 @@ const authAPI = {
   async login(data: { email: string; password: string }) {
     return await axiosBase.post("auth/user/login/", data);
   },
+  async register(data: {
+    email: string;
+    password: string;
+    phone_number: string;
+  }) {
+    return await axiosBase.post("auth/user/", data);
+  },
   async getMyProfile() {
     return await axiosBase.get("auth/user/me/");
   },

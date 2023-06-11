@@ -16,6 +16,7 @@ import NextLink from "next/link";
 import { FC, useMemo, useState } from "react";
 import { SeedProduct } from "../../database/seed-data";
 import InfoIcon from "@mui/icons-material/Info";
+import { compareAsc, format } from "date-fns";
 
 interface Props {
   product: SeedProduct;
@@ -33,8 +34,8 @@ export const ProductCard: FC<Props> = ({ product }) => {
         <Link>
           <div style={{ width: "320px", height: "auto" }}>
             <img
-              src={`https://shopart.loca.lt${product.images[0]}`}
-              srcSet={`https://shopart.loca.lt${product.images[0]}`}
+              src={`${product.images[0]}`}
+              srcSet={`${product.images[0]}`}
               alt={product.name}
               className=" "
               loading="lazy"
@@ -54,14 +55,20 @@ export const ProductCard: FC<Props> = ({ product }) => {
                   {product.author.name}
                 </p>
                 <div className="border-b border-gray-400 border-opacity-70 mb-2 p-2 pl-0 text-sm text-gray-400">
-                  <p>Giá ước tính: {product.price}$</p>
-                  <p>Giá đấu giá : 999$</p>
+                  <p>Giá khởi điểm: {product.price}$</p>
+                  <p>Giá đấu giá : {product.auction_price}$</p>
                 </div>
 
                 <div className="border-b border-gray-400 border-opacity-70 mb-2 p-2 pl-0 text-sm text-gray-400">
-                  <p>Ngày bắt đầu: 11/11/2023</p>
-                  <p>Ngày kết thúc: 11/12/2023</p>
-                  <p>Số người tham gia: 11/12/2023</p>
+                  <p>
+                    Ngày bắt đầu:{" "}
+                    {format(new Date(product.start_auction), "dd-MMMM-yyyy")}
+                  </p>
+                  <p>
+                    Ngày kết thúc:{" "}
+                    {format(new Date(product.end_auction), "dd-MMMM-yyyy")}
+                  </p>
+                  <p>Số người tham gia: {product.auction_participant}</p>
                 </div>
               </div>
             }

@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { Container } from "@mui/material";
 import authAPI from "../pages/api/auth";
 import { ROLE_TYPE_ENUM, User } from "./Type";
+import { toast } from "react-toastify";
 
 interface EnrichedChildren {
   myProfile?: User;
@@ -43,7 +44,8 @@ const Auth: React.FunctionComponent<IAuth> = ({
   children,
   isPublic,
 }: IAuth) => {
-  const [myProfile, setMyProfile] = useState();
+  const adminRoute = ["/admin/product", "/admin/user", "/admin/account"];
+  const [myProfile, setMyProfile] = useState<User>();
   const [isLoading, setIsLoading] = useState(true);
   const getProfile = async () => {
     authAPI
@@ -53,7 +55,7 @@ const Auth: React.FunctionComponent<IAuth> = ({
         setIsLoading(false);
       })
       .catch((rs) => {
-        setMyProfile(rs);
+        setMyProfile(rs.response?.data?.status);
         setIsLoading(false);
       });
   };
@@ -61,7 +63,7 @@ const Auth: React.FunctionComponent<IAuth> = ({
   useEffect(() => {
     getProfile();
   }, []);
-  
+
   const router = useRouter();
 
   if (!isLoading) {
@@ -74,22 +76,34 @@ const Auth: React.FunctionComponent<IAuth> = ({
       );
     }
 
+    console.log(router.pathname);
+
     if (myProfile) {
-      if (myProfile?.role?.name.includes(ROLE_TYPE_ENUM.USER)) {
-        router.push(`/`);
-      } else if (myProfile?.roles?.name.includes(ROLE_TYPE_ENUM.ADMIN)) {
-        router.push(`/admin/product`);
-      } else if (myProfile?.roles?.name.includes(ROLE_TYPE_ENUM.AUTHOR)) {
-        router.push(`/`);
+      if (
+        myProfile.role.name !== "admin" &&
+        adminRoute.includes(router.pathname)
+      ) {
+        toast.error("Bạn không có quyền truy cập trang này!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        router.push("/");
+        return;
       }
-      // Add authUser prop to all child elements.
       const childrenWithProps = recursiveMap(children, (child) =>
         React.cloneElement(child, { myProfile })
       );
       return <>{childrenWithProps}</>;
     }
-
-    return <>This page is authenticated you will be now redirected</>;
+    if (isPublic) {
+      return <>{children}</>;
+    }
   }
 };
 

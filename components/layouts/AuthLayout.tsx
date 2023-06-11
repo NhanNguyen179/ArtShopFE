@@ -1,24 +1,23 @@
-import Head from 'next/head'
-import React, { FC } from 'react'
+import Head from "next/head";
+import React, { FC } from "react";
 import { Box, Typography, Grid } from "@mui/material";
 
-interface Props{
+interface Props {
   title: string;
-  children?: React.ReactNode,
+  children?: React.ReactNode;
 }
-export const AuthLayout:FC<Props> = ({children, title}) => {
+export const AuthLayout: FC<Props> = ({ children, title }) => {
   return (
     <>
       <Head>
         <title>{title}</title>
       </Head>
-      <main> 
+
       <Grid container sx={{ flex: "1 1 auto" }}>
         <Grid
           xs={12}
           lg={6}
           sx={{
-            backgroundColor: "background.paper",
             display: "flex",
             flexDirection: "column",
             position: "relative",
@@ -33,9 +32,8 @@ export const AuthLayout:FC<Props> = ({children, title}) => {
               top: 0,
               width: "100%",
             }}
-          >
-          </Box>
-          {children}
+          ></Box>
+          <main>{children}</main>
         </Grid>
         <Grid
           xs={12}
@@ -43,7 +41,7 @@ export const AuthLayout:FC<Props> = ({children, title}) => {
           sx={{
             alignItems: "center",
             background:
-              "radial-gradient(50% 50% at 50% 50%, #122647 0%, #090E23 100%)",
+              "url(https://i.pinimg.com/1200x/76/02/ca/7602caa1a91789b51596fc0b9b423a37.jpg)",
             color: "white",
             display: "flex",
             justifyContent: "center",
@@ -68,13 +66,10 @@ export const AuthLayout:FC<Props> = ({children, title}) => {
                 Auction Art
               </Box>
             </Typography>
-            <Typography align="center" sx={{ mb: 3 }} variant="subtitle1">
-              Website đấu giá tranh ảnh.
-            </Typography>
+            
           </Box>
         </Grid>
       </Grid>
-      </main>
     </>
-  )
-}
+  );
+};

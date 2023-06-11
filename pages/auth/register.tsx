@@ -35,14 +35,16 @@ const RegisterPage = () => {
       email: "",
       password: "",
       phoneNumber: "",
+      name:""
     },
     validationSchema: Yup.object({
       email: Yup.string()
-        .email("Must be a valid email")
+        .email("Sai định dạng")
         .max(255)
-        .required("Email is required"),
-      password: Yup.string().max(255).required("Password is required"),
-      phoneNumber: Yup.string().max(255).required("phoneNumber is required"),
+        .required("Vui lòng nhập email"),
+      password: Yup.string().max(255).required("Vui lòng nhập mật khẩu"),
+      name: Yup.string().max(255).required("Vui lòng nhập tên tên người dùng"),
+      phoneNumber: Yup.string().max(255).required("Vui lòng nhập số điện thoại"),
     }),
     onSubmit: async (values, helpers) => {
       try {
@@ -50,6 +52,7 @@ const RegisterPage = () => {
           email: values.email,
           password: values.password,
           phone_number: `0${values.phoneNumber}`,
+          name: values.name,
         };
         await authAPI.register(requestData);
         toast.success("Đăng kí thành công!", {
@@ -110,11 +113,22 @@ const RegisterPage = () => {
 
             <form noValidate onSubmit={formik.handleSubmit}>
               <Stack spacing={3}>
+              <TextField
+                  error={!!(formik.touched.name && formik.errors.name)}
+                  fullWidth
+                  helperText={formik.touched.name && formik.errors.name}
+                  label="Tên người dùng"
+                  name="name"
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  type="text"
+                  value={formik.values.name}
+                />
                 <TextField
                   error={!!(formik.touched.email && formik.errors.email)}
                   fullWidth
                   helperText={formik.touched.email && formik.errors.email}
-                  label="Email Address"
+                  label="Email"
                   name="email"
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
@@ -125,7 +139,7 @@ const RegisterPage = () => {
                   error={!!(formik.touched.password && formik.errors.password)}
                   fullWidth
                   helperText={formik.touched.password && formik.errors.password}
-                  label="Password"
+                  label="Mật khẩu"
                   name="password"
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
@@ -146,14 +160,10 @@ const RegisterPage = () => {
                   onChange={formik.handleChange}
                   type="number"
                   value={formik.values.phoneNumber}
+                  prefix="+84"
                 />
               </Stack>
 
-              {/* {formik.errors.submit && (
-                <Typography color="error" sx={{ mt: 3 }} variant="body2">
-                  {formik.errors.submit}
-                </Typography>
-              )} */}
               <Button
                 fullWidth
                 size="large"

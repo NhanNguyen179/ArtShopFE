@@ -1,33 +1,24 @@
 import { FC } from "react";
 import { UserAuctionProduct } from "../Type";
 import styles from "./Ticket.module.scss";
-
+import { Box, Typography } from "@mui/material";
+import { compareAsc, format } from "date-fns";
 interface Props {
   auctionItem: UserAuctionProduct;
 }
 
 export const Ticket: FC<Props> = ({ auctionItem }) => {
   return (
-    <div className={styles["ticketContainer"]}>
-      <div className={styles["ticket"]}>
-        <div className={styles["ticketTitle"]}>{auctionItem.auction_price}$</div>
-        <div className={styles["ticketDetail"]}>
-          <div>Mr.{auctionItem.user.email}</div>
-        </div>
-        <div className={styles["ticketRip"]}>
-          <div className={styles["circleLeft"]}></div>
-          <div className={styles["ripLine"]}></div>
-          <div className={styles["circleRight"]}></div>
-        </div>
-        <div className={styles["ticketSubDetail"]}>
-          <div className={styles["code"]}>{auctionItem.is_success}</div>
-          <div className={styles["date"]}>
-            {" "}
-            {auctionItem.create_at}
-          </div>
-        </div>
-      </div>
-      <div className={styles["ticketShadow"]}></div>
-    </div>
+    <Box sx={{
+      display:'flex',
+      justifyContent:'space-between',
+      alignItems:'center'
+    }}>
+      <Typography variant="body1">{auctionItem.user.email}</Typography>
+      <Typography variant="body1">{auctionItem.auction_price}$</Typography>
+      <Typography variant="caption">
+        {format(new Date(auctionItem.create_at), "yyyy-MM-dd")}
+      </Typography>
+    </Box>
   );
 };

@@ -28,7 +28,6 @@ const LayoutContainer = styled("div")({
 export const DashBoardLayout = (props) => {
   const { children, isPublic } = props;
   const [openNav, setOpenNav] = useState(false);
-
   return (
     <>
       <Auth isPublic={isPublic}>
@@ -37,7 +36,6 @@ export const DashBoardLayout = (props) => {
 
         <SideNav onClose={() => setOpenNav(false)} open={openNav} />
         <LayoutRoot>
-
           <LayoutContainer>{children}</LayoutContainer>
         </LayoutRoot>
       </Auth>

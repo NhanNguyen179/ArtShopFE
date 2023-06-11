@@ -8,16 +8,13 @@ import "react-toastify/dist/ReactToastify.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <CartProvider>
-      <UiProvider>
-        <ThemeProvider theme={lightTheme}>
-          <CssBaseline />
-          <ToastContainer />
-
-          <Component {...pageProps} />
-        </ThemeProvider>
-      </UiProvider>
-    </CartProvider>
+    <UiProvider>
+      <ThemeProvider theme={lightTheme}>
+        <CssBaseline />
+        <ToastContainer />
+        <Component {...pageProps} />
+      </ThemeProvider>
+    </UiProvider>
   );
 }
 

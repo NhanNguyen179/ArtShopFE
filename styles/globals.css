@@ -2,8 +2,11 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+
 body {
-  background-color: #f0f2f5;
+  background-color: #f7f6fb;
+  height: 100%;
+
 }
 @keyframes fadeIn {
   0% {

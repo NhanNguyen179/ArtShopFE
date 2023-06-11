@@ -11,6 +11,7 @@ import { Button } from "@mui/material";
 import { useFormik } from "formik";
 import authorAPI from "../../pages/api/author";
 import { toast } from "react-toastify";
+import expertApi from "../../pages/api/expertApi";
 const style = {
   border: "2px solid #000",
   maxHeight: "600px",
@@ -22,17 +23,22 @@ const style = {
   pb: 3,
 };
 
-const AddAuthorModal = ({ open, close }) => {
+const AddExpertModal = ({ open, close }) => {
   const formik = useFormik({
     initialValues: {
       name: "",
-      origin: "",
+      workFrom: "",
       birthday: new Date(),
     },
     onSubmit: async (values, helpers) => {
       try {
-        await authorAPI.addAuthor(values);
-        toast.success("Thêm tác giả thành công!", {
+        const requestData = {
+          name: values.name,
+          work_from: values.workFrom,
+          birthday: values.birthday,
+        };
+        await expertApi.addExpert(values);
+        toast.success("Thêm chuyên gia thành công!", {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -67,7 +73,7 @@ const AddAuthorModal = ({ open, close }) => {
               <Grid container spacing={3}>
                 <Grid item xs={12} md={6} lg={12}>
                   <div>
-                    <Typography variant="h4">Thêm tác giả</Typography>
+                    <Typography variant="h4">Thêm chuyên gia</Typography>
                   </div>
                 </Grid>
 
@@ -78,7 +84,7 @@ const AddAuthorModal = ({ open, close }) => {
                         error={!!(formik.touched.name && formik.errors.name)}
                         fullWidth
                         helperText={formik.touched.name && formik.errors.name}
-                        label="Tên tác giả"
+                        label="Tên chuyên gia"
                         name="name"
                         onBlur={formik.handleBlur}
                         onChange={formik.handleChange}
@@ -87,15 +93,15 @@ const AddAuthorModal = ({ open, close }) => {
                       />
                       <TextField
                         error={
-                          !!(formik.touched.origin && formik.errors.origin)
+                          !!(formik.touched.workFrom && formik.errors.workFrom)
                         }
                         fullWidth
-                        label="Nơi sinh"
-                        name="origin"
+                        label="Nơi làm việc"
+                        name="workFrom"
                         onBlur={formik.handleBlur}
                         onChange={formik.handleChange}
                         type="text"
-                        value={formik.values.origin}
+                        value={formik.values.workFrom}
                       />
                       <TextField
                         error={
@@ -109,24 +115,8 @@ const AddAuthorModal = ({ open, close }) => {
                         type="date"
                         value={formik.values.birthday}
                       />
-                      {/* <TextField
-                        error={!!(formik.touched.sold && formik.errors.sold)}
-                        fullWidth
-                        helperText={formik.touched.sold && formik.errors.sold}
-                        label="Đã bán "
-                        name="sold"
-                        onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                        type="checkbox"
-                        value={formik.values.sold}
-                      /> */}
                     </Stack>
 
-                    {/* {formik.errors.submit && (
-                    <Typography color="error" sx={{ mt: 3 }} variant="body2">
-                      {formik.errors.submit}
-                    </Typography>
-                  )} */}
                     <Button
                       fullWidth
                       size="medium"
@@ -135,7 +125,7 @@ const AddAuthorModal = ({ open, close }) => {
                       variant="outlined"
                       color="primary"
                     >
-                      Thêm tác giả
+                      Thêm chuyên gia
                     </Button>
                   </form>
                 </Grid>
@@ -148,4 +138,4 @@ const AddAuthorModal = ({ open, close }) => {
   );
 };
 
-export default AddAuthorModal;
+export default AddExpertModal;

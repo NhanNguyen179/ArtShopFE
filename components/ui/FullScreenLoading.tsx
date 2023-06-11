@@ -11,7 +11,7 @@ export const FullScreenLoading = () => {
          height='calc(100vh - 200px)' 
          color='#0a186c'
     >
-      <Typography variant='h2' component='h2' sx={{ marginBottom:4 }}>Loading</Typography>
+      <Typography variant='h2' component='h2' sx={{ marginBottom:4 }}>Vui lòng đợi..</Typography>
       <CircularProgress thickness={2} />
     </Box>
   )

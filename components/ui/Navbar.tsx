@@ -8,23 +8,22 @@ import {
   Box,
   Button,
   IconButton,
-  Badge,
   Input,
   InputAdornment,
 } from "@mui/material";
 import {
   ClearOutlined,
   SearchOutlined,
-  ShoppingCartOutlined,
 } from "@mui/icons-material";
 import { useRouter } from "next/router";
 import { UiContext } from "../../context/ui/UiContext";
 import { CartContext } from "../../context";
+import { User } from "../Type";
 
-export const Navbar = () => {
+export const Navbar = ({ myProfile }: User) => {
+  const router = useRouter();
   const { asPath, push } = useRouter();
   const { toggleSideMenu } = useContext(UiContext);
-  const { numberOfItems } = useContext(CartContext);
   const [isSearchVisible, setIsSearchVisible] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const onSearchTerm = () => {
@@ -33,7 +32,7 @@ export const Navbar = () => {
   };
   return (
     <AppBar>
-      <Toolbar sx={{ backgroundColor: "rgb(240, 240, 240)" }}>
+      <Toolbar>
         <NextLink href="/" passHref>
           <Link display="flex" alignItems="center">
             <Typography variant="h6">Art</Typography>
@@ -42,7 +41,7 @@ export const Navbar = () => {
                 ml: 0.5,
               }}
             >
-              Shop
+              Auction
             </Typography>
           </Link>
         </NextLink>
@@ -54,25 +53,18 @@ export const Navbar = () => {
           }}
           className="fadeIn"
         >
-          <NextLink href="/category/men" passHref>
+          <NextLink href="/" passHref>
             <Link>
-              <Button color={asPath === "/category/men" ? "primary" : "info"}>
-                <Typography variant="h2">Auction</Typography>
-              </Button>
-            </Link>
-          </NextLink>
-          <NextLink href="/category/women" passHref>
-            <Link>
-              <Button color={asPath === "/category/women" ? "primary" : "info"}>
-                <Typography variant="h2">Buy</Typography>
-              </Button>
-            </Link>
-          </NextLink>
-          <NextLink href="/category/kid" passHref>
-            <Link>
-              <Button color={asPath === "/category/kid" ? "primary" : "info"}>
-                <Typography variant="h2">About us</Typography>
-              </Button>
+              <Typography
+                variant="h2"
+                sx={{
+                  textDecoration: asPath === "/" ? "underline" : "none",
+                  display: "inline",
+                  marginRight: "50px",
+                }}
+              >
+                Auction
+              </Typography>
             </Link>
           </NextLink>
         </Box>
@@ -111,7 +103,7 @@ export const Navbar = () => {
         >
           <SearchOutlined />
         </IconButton>
-        <NextLink href="/cart" passHref>
+        {/* <NextLink href="/cart" passHref>
           <Link>
             <IconButton>
               <Badge
@@ -122,8 +114,14 @@ export const Navbar = () => {
               </Badge>
             </IconButton>
           </Link>
-        </NextLink>
-        <Button onClick={toggleSideMenu}>Menu</Button>
+        </NextLink> */}
+        <Button
+          onClick={
+            myProfile?.name ?  toggleSideMenu : () => router.push("/auth/login")
+          }
+        >
+          {myProfile?.name ? "Menu" : "Login"}
+        </Button>
       </Toolbar>
     </AppBar>
   );

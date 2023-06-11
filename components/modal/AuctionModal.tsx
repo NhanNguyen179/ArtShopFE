@@ -28,14 +28,15 @@ const defaultValues = {
 
 interface Props {
   product: SeedProduct;
+  onClose: void;
 }
 
-export const AuctionModal: FC<Props> = ({ product }) => {
-  
+export const AuctionModal: FC<Props> = ({ product,onClose }) => {
   const formik = useFormik({
     initialValues: {
       productId: product.id,
-      highestPrice: product.price,
+      highestPrice:
+        product.auction_price === 0 ? product.price : product.auction_price,
       auctionPrice: 0,
     },
     validationSchema: Yup.object({
@@ -57,6 +58,7 @@ export const AuctionModal: FC<Props> = ({ product }) => {
           progress: undefined,
           theme: "light",
         });
+        onClose();
       } catch (err) {
         toast.error("Đấu giá thất bại!", {
           position: "top-right",
@@ -107,6 +109,9 @@ export const AuctionModal: FC<Props> = ({ product }) => {
           <TextField
             error={
               !!(formik.touched.auctionPrice && formik.errors.auctionPrice)
+            }
+            helperText={
+              formik.touched.auctionPrice && formik.errors.auctionPrice
             }
             fullWidth
             label="Giá đặt"

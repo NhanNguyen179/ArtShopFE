@@ -13,12 +13,16 @@ import { red } from "@mui/material/colors";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { Dialog } from "@mui/material";
+import { Button, Dialog } from "@mui/material";
 import AddModal from "../modal/AddModal";
 import { EditNotifications } from "@mui/icons-material";
 import { SeedProduct } from "../../database/seed-data";
 import { FC } from "react";
 import Image from "next/image";
+import productAPI from "../../pages/api/productApiFunction";
+import { AuctionOfProduct } from "../Type";
+import { toast } from "react-toastify";
+import ConfirmDialog from "../modal/ConfirmModal";
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -37,11 +41,72 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 
 interface Props {
   productItem: SeedProduct;
+  isApproved?: boolean;
 }
-export const AdminProductCard: React.FC<Props> = ({ productItem }) => {
+export const AdminProductCard: React.FC<Props> = ({
+  productItem,
+  isApproved,
+}) => {
   const [expanded, setExpanded] = React.useState(false);
   const [openModal, setOpenModal] = React.useState(false);
+  const [maxAuctionPeopleOfProduct, setMaxAuctionPeopleOfProduct] =
+    React.useState<AuctionOfProduct>();
+  const [openConfirmModal, setOpenConfirmModal] = React.useState(false);
 
+  const handleClose = () => setOpenModal(false);
+
+  const getMaxAuctionPeopleOfProduct = async () => {
+    const response = await productAPI.getListAuctionPriceProduct(
+      productItem.id
+    );
+    const maxObject =
+      response.length > 1
+        ? response.reduce(function (prev, current) {
+            return prev.auction_price > current.auction_price ? prev : current;
+          })
+        : response.length === 1
+        ? response[0]
+        : {};
+
+    setMaxAuctionPeopleOfProduct(maxObject);
+  };
+
+  const approvedAuctionProduct = async () => {
+    if (maxAuctionPeopleOfProduct?.id) {
+      productAPI
+        .approvedAuctionProduct(maxAuctionPeopleOfProduct.id)
+        .then((rs) => {
+          toast.success("Xác nhận đấu giá thành công!", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        })
+        .catch((rs) => {
+          toast.error("Xác nhận thất bại!", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        });
+    }
+  };
+
+  React.useEffect(() => {
+    if (isApproved) {
+      getMaxAuctionPeopleOfProduct();
+    }
+  }, [isApproved]);
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
@@ -50,25 +115,37 @@ export const AdminProductCard: React.FC<Props> = ({ productItem }) => {
     <>
       <Dialog
         open={openModal}
-        onClose={setOpenModal}
+        onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <AddModal productDetail={productItem} />
       </Dialog>
+      <ConfirmDialog
+        title={
+          maxAuctionPeopleOfProduct
+            ? `Xác nhận tài khoản ${maxAuctionPeopleOfProduct?.user?.name} với mức đấu giá ${maxAuctionPeopleOfProduct?.auction_price} cho sản phẩm ${maxAuctionPeopleOfProduct?.product?.name}`
+            : ""
+        }
+        open={openConfirmModal}
+        setOpen={setOpenConfirmModal}
+        onConfirm={approvedAuctionProduct}
+      ></ConfirmDialog>
       <Card sx={{ maxWidth: 345 }}>
         <CardHeader
           avatar={
             <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
               <img
-                src={`https://shopart.loca.lt${productItem.images[0]}`}
+                src={`${productItem.images[0]}`}
               ></img>
             </Avatar>
           }
           action={
-            <IconButton aria-label="settings">
-              <EditNotifications onClick={() => setOpenModal(true)} />
-            </IconButton>
+            !isApproved && (
+              <IconButton aria-label="settings">
+                <EditNotifications onClick={() => setOpenModal(true)} />
+              </IconButton>
+            )
           }
           title={productItem.name}
           subheader={productItem.start_auction}
@@ -80,12 +157,21 @@ export const AdminProductCard: React.FC<Props> = ({ productItem }) => {
           </Typography>
         </CardContent>
         <CardActions disableSpacing>
-          <IconButton aria-label="add to favorites">
-            <FavoriteIcon />
-          </IconButton>
-          <IconButton aria-label="share">
-            <ShareIcon />
-          </IconButton>
+          {isApproved && maxAuctionPeopleOfProduct && (
+            <Button
+              fullWidth
+              size="large"
+              sx={{ mt: 3 }}
+              type="submit"
+              variant="outlined"
+              color="primary"
+              onClick={() => setOpenConfirmModal(true)}
+              disabled={!maxAuctionPeopleOfProduct.id}
+            >
+              Xác nhận
+            </Button>
+          )}
+
           <ExpandMore
             expand={expanded}
             onClick={handleExpandClick}
@@ -100,7 +186,7 @@ export const AdminProductCard: React.FC<Props> = ({ productItem }) => {
             <CardMedia
               component="img"
               height="100"
-              image={`https://shopart.loca.lt${productItem.images[0]}`}
+              image={`${productItem.images[0]}`}
               alt="Paella dish"
             />
           </CardContent>

@@ -1,4 +1,10 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from "@mui/material";
 import React from "react";
 
 const ConfirmDialog = (props) => {
@@ -13,19 +19,19 @@ const ConfirmDialog = (props) => {
       <DialogContent>{children}</DialogContent>
       <DialogActions>
         <Button
-          variant="contained"
+          variant="outlined"
+          color="primary"
           onClick={() => setOpen(false)}
-          color="secondary"
         >
           No
         </Button>
         <Button
-          variant="contained"
+          variant="outlined"
+          color="primary"
           onClick={() => {
             setOpen(false);
             onConfirm();
           }}
-          color="success"
         >
           Yes
         </Button>

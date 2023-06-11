@@ -1,10 +1,17 @@
-import { Box, Dialog, Grid, Modal } from "@mui/material";
-import { GetServerSideProps, NextPage } from "next";
-import { useState, useContext, useEffect } from "react";
+import {
+  Box,
+  Button,
+  Dialog,
+  Divider,
+  Grid,
+  Modal,
+  Typography,
+} from "@mui/material";
+import { NextPage } from "next";
+import { useState, useEffect } from "react";
 import { ShopLayout } from "../../components/layouts";
 import { ProductSlideShow } from "../../components/products";
-import { seedData } from "../../database";
-
+import Countdown from "react-countdown";
 import { SeedProduct } from "../../database/seed-data";
 import { ListTickets } from "../../components/ticket/ListTickets";
 import { AuctionModal } from "../../components/modal/AuctionModal";
@@ -12,6 +19,8 @@ import productAPI from "../api/productApiFunction";
 import { useRouter } from "next/router";
 import { FullScreenLoading } from "../../components/ui";
 import { UserAuctionProduct } from "../../components/Type";
+import { CountDown } from "../../components/countDown";
+import { DescriptionProduct } from "../../components/desCriptionProduct";
 interface Props {
   product: SeedProduct;
 }
@@ -34,10 +43,10 @@ const ProductPage: NextPage<Props> = () => {
     });
   };
   useEffect(() => {
-    if (router.query.slug) {
+    if (router.query.slug && !open) {
       fetchData();
     }
-  }, [router]);
+  }, [router, open]);
   return (
     <>
       {productDetail && listPeopleAuctionProduct ? (
@@ -52,53 +61,76 @@ const ProductPage: NextPage<Props> = () => {
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
           >
-            <AuctionModal product={productDetail} />
+            <AuctionModal product={productDetail} onClose={handleClose} />
           </Dialog>
           <Grid container spacing={3}>
             <Grid item xs={12} sm={7}>
+              <Typography
+                sx={{
+                  fontSize: "50px",
+                }}
+              >
+                {productDetail.name}
+              </Typography>
+            </Grid>
+            <Grid item xs={12} sm={4} display={"flex"} alignItems={"center"}>
+              <CountDown
+                endDate={new Date(productDetail.end_auction)}
+              ></CountDown>
+            </Grid>
+            <Grid item xs={12} sm={12} alignItems={"flex-end"}>
               <ProductSlideShow images={productDetail.images} />
             </Grid>
-            <Grid item xs={12} sm={5}>
-              <Box display="flex" flexDirection="column">
-                <div className="w-full ">
-                  <p className="border-b border-gray-400 border-opacity-70 pb-2 text-lg font-bold font-serif">
-                    {" "}
-                    {productDetail.author.name}
-                  </p>
-                  <div className="border-b border-gray-400 border-opacity-70 mb-2 p-2 pl-0 text-sm text-gray-400">
-                    <p>Ngày bắt đầu: {productDetail.start_auction}</p>
-                    <p>Ngày kết thúc: {productDetail.end_auction}</p>
-                    <p>
-                      Số người tham gia: {productDetail.auction_participant}
-                    </p>
-                  </div>
+            <Grid item xs={12} sm={12}>
+              <Divider></Divider>
+              <Box
+                sx={{
+                  width: "100%",
+                  height: "80px",
+                  backgroundColor: "#edececb8",
+                  marginBottom: "15px",
+                  display: "flex",
+                  justifyContent: "center",
+                  padding: "20px",
+                  gap: "30px",
+                }}
+              >
 
-                  <div className="border-b border-gray-400 border-opacity-70 mb-2 p-2 pl-0 text-md">
-                    <p className="font-bold text-md">Về tác phẩm: </p>
-                    <p>{productDetail.description}</p>
-                  </div>
-                </div>
-                <ListTickets listPeopleAuctionProduct={listPeopleAuctionProduct} ></ListTickets>
-                <div className="flex h-28 w-full mt-4">
-                  <div className=" h-full w-1/2 bg-red-700 flex items-center justify-center rounded-s-3xl border-r-2 animate-pulse cursor-pointer">
-                    <p
-                      className="text-4xl text-white font-extrabold"
-                      onClick={handleOpen}
-                    >
-                      {" "}
-                      Đấu giá{" "}
-                    </p>
-                  </div>
-                  <div className=" h-full w-1/2 bg-red-800 flex items-center justify-center rounded-e-3xl  cursor-pointer">
-                    <p
-                      className="text-4xl text-white font-extrabold"
-                      onClick={handleOpen}
-                    >
-                      {" "}
-                      +1000${" "}
-                    </p>
-                  </div>
-                </div>
+                <Typography variant="subtitle1">
+                  {" "}
+                  Chuyên gia: {productDetail.expert.name} |
+                </Typography>
+                <Typography variant="subtitle1">
+                  {" "}
+                  Định giá: {productDetail.expert_price} |
+                </Typography>
+                <Typography variant="subtitle1">
+                  {" "}
+                  {productDetail.expert.work_from}{" "}
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <DescriptionProduct product={productDetail}></DescriptionProduct>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Box sx={{ position: "relative" }}>
+                <ListTickets
+                  listPeopleAuctionProduct={listPeopleAuctionProduct}
+                ></ListTickets>
+                <Button
+                  variant="contained"
+                  onClick={handleOpen}
+                  sx={{
+                    position: "absolute",
+                    top: "-20px",
+                    right: "0",
+                    borderRadius: "0 0 0px 20px",
+                    backgroundColor: "white !important",
+                  }}
+                >
+                  <Typography variant="button">ĐẤU GIÁ</Typography>
+                </Button>
               </Box>
             </Grid>
           </Grid>

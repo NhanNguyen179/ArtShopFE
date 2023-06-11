@@ -1,3 +1,4 @@
+import { User } from "../../components/Type";
 import axiosBase from "./axiosbase";
 
 const authAPI = {
@@ -11,7 +12,7 @@ const authAPI = {
   }) {
     return await axiosBase.post("auth/user/", data);
   },
-  async getMyProfile() {
+  async getMyProfile(): Promise<User> {
     return await axiosBase.get("auth/user/me/");
   },
 };

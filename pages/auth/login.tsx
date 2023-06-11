@@ -67,7 +67,7 @@ const LoginPage = () => {
   return (
     <AuthLayout title={"Art Auction - Auth Page"}>
       <Head>
-        <title>Login | Devias Kit</title>
+        <title>Đăng nhập</title>
       </Head>
       <Box
         sx={{
@@ -76,6 +76,7 @@ const LoginPage = () => {
           alignItems: "center",
           display: "flex",
           justifyContent: "center",
+          height: "100%",
         }}
       >
         <Box
@@ -88,22 +89,19 @@ const LoginPage = () => {
         >
           <div>
             <Stack spacing={1} sx={{ mb: 3 }}>
-              <Typography variant="h4">Login</Typography>
+              <Typography variant="h4">Đăng nhập</Typography>
               <Typography color="text.secondary" variant="body2">
-                Don&apos;t have an account? &nbsp;
+                Chưa có tài khoản? &nbsp;
                 <Link
                   component={NextLink}
                   href="/auth/register"
                   underline="hover"
                   variant="subtitle2"
                 >
-                  Register
+                  Đăng kí
                 </Link>
               </Typography>
             </Stack>
-            <Tabs sx={{ mb: 3 }}>
-              <Tab label="Email" value="email" />
-            </Tabs>
 
             <form noValidate onSubmit={formik.handleSubmit}>
               <Stack spacing={3}>
@@ -111,7 +109,7 @@ const LoginPage = () => {
                   error={!!(formik.touched.email && formik.errors.email)}
                   fullWidth
                   helperText={formik.touched.email && formik.errors.email}
-                  label="Email Address"
+                  label="Email"
                   name="email"
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
@@ -122,7 +120,7 @@ const LoginPage = () => {
                   error={!!(formik.touched.password && formik.errors.password)}
                   fullWidth
                   helperText={formik.touched.password && formik.errors.password}
-                  label="Password"
+                  label="Mật khẩu"
                   name="password"
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
@@ -141,24 +139,21 @@ const LoginPage = () => {
                 size="large"
                 sx={{ mt: 3 }}
                 type="submit"
-                variant="contained"
+                variant="outlined"
+                color="primary"
               >
-                Continue
+                Tiếp tục
               </Button>
               <Button
                 fullWidth
                 size="large"
+                variant="outlined"
+                color="primary"
                 sx={{ mt: 3 }}
-                // onClick={handleSkip}
+                onClick={() => router.push("/")}
               >
-                Skip authentication
+                Bỏ qua đăng nhập
               </Button>
-              <Alert severity="info" sx={{ mt: 3 }}>
-                <div>
-                  You can use <b>demo@devias.io</b> and password{" "}
-                  <b>Password123!</b>
-                </div>
-              </Alert>
             </form>
           </div>
         </Box>

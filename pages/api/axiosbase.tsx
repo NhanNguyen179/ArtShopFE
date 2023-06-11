@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosBase = axios.create({
-  baseURL: "https://shopart.loca.lt/api/v1/",
+  baseURL: "https://art-shop.onrender.com/api/v1/",
 });
 
 // Add a request interceptor

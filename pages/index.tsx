@@ -14,15 +14,28 @@ import { FullScreenLoading } from "../components/ui";
 import { useEffect, useState } from "react";
 import productAPI from "./api/productApiFunction";
 import { SeedProduct } from "../database/seed-data";
+import InfiniteScroll from "react-infinite-scroll-component";
 
+export type InfinitePage = {
+  next: number;
+  previous: number;
+};
 const HomePage: NextPage = () => {
   const [listProduct, setListProduct] = useState<SeedProduct[]>();
+  const [infinitePage, setInfinitePage] = useState<InfinitePage>();
 
-  const getProducts = () => {
-    productAPI.getProduct().then((rs: any) => setListProduct(rs));
+  const getMoreListProduct = async () => {
+    productAPI.getProduct(infinitePage?.next ?? 1).then((rs: any) => {
+      setInfinitePage(rs.page);
+      if (listProduct !== undefined) {
+        setListProduct((listProduct) => [...listProduct, ...rs.data]);
+      } else {
+        setListProduct((listProduct) => [...rs.data]);
+      }
+    });
   };
   useEffect(() => {
-    getProducts();
+    getMoreListProduct();
   }, []);
 
   return (
@@ -33,24 +46,14 @@ const HomePage: NextPage = () => {
     >
       {listProduct ? (
         <>
-          <ImageList
-            variant="masonry"
-            sx={{
-              columnCount: {
-                xs: "1 !important",
-                sm: "2 !important",
-                md: "2 !important",
-                lg: "4 !important",
-                xl: "4 !important",
-              },
-            }}
-            gap={12}
-          >
-            <>
-              <ProductList products={listProduct} />
-              <br />
-            </>
-          </ImageList>
+          <>
+            <ProductList
+              products={listProduct}
+              getMoreListProduct={getMoreListProduct}
+              infinitePage={infinitePage}
+            />
+            <br />
+          </>
         </>
       ) : (
         <FullScreenLoading />

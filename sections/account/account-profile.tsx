@@ -8,49 +8,33 @@ import {
   Divider,
   Typography,
 } from "@mui/material";
+import { User } from "../../components/Type";
+import { FullScreenLoading } from "../../components/ui";
+import { FC } from "react";
 
-const user = {
-  avatar: "/assets/avatars/avatar-anika-visser.png",
-  city: "Los Angeles",
-  country: "USA",
-  jobTitle: "Senior Developer",
-  name: "Anika Visser",
-  timezone: "GTM-7",
-};
+export const AccountProfile = ({ myProfile }) => (
+  <>
+    {myProfile ? (
+      <Card>
+        <CardContent>
+          <Box
+            sx={{
+              alignItems: "center",
+              display: "flex",
+              flexDirection: "column",
+              gap: "8px",
+            }}
+          >
+            <Typography gutterBottom variant="h5">
+              {myProfile.name}
+            </Typography>
 
-export const AccountProfile = () => (
-  <Card>
-    <CardContent>
-      <Box
-        sx={{
-          alignItems: "center",
-          display: "flex",
-          flexDirection: "column",
-          gap: "8px",
-        }}
-      >
-        <Avatar
-          src={user.avatar}
-          sx={{
-            height: 80,
-            mb: 2,
-            width: 80,
-          }}
-        />
-        <Typography gutterBottom variant="h5">
-          {user.name}
-        </Typography>
-        <Typography variant="body2">
-          {user.city} {user.country}
-        </Typography>
-        <Typography variant="body2">{user.timezone}</Typography>
-      </Box>
-    </CardContent>
-    <Divider />
-    <CardActions>
-      <Button fullWidth variant="text">
-        Upload picture
-      </Button>
-    </CardActions>
-  </Card>
+            <Typography variant="body2">{myProfile.role.name}</Typography>
+          </Box>
+        </CardContent>
+      </Card>
+    ) : (
+      <FullScreenLoading></FullScreenLoading>
+    )}
+  </>
 );

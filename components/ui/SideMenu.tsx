@@ -16,6 +16,7 @@ import {
 import {
   AccountCircleOutlined,
   AdminPanelSettings,
+  ArrowCircleRightOutlined,
   CategoryOutlined,
   ConfirmationNumberOutlined,
   EscalatorWarningOutlined,
@@ -27,8 +28,29 @@ import {
   VpnKeyOutlined,
 } from "@mui/icons-material";
 import { UiContext } from "../../context";
+import { User } from "../Type";
 
-export const SideMenu = () => {
+const userMenu = [
+  {
+    link: "/",
+    label: "Trang chủ",
+  },
+  {
+    link: "/profile",
+    label: "Hồ sơ",
+  },
+  {
+    link: "/auction_user",
+    label: "Sản phẩm đang đấu giá",
+  },
+];
+const adminMenu = [
+  {
+    link: "/admin/product",
+    label: "Sản phẩm",
+  },
+];
+export const SideMenu = ({ myProfile }: User) => {
   const { isMenuOpen, toggleSideMenu } = useContext(UiContext);
   const [searchTerm, setSearchTerm] = useState("");
   const router = useRouter();
@@ -41,6 +63,10 @@ export const SideMenu = () => {
     router.push(url);
   };
 
+  const logOut = () => {
+    localStorage.removeItem("token");
+    navigateTo("/auth/login");
+  };
   return (
     <Drawer
       open={isMenuOpen}
@@ -68,89 +94,43 @@ export const SideMenu = () => {
             />
           </ListItem>
 
-          <ListItem button>
-            <ListItemIcon onClick={() => navigateTo("/")}>
-              <HomeMax />
-            </ListItemIcon>
-            <ListItemText primary={"Trang chủ"} />
-          </ListItem>
+          {userMenu.map((item) => (
+            <>
+              <ListItem button>
+                <ListItemIcon onClick={() => navigateTo(item.link)}>
+                  <ArrowCircleRightOutlined />
+                </ListItemIcon>
+                <ListItemText primary={item.label} />
+              </ListItem>
+            </>
+          ))}
 
           <ListItem button>
-            <ListItemIcon onClick={() => navigateTo("/profile/profile")}>
-              <AccountCircleOutlined />
-            </ListItemIcon>
-            <ListItemText primary={"Hồ sơ"} />
-          </ListItem>
-
-          <ListItem>
-            <ListItemIcon onClick={() => navigateTo("/")}>
-              <ConfirmationNumberOutlined />
-            </ListItemIcon>
-            <ListItemText primary={"Sản phẩm đang đấu giá"} />
-          </ListItem>
-
-          <ListItem
-            button
-            sx={{ display: { xs: "", sm: "none" } }}
-            onClick={() => navigateTo("/category/men")}
-          >
-            <ListItemIcon>
-              <MaleOutlined />
-            </ListItemIcon>
-            <ListItemText primary={"Hombres"} />
-          </ListItem>
-
-          <ListItem
-            button
-            sx={{ display: { xs: "", sm: "none" } }}
-            onClick={() => navigateTo("/category/women")}
-          >
-            <ListItemIcon>
-              <FemaleOutlined />
-            </ListItemIcon>
-            <ListItemText primary={"Mujeres"} />
-          </ListItem>
-
-          <ListItem
-            button
-            sx={{ display: { xs: "", sm: "none" } }}
-            onClick={() => navigateTo("/category/kid")}
-          >
-            <ListItemIcon>
-              <EscalatorWarningOutlined />
-            </ListItemIcon>
-            <ListItemText primary={"Niños"} />
-          </ListItem>
-
-          <ListItem button>
-            <ListItemIcon>
-              <VpnKeyOutlined />
-            </ListItemIcon>
-            <ListItemText primary={"Đăng nhập"} />
-          </ListItem>
-
-          <ListItem button>
-            <ListItemIcon>
+            <ListItemIcon onClick={() => logOut()}>
               <LoginOutlined />
             </ListItemIcon>
             <ListItemText primary={"Đăng xuất"} />
           </ListItem>
+          <Divider />
 
           {/* Admin */}
-          <Divider />
-          <ListSubheader>Bảng quản trị</ListSubheader>
-          <ListItem button>
-            <ListItemIcon onClick={() => navigateTo("/admin/product")}>
-              <AdminPanelSettings />
-            </ListItemIcon>
-            <ListItemText primary={"Sản phẩm"} />
-          </ListItem>
-          <ListItem button>
-            <ListItemIcon onClick={() => navigateTo("/admin/user")}>
-              <AdminPanelSettings />
-            </ListItemIcon>
-            <ListItemText primary={"Người dùng"} />
-          </ListItem>
+          {myProfile?.role.name === "admin" && (
+            <>
+              <ListSubheader>Bảng quản trị</ListSubheader>
+              <ListItem button>
+                <ListItemIcon onClick={() => navigateTo("/admin/product")}>
+                  <AdminPanelSettings />
+                </ListItemIcon>
+                <ListItemText primary={"Sản phẩm"} />
+              </ListItem>
+              <ListItem button>
+                <ListItemIcon onClick={() => navigateTo("/admin/user")}>
+                  <AdminPanelSettings />
+                </ListItemIcon>
+                <ListItemText primary={"Người dùng"} />
+              </ListItem>
+            </>
+          )}
         </List>
       </Box>
     </Drawer>

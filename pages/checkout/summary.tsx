@@ -1,7 +1,7 @@
 import NextLink from 'next/link';
 import { Box, Button, Card, CardContent, Divider, Grid, Link, Typography } from '@mui/material';
 import { ShopLayout } from '../../components/layouts/ShopLayout';
-import { CartList, OrderSummary } from '../../components/cart';
+import { CartList, OrderSummary } from '../../components/AuctionList';
 
 const SummaryPage = () => {
   return (

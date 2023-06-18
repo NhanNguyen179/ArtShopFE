@@ -4,6 +4,7 @@ import { Container } from "@mui/material";
 import authAPI from "../pages/api/auth";
 import { ROLE_TYPE_ENUM, User } from "./Type";
 import { toast } from "react-toastify";
+import { FullScreenLoading } from "./ui";
 
 interface EnrichedChildren {
   myProfile?: User;
@@ -66,6 +67,9 @@ const Auth: React.FunctionComponent<IAuth> = ({
 
   const router = useRouter();
 
+  if (isLoading) {
+    return <FullScreenLoading></FullScreenLoading>;
+  }
   if (!isLoading) {
     if (myProfile && myProfile.status && myProfile.status !== 200) {
       router.push("/auth/login");
@@ -92,17 +96,19 @@ const Auth: React.FunctionComponent<IAuth> = ({
           theme: "light",
         });
         router.push("/");
-        return<></>;
+        return <></>;
       }
       const childrenWithProps = recursiveMap(children, (child) =>
         React.cloneElement(child, { myProfile })
       );
       return <>{childrenWithProps}</>;
     }
+
     if (isPublic) {
       return <>{children}</>;
     }
   }
+  router.push("/login");
 
   return <>This page is authenticated you will be now redirected</>;
 };

@@ -12,7 +12,7 @@ import { User } from "../../components/Type";
 import { FullScreenLoading } from "../../components/ui";
 import { FC } from "react";
 
-export const AccountProfile = ({ myProfile }) => (
+export const AccountProfile = ({ myProfile } : any) => (
   <>
     {myProfile ? (
       <Card>

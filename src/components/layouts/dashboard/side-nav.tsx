@@ -16,9 +16,9 @@ import { SideNavItem } from "./side-nav-item";
 import { LogoDev } from "@mui/icons-material";
 import { useRouter } from "next/router";
 
-export const SideNav = (props) => {
+export const SideNav = (props : any) => {
   const { open, onClose } = props;
-  const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"));
+  const lgUp = false;
   const router = useRouter();
   const content = (
     <Box
@@ -100,12 +100,10 @@ export const SideNav = (props) => {
               return (
                 <SideNavItem
                   active={active}
-                  external={false}
                   icon={item.icon}
                   key={item.title}
                   path={item.path}
-                  title={item.title}
-                />
+                  title={item.title} disable={false}                />
               );
             })}
           </Stack>

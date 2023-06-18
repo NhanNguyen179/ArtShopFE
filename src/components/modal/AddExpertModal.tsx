@@ -16,28 +16,31 @@ const style = {
   border: "2px solid #000",
   maxHeight: "600px",
   overflow: "scroll",
-  width: '100%',
+  width: "100%",
   boxShadow: 24,
   pt: 2,
   px: 4,
   pb: 3,
 };
 
-const AddExpertModal = ({ open, close }) => {
+const AddExpertModal = ({ open, close }: { open: any; close: any }) => {
   const formik = useFormik({
     initialValues: {
       name: "",
       workFrom: "",
       birthday: new Date(),
     },
-    onSubmit: async (values, helpers) => {
+    onSubmit: async (
+      values: { name: string; workFrom: string; birthday: Date },
+      helpers
+    ) => {
       try {
         const requestData = {
           name: values.name,
           work_from: values.workFrom,
           birthday: values.birthday,
         };
-        await expertApi.addExpert(values);
+        await expertApi.addExpert(requestData);
         toast.success("Thêm chuyên gia thành công!", {
           position: "top-right",
           autoClose: 5000,
@@ -51,9 +54,6 @@ const AddExpertModal = ({ open, close }) => {
         close();
       } catch (err) {
         console.log(err);
-        helpers.setStatus({ success: false });
-        helpers.setErrors({ submit: err.message });
-        helpers.setSubmitting(false);
       }
     },
   });

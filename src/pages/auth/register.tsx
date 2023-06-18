@@ -35,7 +35,7 @@ const RegisterPage = () => {
       email: "",
       password: "",
       phoneNumber: "",
-      name:""
+      name: "",
     },
     validationSchema: Yup.object({
       email: Yup.string()
@@ -44,7 +44,9 @@ const RegisterPage = () => {
         .required("Vui lòng nhập email"),
       password: Yup.string().max(255).required("Vui lòng nhập mật khẩu"),
       name: Yup.string().max(255).required("Vui lòng nhập tên tên người dùng"),
-      phoneNumber: Yup.string().max(255).required("Vui lòng nhập số điện thoại"),
+      phoneNumber: Yup.string()
+        .max(255)
+        .required("Vui lòng nhập số điện thoại"),
     }),
     onSubmit: async (values, helpers) => {
       try {
@@ -77,9 +79,6 @@ const RegisterPage = () => {
           progress: undefined,
           theme: "light",
         });
-        helpers.setStatus({ success: false });
-        helpers.setErrors({ submit: err.message });
-        helpers.setSubmitting(false);
       }
     },
   });
@@ -113,7 +112,7 @@ const RegisterPage = () => {
 
             <form noValidate onSubmit={formik.handleSubmit}>
               <Stack spacing={3}>
-              <TextField
+                <TextField
                   error={!!(formik.touched.name && formik.errors.name)}
                   fullWidth
                   helperText={formik.touched.name && formik.errors.name}

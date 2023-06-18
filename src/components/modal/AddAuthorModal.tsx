@@ -8,21 +8,21 @@ import {
   Dialog,
 } from "@mui/material";
 import { Button } from "@mui/material";
-import { useFormik } from "formik";
+import { FormikErrors, useFormik } from "formik";
 import authorAPI from "../../pages/api/author";
 import { toast } from "react-toastify";
 const style = {
   border: "2px solid #000",
   maxHeight: "600px",
   overflow: "scroll",
-  width: '100%',
+  width: "100%",
   boxShadow: 24,
   pt: 2,
   px: 4,
   pb: 3,
 };
 
-const AddAuthorModal = ({ open, close }) => {
+const AddAuthorModal = ({ open, close }: { open: any; close: any }) => {
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -45,9 +45,6 @@ const AddAuthorModal = ({ open, close }) => {
         close();
       } catch (err) {
         console.log(err);
-        helpers.setStatus({ success: false });
-        helpers.setErrors({ submit: err.message });
-        helpers.setSubmitting(false);
       }
     },
   });

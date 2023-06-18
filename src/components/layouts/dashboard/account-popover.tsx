@@ -4,7 +4,7 @@ import { Box, Divider, MenuItem, MenuList, Popover, Typography } from '@mui/mate
 // import { useAuth } from 'src/hooks/use-auth';
 import { useRouter } from 'next/router';
 
-export const AccountPopover = (props) => {
+export const AccountPopover = (props : any) => {
   const { anchorEl, onClose, open } = props;
   const router = useRouter();
   // const auth = useAuth();

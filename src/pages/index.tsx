@@ -28,7 +28,7 @@ const HomePage: NextPage = () => {
     productAPI.getProduct(infinitePage?.next ?? 1).then((rs: any) => {
       setInfinitePage(rs.page);
       if (listProduct !== undefined) {
-        setListProduct((listProduct) => [...listProduct, ...rs.data]);
+        setListProduct((listProduct: any) => [...listProduct, ...rs.data]);
       } else {
         setListProduct((listProduct) => [...rs.data]);
       }

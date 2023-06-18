@@ -45,7 +45,7 @@ const Auth: React.FunctionComponent<IAuth> = ({
   isPublic,
 }: IAuth) => {
   const adminRoute = ["/admin/product", "/admin/user", "/admin/account"];
-  const [myProfile, setMyProfile] = useState<User>();
+  const [myProfile, setMyProfile] = useState<any>();
   const [isLoading, setIsLoading] = useState(true);
   const getProfile = async () => {
     authAPI
@@ -76,8 +76,6 @@ const Auth: React.FunctionComponent<IAuth> = ({
       );
     }
 
-    console.log(router.pathname);
-
     if (myProfile) {
       if (
         myProfile.role.name !== "admin" &&
@@ -94,7 +92,7 @@ const Auth: React.FunctionComponent<IAuth> = ({
           theme: "light",
         });
         router.push("/");
-        return;
+        return<></>;
       }
       const childrenWithProps = recursiveMap(children, (child) =>
         React.cloneElement(child, { myProfile })
@@ -105,6 +103,8 @@ const Auth: React.FunctionComponent<IAuth> = ({
       return <>{children}</>;
     }
   }
+
+  return <>This page is authenticated you will be now redirected</>;
 };
 
 Auth.defaultProps = {

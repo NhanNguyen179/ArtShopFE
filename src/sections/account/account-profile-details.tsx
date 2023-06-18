@@ -40,14 +40,14 @@ export const AccountProfileDetails = () => {
     country: "USA",
   });
 
-  const handleChange = useCallback((event) => {
+  const handleChange = useCallback((event : any) => {
     setValues((prevState) => ({
       ...prevState,
       [event.target.name]: event.target.value,
     }));
   }, []);
 
-  const handleSubmit = useCallback((event) => {
+  const handleSubmit = useCallback((event: any) => {
     event.preventDefault();
   }, []);
 

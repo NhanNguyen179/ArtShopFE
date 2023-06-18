@@ -1,7 +1,5 @@
 import { Divider, Grid, Typography } from "@mui/material";
 import { FC, useContext } from "react";
-import { CartContext } from "../../context/cart/CartContext";
-import { currency } from "../../utils";
 import { TotalAuctionOfUser } from "./AuctionList";
 
 interface Props {

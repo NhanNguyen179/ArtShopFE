@@ -17,10 +17,8 @@ import {
 } from "@mui/icons-material";
 import { useRouter } from "next/router";
 import { UiContext } from "../../context/ui/UiContext";
-import { CartContext } from "../../context";
-import { User } from "../Type";
 
-export const Navbar = ({ myProfile }: User) => {
+export const Navbar = ({ myProfile }: any) => {
   const router = useRouter();
   const { asPath, push } = useRouter();
   const { toggleSideMenu } = useContext(UiContext);

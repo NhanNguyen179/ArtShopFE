@@ -18,16 +18,17 @@ import { AuctionModal } from "../../components/modal/AuctionModal";
 import productAPI from "../api/productApiFunction";
 import { useRouter } from "next/router";
 import { FullScreenLoading } from "../../components/ui";
-import { UserAuctionProduct } from "../../components/Type";
+import { Product, UserAuctionProduct } from "../../components/Type";
 import { CountDown } from "../../components/countDown";
 import { DescriptionProduct } from "../../components/desCriptionProduct";
+import { visitProductDetailPageEvent } from "../../activity-tracking/ActivityTrackingService";
 interface Props {
   product: SeedProduct;
 }
 
 const ProductPage: NextPage<Props> = () => {
   const [open, setOpen] = useState(false);
-  const [productDetail, setProductDetail] = useState<SeedProduct>();
+  const [productDetail, setProductDetail] = useState<Product>();
   const [listPeopleAuctionProduct, setListPeopleAuctionProduct] =
     useState<UserAuctionProduct[]>();
   const handleOpen = () => setOpen(true);
@@ -37,9 +38,10 @@ const ProductPage: NextPage<Props> = () => {
     Promise.all([
       productAPI.getDetailProduct(router.query.slug),
       productAPI.getListAuctionPriceProduct(router.query.slug),
-    ]).then((values) => {
+    ]).then((values: any) => {
       setProductDetail(values[0]);
       setListPeopleAuctionProduct(values[1]);
+      visitProductDetailPageEvent(values[0]);
     });
   };
   useEffect(() => {

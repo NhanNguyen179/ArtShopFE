@@ -50,7 +50,7 @@ export const AdminProductCard: React.FC<Props> = ({
   const [expanded, setExpanded] = React.useState(false);
   const [openModal, setOpenModal] = React.useState(false);
   const [maxAuctionPeopleOfProduct, setMaxAuctionPeopleOfProduct] =
-    React.useState<AuctionOfProduct>();
+    React.useState<AuctionOfProduct | null>();
   const [openConfirmModal, setOpenConfirmModal] = React.useState(false);
 
   const handleClose = () => setOpenModal(false);
@@ -59,14 +59,14 @@ export const AdminProductCard: React.FC<Props> = ({
     const response = await productAPI.getListAuctionPriceProduct(
       productItem.id
     );
-    const maxObject =
+    const maxObject: AuctionOfProduct | null =
       response.length > 1
         ? response.reduce(function (prev, current) {
             return prev.auction_price > current.auction_price ? prev : current;
           })
         : response.length === 1
         ? response[0]
-        : {};
+        : null;
 
     setMaxAuctionPeopleOfProduct(maxObject);
   };
@@ -135,9 +135,7 @@ export const AdminProductCard: React.FC<Props> = ({
         <CardHeader
           avatar={
             <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-              <img
-                src={`${productItem.images[0]}`}
-              ></img>
+              <img src={`${productItem.images[0]}`}></img>
             </Avatar>
           }
           action={

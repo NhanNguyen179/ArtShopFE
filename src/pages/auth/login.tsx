@@ -49,7 +49,7 @@ const LoginPage = () => {
           password: values.password,
         };
         console.log(requestData);
-        const authData = await authAPI.login(requestData);
+        const authData : any = await authAPI.login(requestData);
         localStorage.setItem("token", authData.access_token);
         if (authData.role === "admin") {
           router.push("/admin/product");
@@ -57,9 +57,7 @@ const LoginPage = () => {
           router.push("/");
         }
       } catch (err) {
-        helpers.setStatus({ success: false });
-        helpers.setErrors({ submit: err.message });
-        helpers.setSubmitting(false);
+        
       }
     },
   });

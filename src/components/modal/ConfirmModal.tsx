@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import React from "react";
 
-const ConfirmDialog = (props) => {
+const ConfirmDialog = (props: any) => {
   const { title, children, open, setOpen, onConfirm } = props;
   return (
     <Dialog

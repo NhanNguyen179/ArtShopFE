@@ -28,10 +28,10 @@ const defaultValues = {
 
 interface Props {
   product: SeedProduct;
-  onClose: void;
+  onClose: () => void;
 }
 
-export const AuctionModal: FC<Props> = ({ product,onClose }) => {
+export const AuctionModal: FC<Props> = ({ product, onClose }) => {
   const formik = useFormik({
     initialValues: {
       productId: product.id,
@@ -58,7 +58,6 @@ export const AuctionModal: FC<Props> = ({ product,onClose }) => {
           progress: undefined,
           theme: "light",
         });
-        onClose();
       } catch (err) {
         toast.error("Đấu giá thất bại!", {
           position: "top-right",
@@ -70,9 +69,6 @@ export const AuctionModal: FC<Props> = ({ product,onClose }) => {
           progress: undefined,
           theme: "light",
         });
-        helpers.setStatus({ success: false });
-        helpers.setErrors({ submit: err.message });
-        helpers.setSubmitting(false);
       }
     },
   });

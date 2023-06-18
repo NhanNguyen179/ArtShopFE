@@ -50,6 +50,7 @@ export interface Product {
   auction_participant: number;
   auction_price: number;
   expert: Expert;
+  expert_price?: number;
 }
 
 export type AuctionOfProduct = {

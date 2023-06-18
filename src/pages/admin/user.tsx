@@ -31,7 +31,7 @@ const UserPage = () => {
   const [selectedUser, setSelectedUser] = useState<string>();
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
   const fetchData = async () => {
-    const listUser = await userApi.getListUser();
+    const listUser: any = await userApi.getListUser();
     setListUser(listUser);
   };
   const changeActive = () => {

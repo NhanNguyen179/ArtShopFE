@@ -25,7 +25,7 @@ const LayoutContainer = styled("div")({
 });
 
 // export const Layout = withAuthGuard((props) => {
-export const DashBoardLayout = (props) => {
+export const DashBoardLayout = (props : any) => {
   const { children, isPublic } = props;
   const [openNav, setOpenNav] = useState(false);
   return (

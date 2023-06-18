@@ -54,13 +54,13 @@ const AddModal: FC<Props> = ({ productDetail }) => {
       authorAPI.getAuthor(),
       categoryAPI.getCategories(),
       expertApi.getListExpert(),
-    ]).then((values) => {
+    ]).then((values: any) => {
       setListAuthor(values[0]);
       setListCategories(values[1]);
       setListExpert(values[2]);
     });
   };
-  const handleChange = (e) => {
+  const handleChange = (e: any) => {
     const data = e.target.files[0];
     setFile(data);
   };
@@ -107,7 +107,7 @@ const AddModal: FC<Props> = ({ productDetail }) => {
         if (productDetail) {
           productAPI
             .updateProduct(productDetail.id, requestData)
-            .then(async (rs) => {
+            .then(async (rs: any) => {
               await productAPI.addPicture(rs.id, file);
               toast.success("Cập nhập sản phẩm thành công!", {
                 position: "top-right",
@@ -146,10 +146,6 @@ const AddModal: FC<Props> = ({ productDetail }) => {
           progress: undefined,
           theme: "light",
         });
-
-        helpers.setStatus({ success: false });
-        helpers.setErrors({ submit: err.message });
-        helpers.setSubmitting(false);
       }
     },
   });
@@ -213,7 +209,7 @@ const AddModal: FC<Props> = ({ productDetail }) => {
                     select
                     value={formik.values.category}
                   >
-                    {listCategories.map((option) => (
+                    {listCategories.map((option:any) => (
                       <MenuItem key={option.id} value={option.id}>
                         {option.name}
                       </MenuItem>
@@ -230,7 +226,7 @@ const AddModal: FC<Props> = ({ productDetail }) => {
                     onChange={formik.handleChange}
                     value={formik.values.author}
                   >
-                    {listAuthor.map((option) => (
+                    {listAuthor.map((option: any) => (
                       <MenuItem key={option.id} value={option.id}>
                         {option.name}
                       </MenuItem>
@@ -252,7 +248,7 @@ const AddModal: FC<Props> = ({ productDetail }) => {
                     onChange={formik.handleChange}
                     value={formik.values.expert}
                   >
-                    {listExpert.map((option) => (
+                    {listExpert.map((option: any) => (
                       <MenuItem key={option.id} value={option.id}>
                         {option.name}
                       </MenuItem>
@@ -345,12 +341,12 @@ const AddModal: FC<Props> = ({ productDetail }) => {
                     value={formik.values.end_auction}
                   />
                 </Stack>
-
+{/* 
                 {formik.errors.submit && (
                   <Typography color="error" sx={{ mt: 3 }} variant="body2">
                     {formik.errors.submit}
                   </Typography>
-                )}
+                )} */}
                 <Button
                   fullWidth
                   size="medium"

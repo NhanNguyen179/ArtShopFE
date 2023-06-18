@@ -50,7 +50,7 @@ const adminMenu = [
     label: "Sản phẩm",
   },
 ];
-export const SideMenu = ({ myProfile }: User) => {
+export const SideMenu = ({ myProfile }: any) => {
   const { isMenuOpen, toggleSideMenu } = useContext(UiContext);
   const [searchTerm, setSearchTerm] = useState("");
   const router = useRouter();

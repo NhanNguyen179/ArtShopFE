@@ -75,7 +75,7 @@ const ProductPage = () => {
     Promise.all([
       productAPI.getProduct(page),
       productAPI.getListProductExpireAuction(page),
-    ]).then((values) => {
+    ]).then((values: any) => {
       setListProduct(values[0].data);
       setListProductExpireAuction(values[1].data);
 
@@ -88,7 +88,7 @@ const ProductPage = () => {
   };
   useEffect(() => {
     getProducts();
-  }, [page,value]);
+  }, [page, value]);
   useEffect(() => {
     setPage(1);
   }, [value]);
@@ -135,8 +135,8 @@ const ProductPage = () => {
                       </Button>
                     </Grid>
                     {listProduct.map((item: SeedProduct, index: number) => (
-                      <Grid item xs={12} md={6} lg={3}>
-                        <AdminProductCard productItem={item} key={index} />
+                      <Grid item xs={12} md={6} lg={3} key={index}>
+                        <AdminProductCard productItem={item} />
                       </Grid>
                     ))}
                   </Grid>
@@ -147,7 +147,7 @@ const ProductPage = () => {
               <Grid container spacing={3}>
                 {listProductExpireAuction.map(
                   (item: SeedProduct, index: number) => (
-                    <Grid item xs={12} md={6} lg={3}>
+                    <Grid item xs={12} md={6} lg={3} key={index}>
                       <AdminProductCard
                         productItem={item}
                         key={index}

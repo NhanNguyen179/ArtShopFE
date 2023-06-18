@@ -15,8 +15,6 @@ import NextLink from "next/link";
 import { FullScreenLoading, ItemCounter } from "../ui";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import { FC, useContext, useEffect, useState } from "react";
-import { CartContext } from "../../context/cart/CartContext";
-import { useHomeProducts } from "../../hooks";
 import { ListTickets } from "../ticket/ListTickets";
 import auctionAPI from "../../pages/api/auction";
 import { ListAuctionOfUser } from "../Type";
@@ -95,7 +93,7 @@ export const AuctionList: FC<Props> = () => {
                 <Grid container spacing={2} sx={{ mb: 1 }}>
                   <Grid item xs={6}>
                     <Box display="flex" flexDirection="column">
-                      <Typography variant="body1" variant="subtitle1">
+                      <Typography variant="body1" >
                         {auctionItem.product.name}
                       </Typography>
                       <Typography variant="body1">

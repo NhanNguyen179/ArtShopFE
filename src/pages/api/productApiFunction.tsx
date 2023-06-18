@@ -8,9 +8,11 @@ const productAPI = {
   async addProduct(data: any) {
     return await axiosBase.post("products/", data);
   },
-  async addPicture(idProduct: string, image: File) {
+  async addPicture(idProduct: string, image: File | undefined) {
     const formData = new FormData();
-    formData.append("files", image);
+    if (image) {
+      formData.append("files", image);
+    }
     return await axiosBase.post(`products/${idProduct}/up_image/`, formData);
   },
   async getDetailProduct(idProduct: string | string[] | undefined) {
@@ -27,8 +29,10 @@ const productAPI = {
   async approvedAuctionProduct(idAuction: string) {
     return await axiosBase.put(`auction/${idAuction}/approve_auction/`);
   },
-  async getListProductExpireAuction(page:string) {
-    return await axiosBase.get(`products/get_list_product_expire_auction/?page=${page}`);
+  async getListProductExpireAuction(page: number) {
+    return await axiosBase.get(
+      `products/get_list_product_expire_auction/?page=${page.toString()}`
+    );
   },
 };
 

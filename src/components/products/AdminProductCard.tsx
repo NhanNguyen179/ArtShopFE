@@ -158,8 +158,7 @@ export const AdminProductCard: React.FC<Props> = ({
           {isApproved && maxAuctionPeopleOfProduct && (
             <Button
               fullWidth
-              size="large"
-              sx={{ mt: 3 }}
+              size="medium"
               type="submit"
               variant="outlined"
               color="primary"

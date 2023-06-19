@@ -30,7 +30,7 @@ const DashBoardPage = () => {
               <Typography variant="h4">Hoạt động người dùng</Typography>
             </div>
             <Grid container spacing={3}>
-              <Grid item xs={12} sm={6} md={3}>
+              <Grid item xs={12} sm={6} md={4}>
                 <AppWidgetSummary
                   title="Weekly Sales"
                   total={714000}
@@ -38,7 +38,7 @@ const DashBoardPage = () => {
                 />
               </Grid>
 
-              <Grid item xs={12} sm={6} md={3}>
+              <Grid item xs={12} sm={6} md={4}>
                 <AppWidgetSummary
                   title="New Users"
                   total={1352831}
@@ -47,20 +47,11 @@ const DashBoardPage = () => {
                 />
               </Grid>
 
-              <Grid item xs={12} sm={6} md={3}>
+              <Grid item xs={12} sm={6} md={4}>
                 <AppWidgetSummary
                   title="Item Orders"
                   total={1723315}
                   color="warning"
-                  icon={<ImportContacts></ImportContacts>}
-                />
-              </Grid>
-
-              <Grid item xs={12} sm={6} md={3}>
-                <AppWidgetSummary
-                  title="Bug Reports"
-                  total={234}
-                  color="error"
                   icon={<ImportContacts></ImportContacts>}
                 />
               </Grid>

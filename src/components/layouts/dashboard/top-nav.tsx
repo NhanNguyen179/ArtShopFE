@@ -62,13 +62,6 @@ export const TopNav = (props: any) => {
                 </SvgIcon>
               </IconButton>
             )}
-            <Tooltip title="Search">
-              <IconButton>
-                <SvgIcon fontSize="small">
-                  <MagnifyingGlassIcon />
-                </SvgIcon>
-              </IconButton>
-            </Tooltip>
           </Stack>
           <Stack alignItems="center" direction="row" spacing={2}>
             <Avatar

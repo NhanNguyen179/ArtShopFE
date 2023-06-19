@@ -50,20 +50,27 @@ const HomePage: NextPage = () => {
       pageDescription={"Find best Tesla products"}
       isPublic={true}
     >
-      {listProduct ? (
-        <>
+      {" "}
+      <Box
+        component="main"
+        sx={{
+          paddingTop: 3,
+        }}
+      >
+        {listProduct ? (
           <>
             <ProductList
               products={listProduct}
               getMoreListProduct={getMoreListProduct}
               infinitePage={infinitePage}
             />
+
             <br />
           </>
-        </>
-      ) : (
-        <FullScreenLoading />
-      )}
+        ) : (
+          <FullScreenLoading />
+        )}
+      </Box>
     </ShopLayout>
   );
 };

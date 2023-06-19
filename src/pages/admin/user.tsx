@@ -75,7 +75,11 @@ const UserPage = () => {
             setOpen={setOpenConfirmModal}
             onConfirm={changeActive}
           ></ConfirmDialog>
-          <Container>
+          <Container
+            sx={{
+              py: 2,
+            }}
+          >
             <Stack
               direction="row"
               alignItems="center"

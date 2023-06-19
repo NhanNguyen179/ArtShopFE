@@ -100,7 +100,16 @@ const AddModal: FC<Props> = ({ productDetail }) => {
     onSubmit: async (values, helpers) => {
       try {
         const requestData = {
-          ...values,
+          name: values.name,
+          category: values.category,
+          author: values.author,
+          expert: values.expert,
+
+          sold: values.sold,
+          description: values.description,
+          price: values.price,
+          start_auction: values.start_auction,
+          end_auction: values.end_auction,
           expert_price: values.expertPrice,
         };
 
@@ -108,7 +117,7 @@ const AddModal: FC<Props> = ({ productDetail }) => {
           productAPI
             .updateProduct(productDetail.id, requestData)
             .then(async (rs: any) => {
-              await productAPI.addPicture(rs.id, file);
+              // await productAPI.addPicture(rs.id, file);
               toast.success("Cập nhập sản phẩm thành công!", {
                 position: "top-right",
                 autoClose: 5000,
@@ -209,7 +218,7 @@ const AddModal: FC<Props> = ({ productDetail }) => {
                     select
                     value={formik.values.category}
                   >
-                    {listCategories.map((option:any) => (
+                    {listCategories.map((option: any) => (
                       <MenuItem key={option.id} value={option.id}>
                         {option.name}
                       </MenuItem>
@@ -341,7 +350,7 @@ const AddModal: FC<Props> = ({ productDetail }) => {
                     value={formik.values.end_auction}
                   />
                 </Stack>
-{/* 
+                {/* 
                 {formik.errors.submit && (
                   <Typography color="error" sx={{ mt: 3 }} variant="body2">
                     {formik.errors.submit}

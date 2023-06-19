@@ -26,7 +26,7 @@ export const Navbar = ({ myProfile }: any) => {
   const [searchTerm, setSearchTerm] = useState("");
   const onSearchTerm = () => {
     if (searchTerm.trim().length == 0) return;
-    push(`/search/${searchTerm}`);
+    push(`/?searchString=${searchTerm}`);
   };
   return (
     <AppBar>

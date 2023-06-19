@@ -56,7 +56,7 @@ export const SideMenu = ({ myProfile }: any) => {
   const router = useRouter();
   const onSearchTerm = () => {
     if (searchTerm.trim().length == 0) return;
-    navigateTo(`/search/${searchTerm}`);
+    navigateTo(`/?searchString=${searchTerm}`);
   };
   const navigateTo = (url: string) => {
     toggleSideMenu();

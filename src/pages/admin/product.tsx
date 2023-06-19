@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import { DashBoardLayout } from "../../components/layouts/dashboard/layout";
 import AddModal from "../../components/modal/AddModal";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { SeedProduct } from "../../database/seed-data";
 import productAPI from "../api/productApiFunction";
 import { FullScreenLoading } from "../../components/ui";
@@ -54,44 +54,56 @@ function a11yProps(index: number) {
 
 const ProductPage = () => {
   const [openModal, setOpenModal] = useState(false);
-  const [listProduct, setListProduct] = useState<SeedProduct[]>();
+  const [listProduct, setListProduct] = useState<SeedProduct[]>([]);
   const [value, setValue] = useState(0);
-  const [page, setPage] = useState(1);
-  const [totalPage, setTotalPage] = useState<number>(1);
-  const [listProductExpireAuction, setListProductExpireAuction] =
-    useState<SeedProduct[]>();
+  const [pageProduct, setPageProduct] = useState(1);
+  const [pageProductExpire, setPageProductExpire] = useState(1);
+  const [totalPageProduct, setTotalPageProduct] = useState<number>(1);
+  const [totalPageProductExpire, setTotalPageProductExpire] =
+    useState<number>(1);
+
+  const [listProductExpireAuction, setListProductExpireAuction] = useState<
+    SeedProduct[]
+  >([]);
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
   const handleClose = () => setOpenModal(false);
 
-  const handleChangePage = (
+  const handleChangePageProduct = (
     event: React.ChangeEvent<unknown>,
     value: number
   ) => {
-    setPage(value);
+    setPageProduct(value);
   };
-  const getProducts = () => {
-    Promise.all([
-      productAPI.getProduct(page),
-      productAPI.getListProductExpireAuction(page),
-    ]).then((values: any) => {
-      setListProduct(values[0].data);
-      setListProductExpireAuction(values[1].data);
 
-      if (value === 0) {
-        setTotalPage(values[0].total_page);
-      } else {
-        setTotalPage(values[1].total_page);
-      }
-    });
+  const handleChangePageProductExpire = (
+    event: React.ChangeEvent<unknown>,
+    value: number
+  ) => {
+    setPageProductExpire(value);
   };
+  const getProducts = useCallback(async () => {
+    const respone: any = await productAPI.getProduct(pageProduct, "");
+    setListProduct(respone.data);
+    setTotalPageProduct(respone.total_page);
+  }, [pageProduct]);
+
+  const getProductsEXpire = useCallback(async () => {
+    const respone: any = await productAPI.getListProductExpireAuction(
+      pageProductExpire
+    );
+    setTotalPageProductExpire(respone.total_page);
+    setListProductExpireAuction(respone.data);
+  }, [pageProductExpire]);
+
   useEffect(() => {
-    getProducts();
-  }, [page, value]);
-  useEffect(() => {
-    setPage(1);
-  }, [value]);
+    if (value == 0) {
+      getProducts();
+    } else {
+      getProductsEXpire();
+    }
+  }, [getProducts, getProductsEXpire, value]);
   return (
     <>
       {listProduct && listProductExpireAuction ? (
@@ -108,69 +120,75 @@ const ProductPage = () => {
           <Box
             sx={{
               flexGrow: 1,
-              py: 8,
+              py: 2,
             }}
           >
-            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-              <Tabs
-                value={value}
-                onChange={handleChange}
-                aria-label="basic tabs example"
-              >
-                <Tab label="Quản lí sản phẩm" {...a11yProps(0)} />
-                <Tab label="Xác nhận sản phẩm" {...a11yProps(1)} />
-              </Tabs>
-            </Box>
-            <TabPanel value={value} index={0}>
-              <Stack spacing={3}>
-                <div>
-                  <Grid container spacing={3}>
-                    <Grid item xs={12} md={6} lg={12}>
-                      <Button
-                        onClick={() => setOpenModal(true)}
-                        variant="outlined"
-                        color="primary"
-                      >
-                        Thêm sản phẩm
-                      </Button>
-                    </Grid>
-                    {listProduct.map((item: SeedProduct, index: number) => (
-                      <Grid item xs={12} md={6} lg={3} key={index}>
-                        <AdminProductCard productItem={item} />
+            <Container maxWidth="lg">
+              <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                <Tabs
+                  value={value}
+                  onChange={handleChange}
+                  aria-label="basic tabs example"
+                >
+                  <Tab label="Quản lí sản phẩm" {...a11yProps(0)} />
+                  <Tab label="Xác nhận sản phẩm" {...a11yProps(1)} />
+                </Tabs>
+              </Box>
+              <TabPanel value={value} index={0}>
+                <Stack spacing={1}>
+                  <div>
+                    <Grid container spacing={3}>
+                      <Grid item xs={12} md={12} lg={12}>
+                        <Button
+                          onClick={() => setOpenModal(true)}
+                          variant="outlined"
+                          color="primary"
+                        >
+                          Thêm sản phẩm
+                        </Button>
                       </Grid>
-                    ))}
-                  </Grid>
-                </div>
-              </Stack>
-            </TabPanel>
-            <TabPanel value={value} index={1}>
-              <Grid container spacing={3}>
-                {listProductExpireAuction.map(
-                  (item: SeedProduct, index: number) => (
-                    <Grid item xs={12} md={6} lg={3} key={index}>
-                      <AdminProductCard
-                        productItem={item}
-                        key={index}
-                        isApproved={true}
-                      />
+                      {listProduct.map((item: SeedProduct, index: number) => (
+                        <Grid item xs={12} md={6} lg={4} key={index}>
+                          <AdminProductCard productItem={item} />
+                        </Grid>
+                      ))}
                     </Grid>
-                  )
-                )}
-              </Grid>
-            </TabPanel>
-          </Box>
-          <Box
-            sx={{
-              width: "100%",
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            <Pagination
-              count={totalPage}
-              page={page}
-              onChange={handleChangePage}
-            />
+                  </div>
+                </Stack>
+              </TabPanel>
+              <TabPanel value={value} index={1}>
+                <Grid container spacing={3}>
+                  {listProductExpireAuction.map(
+                    (item: SeedProduct, index: number) => (
+                      <Grid item xs={12} md={6} lg={4} key={index}>
+                        <AdminProductCard
+                          productItem={item}
+                          key={index}
+                          isApproved={true}
+                        />
+                      </Grid>
+                    )
+                  )}
+                </Grid>
+              </TabPanel>
+              <Box
+                sx={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <Pagination
+                  count={value == 0 ? totalPageProduct : totalPageProductExpire}
+                  page={value == 0 ? pageProduct : pageProductExpire}
+                  onChange={
+                    value == 0
+                      ? handleChangePageProduct
+                      : handleChangePageProductExpire
+                  }
+                />
+              </Box>
+            </Container>
           </Box>
         </DashBoardLayout>
       ) : (

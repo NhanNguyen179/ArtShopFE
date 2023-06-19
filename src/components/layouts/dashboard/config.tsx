@@ -20,7 +20,7 @@ export const items = [
   },
   {
     title: 'Hoạt động người dùng',
-    path: '/',
+    path: '/admin/dashboard',
     icon: (
       <SvgIcon fontSize="small">
         <UsersIcon />

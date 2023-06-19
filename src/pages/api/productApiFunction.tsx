@@ -2,8 +2,10 @@ import { AuctionOfProduct } from "../../components/Type";
 import axiosBase from "./axiosbase";
 
 const productAPI = {
-  async getProduct(page: number) {
-    return await axiosBase.get(`products?page=${page}`);
+  async getProduct(page: number, searchString: string | string[] | undefined) {
+    return await axiosBase.get(
+      `products?page=${page}&search=${searchString ?? ""}`
+    );
   },
   async addProduct(data: any) {
     return await axiosBase.post("products/", data);

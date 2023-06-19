@@ -63,7 +63,7 @@ const Auth: React.FunctionComponent<IAuth> = ({
 
   useEffect(() => {
     getProfile();
-  }, []);
+  }, [isLoading]);
 
   const router = useRouter();
 

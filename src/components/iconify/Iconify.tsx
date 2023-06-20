@@ -10,9 +10,9 @@ import { FC } from "react";
 
 interface Props {
   sx?: object;
-  width: number | string;
-  icon: Element;
-  height: number;
+  width?: number | string;
+  icon?: any;
+  height?: number;
 }
 
 export const Iconify: FC<Props> = (

@@ -56,12 +56,14 @@ export const Navbar = ({ myProfile }: any) => {
               <Typography
                 variant="h2"
                 sx={{
-                  textDecoration: asPath === "/" ? "underline" : "none",
                   display: "inline",
                   marginRight: "50px",
+                  fontStyle:"italic",
+                  fontSize: '16px',
+                  letterSpacing:"2px",
                 }}
               >
-                Auction
+                Welcome to Art Auction
               </Typography>
             </Link>
           </NextLink>

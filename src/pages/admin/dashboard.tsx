@@ -10,16 +10,36 @@ import {
 import { DashBoardLayout } from "../../components/layouts/dashboard/layout";
 import { AppWidgetSummary } from "../../components/DashBoard/AppWidgetSummary";
 import { ImportContacts } from "@mui/icons-material";
-import { AppWebsiteVisits } from "../../components/DashBoard/AppWebsiteVisits";
-import { AppCurrentVisits } from "../../components/DashBoard/AppCurrentVisits";
 import { useTheme } from "@mui/material/styles";
-import { AppConversionRates } from "../../components/DashBoard/AppConversionRates";
 import { AppTrafficBySite } from "../../components/DashBoard/AppTrafficBySite";
 import Iconify from "../../components/iconify/Iconify";
 import UserIcon from "@heroicons/react/24/solid/UserIcon";
 import { AppNewsUpdate } from "../../components/DashBoard/AppNewsUpdate";
 import { faker } from "@faker-js/faker";
+import dynamic from "next/dynamic";
+import { ComponentType } from 'react';
 
+const AppWebsiteVisits = dynamic(
+  () =>
+    import("../../components/DashBoard/AppWebsiteVisits").then(
+      (mod) => mod.AppWebsiteVisits
+    ) as Promise<ComponentType<any>>,
+  { ssr: false }
+);
+
+const AppCurrentVisits = dynamic(
+  () => import("../../components/DashBoard/AppCurrentVisits").then(
+    (mod) => mod.AppCurrentVisits
+  ) as Promise<ComponentType<any>>,
+  { ssr: false }
+);
+
+const AppConversionRates = dynamic(
+  () => import("../../components/DashBoard/AppConversionRates").then(
+    (mod) => mod.AppConversionRates
+  ) as Promise<ComponentType<any>>,
+  { ssr: false }
+);
 const DashBoardPage = () => {
   const theme = useTheme();
 

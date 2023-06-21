@@ -37,7 +37,7 @@ export const AppNewsUpdate: FC<Props> = ({
       <CardHeader title={title} subheader={subheader} />
 
       <Stack spacing={3} sx={{ p: 3, pr: 0 }}>
-        {list.map((news) => (
+        {list?.map((news) => (
           <NewsItem key={news.id} news={news} />
         ))}
       </Stack>

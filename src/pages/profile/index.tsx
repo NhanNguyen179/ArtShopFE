@@ -19,14 +19,14 @@ const ProfilePage = () => (
       <Container maxWidth="lg">
         <Stack spacing={3}>
           <div>
-            <Typography variant="h4">Profile</Typography>
+            <Typography variant="h4">Xin chào ...</Typography>
           </div>
           <div>
             <Grid container spacing={3}>
-              <Grid item xs={12} md={6} lg={4}>
+              <Grid item xs={12} md={6} lg={12}>
                 <AccountProfile />
               </Grid>
-              <Grid item xs={12} md={6} lg={8}>
+              <Grid item xs={12} md={6} lg={12}>
                 <AccountProfileDetails />
               </Grid>
             </Grid>

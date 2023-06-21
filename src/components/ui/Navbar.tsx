@@ -33,14 +33,12 @@ export const Navbar = ({ myProfile }: any) => {
       <Toolbar>
         <NextLink href="/" passHref>
           <Link display="flex" alignItems="center">
-            <Typography variant="h6">Art</Typography>
-            <Typography
-              sx={{
-                ml: 0.5,
-              }}
+            <p className="text-lg ml-10">Art</p>
+            <p
+              className="ml-2 text-2xl"
             >
               Auction
-            </Typography>
+            </p>
           </Link>
         </NextLink>
         <Box flex={1} />
@@ -120,7 +118,7 @@ export const Navbar = ({ myProfile }: any) => {
             myProfile?.name ?  toggleSideMenu : () => router.push("/auth/login")
           }
         >
-          {myProfile?.name ? "Menu" : "Login"}
+          {myProfile?.name ? "TÙY CHỌN" : "ĐĂNG NHẬP"}
         </Button>
       </Toolbar>
     </AppBar>

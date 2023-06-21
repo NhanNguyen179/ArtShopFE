@@ -12,13 +12,14 @@ export const Ticket: FC<Props> = ({ auctionItem }) => {
     <Box sx={{
       display:'flex',
       justifyContent:'space-between',
-      alignItems:'center'
+      alignItems:'center',
+      padding:"2% 5%"
     }}>
-      <Typography variant="body1">{auctionItem.user.email}</Typography>
-      <Typography variant="body1">{auctionItem.auction_price}$</Typography>
-      <Typography variant="caption">
+      <p className="text-xl">{auctionItem.user.email}</p>
+      <p className="text-xl">{auctionItem.auction_price}$</p>
+      <p className="text-xl">
         {format(new Date(auctionItem.create_at), "yyyy-MM-dd")}
-      </Typography>
+      </p>
     </Box>
   );
 };

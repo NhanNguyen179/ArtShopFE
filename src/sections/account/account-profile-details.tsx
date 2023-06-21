@@ -54,9 +54,9 @@ export const AccountProfileDetails = () => {
   return (
     <form autoComplete="off" noValidate onSubmit={handleSubmit}>
       <Card>
-        <CardHeader subheader="The information can be edited" title="Profile" />
+        <CardHeader subheader="*Vui lòng kiểm tra lại khi lưu thông tin, thông tin này sẽ dùng khi đấu giá" title="Thông tin cá nhân" />
         <CardContent sx={{ pt: 0 }}>
-          <Box sx={{ m: -1.5 }}>
+          <Box sx={{ mb: 2 }}>
             <Grid container spacing={3}>
               <Grid xs={12} md={6} item>
                 <TextField
@@ -131,8 +131,8 @@ export const AccountProfileDetails = () => {
           </Box>
         </CardContent>
         <Divider />
-        <CardActions sx={{ justifyContent: "flex-end" }}>
-          <Button variant="contained" >Save details</Button>
+        <CardActions sx={{ justifyContent: "center" , padding:"10px"}}>
+          <Button variant="contained" >Cập nhập thông tin</Button>
         </CardActions>
       </Card>
     </form>

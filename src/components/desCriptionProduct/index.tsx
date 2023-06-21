@@ -19,7 +19,7 @@ export const DescriptionProduct: FC<Props> = ({ product }) => {
         <Box
           sx={{
             position: "absolute",
-            background: "#f7f6fb",
+            background: "white !important",
             minWidth: "200px",
             minHeight: "30px",
             top: "-20px",

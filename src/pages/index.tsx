@@ -16,6 +16,7 @@ import productAPI from "./api/productApiFunction";
 import { SeedProduct } from "../database/seed-data";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useRouter } from "next/router";
+import { Carousel } from "../components/Carousel";
 
 export type InfinitePage = {
   next: number;
@@ -59,6 +60,32 @@ const HomePage: NextPage = () => {
       >
         {listProduct ? (
           <>
+            <Carousel
+              listProduct={listProduct}
+              title={"Tranh thịnh hành"}
+            ></Carousel>
+            <br></br>
+            <Carousel
+              listProduct={listProduct}
+              title={"Dành cho bạn"}
+            ></Carousel>
+            <br></br>
+            <Typography
+              variant="h1"
+              sx={{
+                margin: "10px 0 15px 50px",
+                fontWeight: "500",
+                fontSize: "38px",
+                position:"relative",
+                fontFamily:
+                  "Mercury Display A,Mercury Display B,MercuryDisplay,serif",
+              }}
+            >
+              {" "}
+              Tranh đấu giá hiện tại
+              <div id="borderBottom"></div>
+            </Typography>
+
             <ProductList
               products={listProduct}
               getMoreListProduct={getMoreListProduct}

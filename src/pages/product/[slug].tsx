@@ -22,6 +22,8 @@ import { Product, UserAuctionProduct } from "../../components/Type";
 import { CountDown } from "../../components/countDown";
 import { DescriptionProduct } from "../../components/desCriptionProduct";
 import { visitProductDetailPageEvent } from "../../activity-tracking/ActivityTrackingService";
+import { HighestPrice } from "../../components/HighestPrice";
+import { Carousel } from "../../components/Carousel";
 interface Props {
   product: SeedProduct;
 }
@@ -31,6 +33,8 @@ const ProductPage: NextPage<Props> = () => {
   const [productDetail, setProductDetail] = useState<Product>();
   const [listPeopleAuctionProduct, setListPeopleAuctionProduct] =
     useState<UserAuctionProduct[]>();
+  const [listProduct, setListProduct] = useState<Product[]>([]);
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const router = useRouter();
@@ -38,12 +42,15 @@ const ProductPage: NextPage<Props> = () => {
     Promise.all([
       productAPI.getDetailProduct(router.query.slug),
       productAPI.getListAuctionPriceProduct(router.query.slug),
+      productAPI.getProduct(1,""),
     ]).then((values: any) => {
       setProductDetail(values[0]);
       setListPeopleAuctionProduct(values[1]);
       visitProductDetailPageEvent(values[0]);
+      setListProduct(values[2].data);
     });
   };
+
   useEffect(() => {
     if (router.query.slug && !open) {
       fetchData();
@@ -51,7 +58,7 @@ const ProductPage: NextPage<Props> = () => {
   }, [router, open]);
   return (
     <>
-      {productDetail && listPeopleAuctionProduct ? (
+      {productDetail && listPeopleAuctionProduct && listProduct ? (
         <ShopLayout
           title={productDetail.name}
           pageDescription={productDetail.description}
@@ -89,7 +96,6 @@ const ProductPage: NextPage<Props> = () => {
                 sx={{
                   width: "100%",
                   height: "80px",
-                  backgroundColor: "#edececb8",
                   marginBottom: "15px",
                   display: "flex",
                   justifyContent: "center",
@@ -97,26 +103,25 @@ const ProductPage: NextPage<Props> = () => {
                   gap: "30px",
                 }}
               >
-
-                <Typography variant="subtitle1">
+                <p className="text-2xl">
                   {" "}
                   Chuyên gia: {productDetail.expert.name} |
-                </Typography>
-                <Typography variant="subtitle1">
+                </p>
+                <p className="text-2xl">
                   {" "}
                   Định giá: {productDetail.expert_price} |
-                </Typography>
-                <Typography variant="subtitle1">
-                  {" "}
-                  {productDetail.expert.work_from}{" "}
-                </Typography>
+                </p>
+                <p className="text-2xl"> {productDetail.expert.work_from} </p>
               </Box>
             </Grid>
             <Grid item xs={12} sm={6}>
               <DescriptionProduct product={productDetail}></DescriptionProduct>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <Box sx={{ position: "relative" }}>
+              <HighestPrice product={productDetail}></HighestPrice>
+            </Grid>
+            <Grid item xs={12} sm={12}>
+              <Box sx={{ position: "relative", marginTop: "30px" }}>
                 <ListTickets
                   listPeopleAuctionProduct={listPeopleAuctionProduct}
                 ></ListTickets>
@@ -131,10 +136,16 @@ const ProductPage: NextPage<Props> = () => {
                     backgroundColor: "white !important",
                   }}
                 >
-                  <Typography variant="button">ĐẤU GIÁ</Typography>
+                  <p>ĐẤU GIÁ</p>
                 </Button>
               </Box>
             </Grid>
+            <Grid item xs={12} sm={12}>
+              <Box sx={{ position: "relative", marginTop: "30px" }}>
+                <Carousel listProduct={listProduct} title="Sản phẩm cùng loại"></Carousel>
+              </Box>
+            </Grid>
+            
           </Grid>
         </ShopLayout>
       ) : (

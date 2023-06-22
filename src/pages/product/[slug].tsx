@@ -118,7 +118,7 @@ const ProductPage: NextPage<Props> = () => {
               <DescriptionProduct product={productDetail}></DescriptionProduct>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <HighestPrice product={productDetail}></HighestPrice>
+              <HighestPrice ></HighestPrice>
             </Grid>
             <Grid item xs={12} sm={12}>
               <Box sx={{ position: "relative", marginTop: "30px" }}>

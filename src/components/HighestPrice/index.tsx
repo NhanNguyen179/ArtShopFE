@@ -7,9 +7,9 @@ import { FC } from "react";
 import { UserAuctionProduct } from "../../components/Type";
 
 interface Props {
-  listPeopleAuctionProduct: UserAuctionProduct[];
+  
 }
-export const HighestPrice: FC<Props> = ({ listPeopleAuctionProduct }) => {
+export const HighestPrice: FC<Props> = ({  }) => {
   return (
     <List>
       <Box

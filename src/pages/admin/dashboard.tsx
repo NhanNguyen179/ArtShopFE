@@ -17,7 +17,7 @@ import UserIcon from "@heroicons/react/24/solid/UserIcon";
 import { AppNewsUpdate } from "../../components/DashBoard/AppNewsUpdate";
 import { faker } from "@faker-js/faker";
 import dynamic from "next/dynamic";
-import { ComponentType } from 'react';
+import { ComponentType } from "react";
 
 const AppWebsiteVisits = dynamic(
   () =>
@@ -28,16 +28,18 @@ const AppWebsiteVisits = dynamic(
 );
 
 const AppCurrentVisits = dynamic(
-  () => import("../../components/DashBoard/AppCurrentVisits").then(
-    (mod) => mod.AppCurrentVisits
-  ) as Promise<ComponentType<any>>,
+  () =>
+    import("../../components/DashBoard/AppCurrentVisits").then(
+      (mod) => mod.AppCurrentVisits
+    ) as Promise<ComponentType<any>>,
   { ssr: false }
 );
 
 const AppConversionRates = dynamic(
-  () => import("../../components/DashBoard/AppConversionRates").then(
-    (mod) => mod.AppConversionRates
-  ) as Promise<ComponentType<any>>,
+  () =>
+    import("../../components/DashBoard/AppConversionRates").then(
+      (mod) => mod.AppConversionRates
+    ) as Promise<ComponentType<any>>,
   { ssr: false }
 );
 const DashBoardPage = () => {
@@ -63,16 +65,16 @@ const DashBoardPage = () => {
             <Grid container spacing={3}>
               <Grid item xs={12} sm={6} md={4}>
                 <AppWidgetSummary
-                  title="Weekly Sales"
-                  total={714000}
+                  title="Người đã đấu giá"
+                  total={10}
                   icon={<ImportContacts></ImportContacts>}
                 />
               </Grid>
 
               <Grid item xs={12} sm={6} md={4}>
                 <AppWidgetSummary
-                  title="New Users"
-                  total={1352831}
+                  title="Lượt truy cập trang web"
+                  total={1352}
                   color="info"
                   icon={<ImportContacts></ImportContacts>}
                 />
@@ -80,15 +82,15 @@ const DashBoardPage = () => {
 
               <Grid item xs={12} sm={6} md={4}>
                 <AppWidgetSummary
-                  title="Item Orders"
-                  total={1723315}
+                  title="Số lượng tranh đấu giá thành công"
+                  total={17}
                   color="warning"
                   icon={<ImportContacts></ImportContacts>}
                 />
               </Grid>
               <Grid item xs={12} md={6} lg={8}>
                 <AppWebsiteVisits
-                  title="Website Visits"
+                  title="Lượt xem tranh"
                   subheader="(+43%) than last year"
                   chartLabels={[
                     "01/01/2003",
@@ -107,65 +109,50 @@ const DashBoardPage = () => {
                     {
                       name: "Team A",
                       type: "column",
-                      fill: "solid",
+                      fill: "lượt xem",
                       data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30],
-                    },
-                    {
-                      name: "Team B",
-                      type: "area",
-                      fill: "gradient",
-                      data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43],
-                    },
-                    {
-                      name: "Team C",
-                      type: "line",
-                      fill: "solid",
-                      data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39],
                     },
                   ]}
                 />
               </Grid>
               <Grid item xs={12} md={6} lg={4}>
                 <AppCurrentVisits
-                  title="Current Visits"
+                  title="Chủ đề người dùng quan tâm nhất"
                   chartData={[
-                    { label: "America", value: 4344 },
-                    { label: "Asia", value: 5435 },
-                    { label: "Europe", value: 1443 },
-                    { label: "Africa", value: 4443 },
+                    { label: "Tranh trừu tượng", value: 200 },
+                    { label: "Tranh phong cảnh", value: 130 },
+                    { label: "Tranh phong cảnh", value: 99 },
+                    { label: "Tranh phong cảnh", value: 88 },
                   ]}
                   chartColors={[
-                    theme.palette.primary.main,
+                    "yellow",
                     theme.palette.info.main,
-                    theme.palette.warning.main,
+                    theme.palette.warning.light,
                     theme.palette.error.main,
                   ]}
                 />
               </Grid>
               <Grid item xs={12} md={6} lg={8}>
                 <AppConversionRates
-                  title="Conversion Rates"
-                  subheader="(+43%) than last year"
+                  title="Bức tranh quan tâm nhất"
                   chartData={[
-                    { label: "Italy", value: 400 },
-                    { label: "Japan", value: 430 },
-                    { label: "China", value: 448 },
-                    { label: "Canada", value: 470 },
-                    { label: "France", value: 540 },
-                    { label: "Germany", value: 580 },
-                    { label: "South Korea", value: 690 },
-                    { label: "Netherlands", value: 1100 },
-                    { label: "United States", value: 1200 },
-                    { label: "United Kingdom", value: 1380 },
+                    { label: "The Flower", value: 400 },
+                    { label: "The Flower 1", value: 430 },
+                    { label: "The Flower 2", value: 448 },
+                    { label: "The Flower 3", value: 470 },
+                    { label: "The Flower 4", value: 470 },
+                    { label: "The Flower 5", value: 470 },
+                    { label: "The Flower 6", value: 470 },
+                    { label: "The Flower 7", value: 470 },
                   ]}
                 />
               </Grid>
               <Grid item xs={12} md={6} lg={4}>
                 <AppTrafficBySite
-                  title="Traffic by Site"
+                  title="Trình duyệt truy cập nhiều nhất"
                   list={[
                     {
-                      name: "FaceBook",
+                      name: "Firefox",
                       value: 323234,
                       icon: (
                         <Iconify
@@ -176,7 +163,7 @@ const DashBoardPage = () => {
                       ),
                     },
                     {
-                      name: "Google",
+                      name: "Chrome",
                       value: 341212,
                       icon: (
                         <Iconify
@@ -187,19 +174,8 @@ const DashBoardPage = () => {
                       ),
                     },
                     {
-                      name: "Linkedin",
+                      name: "IE",
                       value: 411213,
-                      icon: (
-                        <Iconify
-                          icon={<ImportContacts></ImportContacts>}
-                          sx={{ color: "#1C9CEA" }}
-                          width={32}
-                        />
-                      ),
-                    },
-                    {
-                      name: "Twitter",
-                      value: 443232,
                       icon: (
                         <Iconify
                           icon={<ImportContacts></ImportContacts>}
@@ -213,11 +189,11 @@ const DashBoardPage = () => {
               </Grid>
               <Grid item xs={12} md={6} lg={8}>
                 <AppNewsUpdate
-                  title="News Update"
+                  title="Sự kiện mới"
                   list={[...Array(5)].map((_, index) => ({
                     id: faker.datatype.uuid(),
-                    title: faker.name.jobTitle(),
-                    description: faker.name.jobTitle(),
+                    title: "Đấu giá sản phẩm The Flower 2",
+                    description: "nhan1709rt@ đã đấu giá 1000000",
                     postedAt: faker.date.recent(),
                   }))}
                 />

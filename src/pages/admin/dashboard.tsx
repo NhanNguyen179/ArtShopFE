@@ -73,7 +73,7 @@ const DashBoardPage = () => {
 
               <Grid item xs={12} sm={6} md={4}>
                 <AppWidgetSummary
-                  title="Lượt truy cập trang web"
+                  title="Lượt đấu giá"
                   total={1352}
                   color="info"
                   icon={<ImportContacts></ImportContacts>}
@@ -90,8 +90,7 @@ const DashBoardPage = () => {
               </Grid>
               <Grid item xs={12} md={6} lg={8}>
                 <AppWebsiteVisits
-                  title="Lượt xem tranh"
-                  subheader="(+43%) than last year"
+                  title="Lượt truy cập trang web"
                   chartLabels={[
                     "01/01/2003",
                     "02/01/2003",
@@ -125,10 +124,10 @@ const DashBoardPage = () => {
                     { label: "Tranh phong cảnh", value: 88 },
                   ]}
                   chartColors={[
-                    "yellow",
-                    theme.palette.info.main,
-                    theme.palette.warning.light,
-                    theme.palette.error.main,
+                    "#287297",
+                    "#6f926e",
+                    "#ebed6c",
+                    "#20bbe9",
                   ]}
                 />
               </Grid>

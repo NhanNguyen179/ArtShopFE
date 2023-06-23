@@ -3,6 +3,7 @@ import { UserAuctionProduct } from "../Type";
 import styles from "./Ticket.module.scss";
 import { Box, Typography } from "@mui/material";
 import { compareAsc, format } from "date-fns";
+import { fCurrency } from "../../utils/formatNumber";
 interface Props {
   auctionItem: UserAuctionProduct;
 }
@@ -16,7 +17,7 @@ export const Ticket: FC<Props> = ({ auctionItem }) => {
       padding:"2% 5%"
     }}>
       <p className="text-xl">{auctionItem.user.email}</p>
-      <p className="text-xl">{auctionItem.auction_price}$</p>
+      <p className="text-xl">{fCurrency(Number(auctionItem.auction_price))}</p>
       <p className="text-xl">
         {format(new Date(auctionItem.create_at), "yyyy-MM-dd")}
       </p>

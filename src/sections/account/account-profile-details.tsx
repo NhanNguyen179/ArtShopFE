@@ -10,6 +10,11 @@ import {
   TextField,
   Grid,
 } from "@mui/material";
+import * as Yup from "yup";
+import { useFormik } from "formik";
+import authAPI from "../../pages/api/auth";
+import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 
 const states = [
   {
@@ -30,31 +35,59 @@ const states = [
   },
 ];
 
-export const AccountProfileDetails = () => {
+export const AccountProfileDetails = ({ myProfile }: any) => {
+  const router = useRouter()
   const [values, setValues] = useState({
-    firstName: "Anika",
-    lastName: "Visser",
-    email: "demo@devias.io",
-    phone: "",
-    state: "los-angeles",
-    country: "USA",
+    name: myProfile.name,
+    email: myProfile.email,
+    phone_number: myProfile.phone_number,
+    visa_card: myProfile.visa_card,
+    address: myProfile.address,
   });
 
-  const handleChange = useCallback((event : any) => {
+  const handleChange = useCallback((event: any) => {
+    console.log({values})
     setValues((prevState) => ({
       ...prevState,
       [event.target.name]: event.target.value,
     }));
-  }, []);
+  }, [values]);
 
   const handleSubmit = useCallback((event: any) => {
+    authAPI.updateProfile(values).then((rs) => {
+      toast.success("Cập nhập thông tin cá nhân thành công!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      router.replace(router.asPath);
+    }).catch((rs) => {
+      toast.error("Cập nhập thông tin cá nhân thất bại!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    })
     event.preventDefault();
-  }, []);
+  }, [values]);
 
   return (
     <form autoComplete="off" noValidate onSubmit={handleSubmit}>
       <Card>
-        <CardHeader subheader="*Vui lòng kiểm tra lại khi lưu thông tin, thông tin này sẽ dùng khi đấu giá" title="Thông tin cá nhân" />
+        <CardHeader
+          subheader="*Vui lòng kiểm tra lại khi lưu thông tin, thông tin này sẽ dùng khi đấu giá"
+          title="Thông tin cá nhân"
+        />
         <CardContent sx={{ pt: 0 }}>
           <Box sx={{ mb: 2 }}>
             <Grid container spacing={3}>
@@ -62,27 +95,17 @@ export const AccountProfileDetails = () => {
                 <TextField
                   fullWidth
                   helperText="Please specify the first name"
-                  label="First name"
-                  name="firstName"
+                  label="Tên người dùng"
+                  name="name"
                   onChange={handleChange}
                   required
-                  value={values.firstName}
+                  value={values.name}
                 />
               </Grid>
               <Grid xs={12} md={6} item>
                 <TextField
                   fullWidth
-                  label="Last name"
-                  name="lastName"
-                  onChange={handleChange}
-                  required
-                  value={values.lastName}
-                />
-              </Grid>
-              <Grid xs={12} md={6} item>
-                <TextField
-                  fullWidth
-                  label="Email Address"
+                  label="Email"
                   name="email"
                   onChange={handleChange}
                   required
@@ -92,47 +115,42 @@ export const AccountProfileDetails = () => {
               <Grid xs={12} md={6} item>
                 <TextField
                   fullWidth
-                  label="Phone Number"
-                  name="phone"
+                  label="Số điện thoại"
+                  name="phone_number"
                   onChange={handleChange}
+                  required
+                  value={values.phone_number}
+                />
+              </Grid>
+              <Grid xs={12} md={6} item>
+                <TextField
+                  fullWidth
+                  label="Thẻ Visa"
+                  name="visa_card"
+                  onChange={handleChange}
+                  required
                   type="number"
-                  value={values.phone}
+                  value={values.visa_card}
                 />
               </Grid>
               <Grid xs={12} md={6} item>
                 <TextField
                   fullWidth
-                  label="Country"
-                  name="country"
+                  label="Địa chỉ"
+                  name="address"
                   onChange={handleChange}
                   required
-                  value={values.country}
+                  value={values.address}
                 />
-              </Grid>
-              <Grid xs={12} md={6} item>
-                <TextField
-                  fullWidth
-                  label="Select State"
-                  name="state"
-                  onChange={handleChange}
-                  required
-                  select
-                  SelectProps={{ native: true }}
-                  value={values.state}
-                >
-                  {states.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </TextField>
               </Grid>
             </Grid>
           </Box>
         </CardContent>
         <Divider />
-        <CardActions sx={{ justifyContent: "center" , padding:"10px"}}>
-          <Button variant="contained" >Cập nhập thông tin</Button>
+        <CardActions sx={{ justifyContent: "center", padding: "10px" }}>
+          <Button variant="contained" type="submit">
+            Cập nhập thông tin
+          </Button>
         </CardActions>
       </Card>
     </form>

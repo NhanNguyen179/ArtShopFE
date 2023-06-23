@@ -15,6 +15,10 @@ const authAPI = {
   async getMyProfile(): Promise<User> {
     return await axiosBase.get("auth/user/me/");
   },
+  async updateProfile(data : any): Promise<User> {
+    return await axiosBase.put("auth/user/update_profile/",data);
+  },
+  
 };
 
 export default authAPI;

@@ -24,6 +24,7 @@ export type User = {
     name: string;
   };
   is_active: boolean;
+  is_completed: boolean;
   total_auction_price: number;
 };
 

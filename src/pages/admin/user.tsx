@@ -100,14 +100,14 @@ const UserPage = () => {
                       <TableCell align="left">Email</TableCell>
                       <TableCell align="left">Số điện thoại</TableCell>
                       <TableCell align="left">
-                        Tổng số tiền đã đấu giá
+                        Trạng thái thông tin
                       </TableCell>
                       <TableCell align="left">Trạng thái</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {listUser.map((item: User) => {
-                      const { id, email, is_active, phone_number } = item;
+                      const { id, email, is_active, is_completed, phone_number } = item;
 
                       return (
                         <TableRow hover key={id}>
@@ -125,7 +125,7 @@ const UserPage = () => {
 
                           <TableCell align="left">{phone_number}</TableCell>
 
-                          <TableCell align="left">$1000</TableCell>
+                          <TableCell align="left">{is_completed? "Đầy đủ":"Chưa đầy đủ"}</TableCell>
 
                           <TableCell align="left">
                             <Chip

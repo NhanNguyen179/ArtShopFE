@@ -7,7 +7,6 @@ import { Card, Typography } from "@mui/material";
 import { FC } from "react";
 import Iconify from "../iconify/Iconify";
 
-
 // ----------------------------------------------------------------------
 
 const StyledIcon = styled("div")(({ theme }) => ({
@@ -45,30 +44,17 @@ export const AppWidgetSummary: FC<Props> = ({
         py: 5,
         boxShadow: 0,
         textAlign: "center",
-        color: (theme: any) => theme.palette[color].darker,
-        bgcolor: (theme: any) => theme.palette[color].lighter,
+        color: "",
+        bgcolor: "#e3e3e3",
         ...sx,
       }}
       {...other}
     >
-      <StyledIcon
-        sx={{
-          color: (theme: any) => theme.palette[color].dark,
-          backgroundImage: (theme: any) =>
-            `linear-gradient(135deg, ${alpha(
-              theme.palette[color].dark,
-              0
-            )} 0%, ${alpha(theme.palette[color].dark, 0.24)} 100%)`,
-        }}
-      >
-        <Iconify icon={icon} width={24} height={24} />
-      </StyledIcon>
+      <p className="text-5xl font-bold">{total}</p>
 
-      <Typography variant="h3">{total}</Typography>
-
-      <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
+      <p className="text-xl font-normal">
         {title}
-      </Typography>
+      </p>
     </Card>
   );
 };

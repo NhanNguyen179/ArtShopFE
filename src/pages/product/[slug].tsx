@@ -24,6 +24,7 @@ import { DescriptionProduct } from "../../components/desCriptionProduct";
 import { visitProductDetailPageEvent } from "../../activity-tracking/ActivityTrackingService";
 import { HighestPrice } from "../../components/HighestPrice";
 import { Carousel } from "../../components/Carousel";
+import { fCurrency } from "../../utils/formatNumber";
 interface Props {
   product: SeedProduct;
 }
@@ -38,6 +39,7 @@ const ProductPage: NextPage<Props> = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const router = useRouter();
+
   const fetchData = async () => {
     Promise.all([
       productAPI.getDetailProduct(router.query.slug),
@@ -109,7 +111,8 @@ const ProductPage: NextPage<Props> = () => {
                 </p>
                 <p className="text-2xl">
                   {" "}
-                  Định giá: {productDetail.expert_price} |
+                  Định giá: {fCurrency(
+                    Number(productDetail.expert_price))} |
                 </p>
                 <p className="text-2xl"> {productDetail.expert.work_from} </p>
               </Box>
@@ -118,7 +121,7 @@ const ProductPage: NextPage<Props> = () => {
               <DescriptionProduct product={productDetail}></DescriptionProduct>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <HighestPrice ></HighestPrice>
+              <HighestPrice listPeopleAuctionProduct={listPeopleAuctionProduct}></HighestPrice>
             </Grid>
             <Grid item xs={12} sm={12}>
               <Box sx={{ position: "relative", marginTop: "30px" }}>

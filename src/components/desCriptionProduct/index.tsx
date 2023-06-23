@@ -31,27 +31,24 @@ export const DescriptionProduct: FC<Props> = ({ product }) => {
             alignItems: "start",
           }}
         >
-          <Typography
-            sx={{
-              fontSize: "22px",
-              color:"#120b39"
-            }}
+          <p
+            className="text-3xl font-medium"
           >
             {product.author.name}
-          </Typography>
+          </p>
         </Box>
 
         <Box
        
         >
-          <Typography variant="body1">Ngày bắt đầu: {product.start_auction}.</Typography>
-          <Typography variant="body1">Ngày kết thúc: {product.end_auction}.</Typography>
+          <p className="text-xl font-medium">Ngày bắt đầu: {product.start_auction}.</p>
+          <p className="text-xl font-medium">Ngày kết thúc: {product.end_auction}.</p>
 
-          <Typography variant="body1">
+          <p className="text-xl font-medium">
             Số người tham gia: {product.auction_participant}.
-          </Typography>
+          </p>
 
-          <Typography variant="body1">{product.description}.</Typography>
+          <p className="text-xl font-medium">{product.description}.</p>
         </Box>
       </Box>
     </>

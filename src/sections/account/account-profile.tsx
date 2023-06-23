@@ -29,7 +29,7 @@ export const AccountProfile = ({ myProfile } : any) => (
               {myProfile.name}
             </Typography>
 
-            <Typography variant="body2">{myProfile.role.name}</Typography>
+            <Typography variant="caption">Role: {myProfile.role.name}</Typography>
           </Box>
         </CardContent>
       </Card>

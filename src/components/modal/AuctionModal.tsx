@@ -31,7 +31,8 @@ interface Props {
   onClose: () => void;
 }
 
-export const AuctionModal: FC<Props> = ({ product, onClose }) => {
+export const AuctionModal: FC<Props> = ({ product, onClose, myProfile }: any) => {
+  console.log({myProfile})
   const formik = useFormik({
     initialValues: {
       productId: product.id,
@@ -46,6 +47,19 @@ export const AuctionModal: FC<Props> = ({ product, onClose }) => {
     }),
     onSubmit: async (values, helpers) => {
       try {
+        if(!myProfile.is_completed){
+          toast.error("Bạn chưa cập nhập đủ thông tin cá nhân cần thiết, vui lòng kiểm tra!", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+          return;
+        }
         const { productId, auctionPrice } = values;
         await auctionAPI.createAuction(productId, auctionPrice);
         toast.success("Đấu giá thành công!", {
@@ -58,6 +72,7 @@ export const AuctionModal: FC<Props> = ({ product, onClose }) => {
           progress: undefined,
           theme: "light",
         });
+        onClose();
       } catch (err) {
         toast.error("Đấu giá thất bại!", {
           position: "top-right",
@@ -91,9 +106,6 @@ export const AuctionModal: FC<Props> = ({ product, onClose }) => {
               !!(formik.touched.highestPrice && formik.errors.highestPrice)
             }
             fullWidth
-            helperText={
-              formik.touched.highestPrice && formik.errors.highestPrice
-            }
             label="Giá cao nhất hiện tại"
             name="highestPrice"
             onBlur={formik.handleBlur}

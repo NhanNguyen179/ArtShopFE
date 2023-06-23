@@ -25,6 +25,7 @@ export const AppConversionRates: FC<Props> =  ({ title, subheader, chartData, ..
 
   const chartOptions = useChart({
     tooltip: {
+      color:"red",
       marker: { show: false },
       y: {
         formatter: (seriesName : any) => fNumber(seriesName),
@@ -46,7 +47,7 @@ export const AppConversionRates: FC<Props> =  ({ title, subheader, chartData, ..
       <CardHeader title={title} subheader={subheader} />
 
       <Box sx={{ mx: 3 }} dir="ltr">
-        <ReactApexChart type="bar" series={[{ data: chartSeries }]} options={chartOptions} height={364} />
+        <ReactApexChart type="bar" series={[{ data: chartSeries }]} options={chartOptions} height={364}/>
       </Box>
     </Card>
   );

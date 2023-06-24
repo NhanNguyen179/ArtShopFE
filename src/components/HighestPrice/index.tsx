@@ -49,7 +49,7 @@ export const HighestPrice: FC<Props> = ({ listPeopleAuctionProduct }) => {
                 element
               ) {
                 return accumulator > element ? accumulator : element;
-              }).auction_price)) || "Chưa có giá cao nhất hiện tại"}
+              },[0]).auction_price)) || "Chưa có giá cao nhất hiện tại"}
             </p>
           </Box>
         </List>

@@ -17,7 +17,8 @@ import UserIcon from "@heroicons/react/24/solid/UserIcon";
 import { AppNewsUpdate } from "../../components/DashBoard/AppNewsUpdate";
 import { faker } from "@faker-js/faker";
 import dynamic from "next/dynamic";
-import { ComponentType } from "react";
+import { ComponentType, useState, useEffect } from "react";
+import activityTrackingAPI from "../api/activity_tracking";
 
 const AppWebsiteVisits = dynamic(
   () =>
@@ -44,11 +45,56 @@ const AppConversionRates = dynamic(
 );
 const DashBoardPage = () => {
   const theme = useTheme();
-
+  const [inforTracking, setInforTracking] = useState({
+    popularProduct: [],
+    popularCategory: [],
+    amountUserAddAuctionProduct: [],
+    recentAddAuctionPrice: [],
+    amountSessionId: [],
+    popularBrowser: [],
+    totalUserAddAuctionPrice: [],
+    totalApprovedAuction: [],
+  });
+  const getInformationTracking = () => {
+    Promise.all([
+      activityTrackingAPI.getAmountSessionId(),
+      activityTrackingAPI.getAmountUserAddAuctionProduct(),
+      activityTrackingAPI.getPopularBrowser(),
+      activityTrackingAPI.getPopularCategory(),
+      activityTrackingAPI.getPopularProduct(),
+      activityTrackingAPI.getRecentAddAuctionPrice(),
+      activityTrackingAPI.getTotalApprovedAuction(),
+      activityTrackingAPI.getTotalUserAddAuctionPrice(),
+    ]).then((response: any) => {
+      let temp = {
+        popularProduct: [],
+        popularCategory: [],
+        amountUserAddAuctionProduct: [],
+        recentAddAuctionPrice: [],
+        amountSessionId: [],
+        popularBrowser: [],
+        totalUserAddAuctionPrice: [],
+        totalApprovedAuction: [],
+      };
+      temp.amountSessionId = response[0];
+      temp.amountUserAddAuctionProduct = response[1];
+      temp.popularBrowser = response[2];
+      temp.popularCategory = response[3];
+      temp.popularProduct = response[4];
+      temp.recentAddAuctionPrice = response[5];
+      temp.totalApprovedAuction = response[6];
+      temp.totalUserAddAuctionPrice = response[7];
+      setInforTracking(temp);
+      console.log({ temp });
+    });
+  };
+  useEffect(() => {
+    getInformationTracking();
+  }, []);
   return (
     <DashBoardLayout isPublic={false}>
       <Head>
-        <title>Account Page</title>
+        <title>DashBoard Page</title>
       </Head>
       <Box
         component="main"
@@ -57,149 +103,98 @@ const DashBoardPage = () => {
           py: 2,
         }}
       >
-        <Container maxWidth="xl">
-          <Stack spacing={3}>
-            <div>
-              <Typography variant="h4">Hoạt động người dùng</Typography>
-            </div>
-            <Grid container spacing={3}>
-              <Grid item xs={12} sm={6} md={4}>
-                <AppWidgetSummary
-                  title="Người đã đấu giá"
-                  total={10}
-                  icon={<ImportContacts></ImportContacts>}
-                />
-              </Grid>
+        {inforTracking && (
+          <Container maxWidth="xl">
+            <Stack spacing={3}>
+              <div>
+                <Typography variant="h4">Hoạt động người dùng</Typography>
+              </div>
+              <Grid container spacing={3}>
+                <Grid item xs={12} sm={6} md={4}>
+                  <AppWidgetSummary
+                    title="Người đã đấu giá"
+                    total={
+                      inforTracking.amountUserAddAuctionProduct[0]
+                        ?.result
+                    }
+                    icon={<ImportContacts></ImportContacts>}
+                  />
+                </Grid>
 
-              <Grid item xs={12} sm={6} md={4}>
-                <AppWidgetSummary
-                  title="Lượt đấu giá"
-                  total={1352}
-                  color="info"
-                  icon={<ImportContacts></ImportContacts>}
-                />
-              </Grid>
+                <Grid item xs={12} sm={6} md={4}>
+                  <AppWidgetSummary
+                    title="Lượt đấu giá"
+                    total={inforTracking.totalUserAddAuctionPrice[0]
+                      ?.result}
+                    color="info"
+                    icon={<ImportContacts></ImportContacts>}
+                  />
+                </Grid>
 
-              <Grid item xs={12} sm={6} md={4}>
-                <AppWidgetSummary
-                  title="Số lượng tranh đấu giá thành công"
-                  total={17}
-                  color="warning"
-                  icon={<ImportContacts></ImportContacts>}
-                />
+                <Grid item xs={12} sm={6} md={4}>
+                  <AppWidgetSummary
+                    title="Số lượng tranh đấu giá thành công"
+                    total={inforTracking.totalApprovedAuction[0]
+                      ?.result}
+                    color="warning"
+                    icon={<ImportContacts></ImportContacts>}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6} lg={8}>
+                  <AppWebsiteVisits
+                    title="Lượt truy cập trang web"
+                    chartLabels={[
+                      "01/01/2003",
+                      "02/01/2003",
+                      "03/01/2003",
+                      "04/01/2003",
+                      "05/01/2003",
+                      "06/01/2003",
+                      "07/01/2003",
+                      "08/01/2003",
+                      "09/01/2003",
+                      "10/01/2003",
+                      "11/01/2003",
+                    ]}
+                    chartData={[
+                      {
+                        name: "Team A",
+                        type: "column",
+                        fill: "lượt xem",
+                        data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30],
+                      },
+                    ]}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6} lg={4}>
+                  <AppCurrentVisits
+                    title="Chủ đề người dùng quan tâm nhất"
+                    chartData={inforTracking.popularCategory}
+                    chartColors={["#287297", "#6f926e", "#ebed6c", "#20bbe9"]}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6} lg={8}>
+                  <AppConversionRates
+                    title="Bức tranh quan tâm nhất"
+                    chartData={inforTracking.popularProduct}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6} lg={4}>
+                  <AppTrafficBySite
+                    title="Trình duyệt truy cập nhiều nhất"
+                    list={inforTracking.popularBrowser}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6} lg={8}>
+                  <AppNewsUpdate
+                    title="Sự kiện mới"
+                    list={inforTracking.recentAddAuctionPrice}
+                  />
+                </Grid>
               </Grid>
-              <Grid item xs={12} md={6} lg={8}>
-                <AppWebsiteVisits
-                  title="Lượt truy cập trang web"
-                  chartLabels={[
-                    "01/01/2003",
-                    "02/01/2003",
-                    "03/01/2003",
-                    "04/01/2003",
-                    "05/01/2003",
-                    "06/01/2003",
-                    "07/01/2003",
-                    "08/01/2003",
-                    "09/01/2003",
-                    "10/01/2003",
-                    "11/01/2003",
-                  ]}
-                  chartData={[
-                    {
-                      name: "Team A",
-                      type: "column",
-                      fill: "lượt xem",
-                      data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30],
-                    },
-                  ]}
-                />
-              </Grid>
-              <Grid item xs={12} md={6} lg={4}>
-                <AppCurrentVisits
-                  title="Chủ đề người dùng quan tâm nhất"
-                  chartData={[
-                    { label: "Tranh trừu tượng", value: 200 },
-                    { label: "Tranh phong cảnh", value: 130 },
-                    { label: "Tranh phong cảnh", value: 99 },
-                    { label: "Tranh phong cảnh", value: 88 },
-                  ]}
-                  chartColors={[
-                    "#287297",
-                    "#6f926e",
-                    "#ebed6c",
-                    "#20bbe9",
-                  ]}
-                />
-              </Grid>
-              <Grid item xs={12} md={6} lg={8}>
-                <AppConversionRates
-                  title="Bức tranh quan tâm nhất"
-                  chartData={[
-                    { label: "The Flower", value: 400 },
-                    { label: "The Flower 1", value: 430 },
-                    { label: "The Flower 2", value: 448 },
-                    { label: "The Flower 3", value: 470 },
-                    { label: "The Flower 4", value: 470 },
-                    { label: "The Flower 5", value: 470 },
-                    { label: "The Flower 6", value: 470 },
-                    { label: "The Flower 7", value: 470 },
-                  ]}
-                />
-              </Grid>
-              <Grid item xs={12} md={6} lg={4}>
-                <AppTrafficBySite
-                  title="Trình duyệt truy cập nhiều nhất"
-                  list={[
-                    {
-                      name: "Firefox",
-                      value: 323234,
-                      icon: (
-                        <Iconify
-                          icon={<ImportContacts></ImportContacts>}
-                          sx={{ color: "#1C9CEA" }}
-                          width={32}
-                        />
-                      ),
-                    },
-                    {
-                      name: "Chrome",
-                      value: 341212,
-                      icon: (
-                        <Iconify
-                          icon={<ImportContacts></ImportContacts>}
-                          sx={{ color: "#1C9CEA" }}
-                          width={32}
-                        />
-                      ),
-                    },
-                    {
-                      name: "IE",
-                      value: 411213,
-                      icon: (
-                        <Iconify
-                          icon={<ImportContacts></ImportContacts>}
-                          sx={{ color: "#1C9CEA" }}
-                          width={32}
-                        />
-                      ),
-                    },
-                  ]}
-                />
-              </Grid>
-              <Grid item xs={12} md={6} lg={8}>
-                <AppNewsUpdate
-                  title="Sự kiện mới"
-                  list={[...Array(5)].map((_, index) => ({
-                    id: faker.datatype.uuid(),
-                    title: "Đấu giá sản phẩm The Flower 2",
-                    description: "nhan1709rt@ đã đấu giá 1000000",
-                    postedAt: faker.date.recent(),
-                  }))}
-                />
-              </Grid>
-            </Grid>
-          </Stack>
-        </Container>
+            </Stack>
+          </Container>
+        )}
       </Box>
     </DashBoardLayout>
   );

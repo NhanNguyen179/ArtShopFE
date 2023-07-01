@@ -34,6 +34,7 @@ export const ProductList: FC<Props> = ({
               lg: "3 !important",
               xl: "3 !important",
             },
+            justifyContent: "space-between"
           }}
           gap={12}
         >

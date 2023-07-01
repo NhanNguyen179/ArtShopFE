@@ -52,6 +52,7 @@ export interface Product {
   auction_price: number;
   expert: Expert;
   expert_price?: number;
+  is_completed: boolean;
 }
 
 export type AuctionOfProduct = {

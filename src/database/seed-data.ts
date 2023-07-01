@@ -25,6 +25,7 @@ export interface SeedProduct {
   auction_price: number;
   expert: Expert;
   expert_price?: number;
+  is_completed: boolean;
 }
 
 interface SeedUser {

@@ -4,6 +4,8 @@ import { getTrackingSession } from "../TrackingSession";
 export enum ActionTypeEnum {
   Login,
   VisitProductDetailPage,
+  UserAddAuctionPrice,
+  ApprovedAuctionProduct,
 }
 
 export class BaseEvent {
@@ -83,6 +85,17 @@ export class BaseEvent {
         this.Action = `Click Detail Product`;
         this.Feature = `Visit Detail Product`;
         break;
+      case ActionTypeEnum.UserAddAuctionPrice:
+        this.ActionType = "add_auction_price";
+        this.Action = `Add auction price`;
+        this.Feature = `Add Auction Price`;
+        break;
+      case ActionTypeEnum.ApprovedAuctionProduct:
+        this.ActionType = "approved_auction_product";
+        this.Action = `Approved Auction Product`;
+        this.Feature = `Approved Auction Product`;
+        break;
+
       default:
         this.ActionType = "";
         this.Action = "";

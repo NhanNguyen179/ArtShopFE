@@ -1,6 +1,7 @@
 import { Divider, Grid, Typography } from "@mui/material";
 import { FC, useContext } from "react";
 import { TotalAuctionOfUser } from "./AuctionList";
+import { fCurrency } from "../../utils/formatNumber";
 
 interface Props {
   totalAuctionOfUser: TotalAuctionOfUser;
@@ -21,7 +22,7 @@ export const OrderSummary: FC<Props> = ({ totalAuctionOfUser }) => {
         <Typography>Tổng cộng:</Typography>
       </Grid>
       <Grid item xs={6} display="flex" justifyContent="end">
-        <Typography>{totalAuctionOfUser.totalOfAuction}</Typography>
+        <Typography>{fCurrency(Number(totalAuctionOfUser.totalOfAuction))}</Typography>
       </Grid>
       <Grid item xs={6}>
         <Typography>Thuế (%) :</Typography>
@@ -41,7 +42,7 @@ export const OrderSummary: FC<Props> = ({ totalAuctionOfUser }) => {
       </Grid>
       <Grid item xs={6} display="flex" justifyContent="end">
         <Typography variant="subtitle1">
-          {Math.round(totalAuctionOfUser.totalPay)}
+          {fCurrency(Math.round(totalAuctionOfUser.totalPay))}
         </Typography>
       </Grid>
     </Grid>

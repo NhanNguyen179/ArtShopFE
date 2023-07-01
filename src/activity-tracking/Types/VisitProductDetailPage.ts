@@ -8,7 +8,7 @@ export class VisitProductDetailPage extends BaseEvent {
     this.Attribute2 = product.name;
     this.Attribute3 = product.category.name;
     this.Attribute4 = product.category.id;
-    this.Outcome = 'User navigated to product detail page.';
+    this.Outcome = `đã xem tranh ${product.name}`;
   }
 }
 

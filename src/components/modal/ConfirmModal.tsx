@@ -23,7 +23,7 @@ const ConfirmDialog = (props: any) => {
           color="primary"
           onClick={() => setOpen(false)}
         >
-          No
+          Hủy bỏ
         </Button>
         <Button
           variant="outlined"
@@ -33,7 +33,7 @@ const ConfirmDialog = (props: any) => {
             onConfirm();
           }}
         >
-          Yes
+          Đồng ý
         </Button>
       </DialogActions>
     </Dialog>

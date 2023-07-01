@@ -89,7 +89,7 @@ const UserPage = () => {
               <Typography variant="h4" gutterBottom>
                 Tài khoản
               </Typography>
-              <Button variant="contained">Thêm tài khoản</Button>
+              {/* <Button variant="contained">Thêm tài khoản</Button> */}
             </Stack>
 
             <Card>

@@ -44,12 +44,19 @@ export const HighestPrice: FC<Props> = ({ listPeopleAuctionProduct }) => {
             </Box>
             <p className="text-3xl font-medium text-center">
               {" "}
-              {fCurrency(Number(listPeopleAuctionProduct?.reduce(function (
-                accumulator,
-                element
-              ) {
-                return accumulator > element ? accumulator : element;
-              },[0]).auction_price)) || "Chưa có giá cao nhất hiện tại"}
+              {fCurrency(
+                Number(
+                  listPeopleAuctionProduct?.reduce(function (
+                    accumulator,
+                    element
+                  ) {
+                    return Number(accumulator) > Number(element)
+                      ? accumulator
+                      : element;
+                  },
+                  0).auction_price
+                )
+              ) || "Chưa có giá cao nhất hiện tại"}
             </p>
           </Box>
         </List>

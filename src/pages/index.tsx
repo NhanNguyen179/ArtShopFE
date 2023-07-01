@@ -7,6 +7,8 @@ import {
   ImageList,
   Typography,
 } from "@mui/material";
+import { Button } from "@mui/material";
+
 import type { NextPage } from "next";
 import { ShopLayout } from "../components/layouts";
 import { ProductList } from "../components/products";
@@ -17,6 +19,7 @@ import { SeedProduct } from "../database/seed-data";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useRouter } from "next/router";
 import { Carousel } from "../components/Carousel";
+import ImageUpload from "../components/ImageUpload";
 
 export type InfinitePage = {
   next: number;
@@ -25,8 +28,8 @@ export type InfinitePage = {
 const HomePage: NextPage = () => {
   const [listProduct, setListProduct] = useState<SeedProduct[]>([]);
   const [infinitePage, setInfinitePage] = useState<InfinitePage>();
+  const [openDetectDialog, setOpenDetectDialog] = useState<boolean>(false);
   const router = useRouter();
-  console.log(router.query);
 
   const getMoreListProduct = async () => {
     productAPI
@@ -60,6 +63,21 @@ const HomePage: NextPage = () => {
       >
         {listProduct ? (
           <>
+            <ImageUpload
+              open={openDetectDialog}
+              close={() => setOpenDetectDialog(false)}
+            ></ImageUpload>
+            <Button
+              fullWidth
+              size="medium"
+              sx={{ mt: 3 }}
+              type="submit"
+              variant="outlined"
+              color="primary"
+              onClick={() => setOpenDetectDialog(true)}
+            >
+              Nhận diện tranh
+            </Button>
             <Carousel
               listProduct={listProduct}
               title={"Tranh thịnh hành"}
@@ -76,7 +94,7 @@ const HomePage: NextPage = () => {
                 margin: "10px 0 15px 50px",
                 fontWeight: "500",
                 fontSize: "38px",
-                position:"relative",
+                position: "relative",
                 fontFamily:
                   "Mercury Display A,Mercury Display B,MercuryDisplay,serif",
               }}

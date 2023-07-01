@@ -177,7 +177,7 @@ const AddModal: FC<Props> = ({ productDetail }) => {
                 textAlign={"center"}
                 marginBottom={"10px"}
               >
-                {productDetail ? "Thêm sản phẩm" : "Cập nhập sản phẩm"}
+                {productDetail ? "Cập nhập sản phẩm " : "Thêm sản phẩm"}
               </Typography>
             </Grid>
             <Grid item xs={12}>

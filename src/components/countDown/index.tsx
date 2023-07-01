@@ -15,13 +15,14 @@ export const CountDown: FC<Props> = ({ endDate }) => {
           gap: "30px",
           padding: "20px",
           paddingLeft:'30px',
-          fontSize: "30px",
+          fontSize: "36px",
           letterSpacing: "2px",
           alignItems: "center",
           borderRadius:'20px',
+          textAlign:"center",
+          justifyContent:"center",
         }}
       >
-        <LockClockOutlined></LockClockOutlined>
         <Countdown date={endDate}>
           <Typography> Đấu giá đã kết thúc</Typography>
         </Countdown>

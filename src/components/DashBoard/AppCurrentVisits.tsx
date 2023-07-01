@@ -49,9 +49,9 @@ export const AppCurrentVisits: FC<Props> = ({
 }) => {
   const theme = useTheme();
 
-  const chartLabels = chartData.map((i) => i.label);
+  const chartLabels = chartData.map((i) => i._id);
 
-  const chartSeries = chartData.map((i) => i.value);
+  const chartSeries = chartData.map((i) => i.count);
 
   const chartOptions = useChart({
     colors: chartColors,

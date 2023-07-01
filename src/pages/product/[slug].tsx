@@ -44,7 +44,7 @@ const ProductPage: NextPage<Props> = () => {
     Promise.all([
       productAPI.getDetailProduct(router.query.slug),
       productAPI.getListAuctionPriceProduct(router.query.slug),
-      productAPI.getProduct(1,""),
+      productAPI.getProduct(1, ""),
     ]).then((values: any) => {
       setProductDetail(values[0]);
       setListPeopleAuctionProduct(values[1]);
@@ -75,16 +75,10 @@ const ProductPage: NextPage<Props> = () => {
             <AuctionModal product={productDetail} onClose={handleClose} />
           </Dialog>
           <Grid container spacing={3}>
-            <Grid item xs={12} sm={7}>
-              <Typography
-                sx={{
-                  fontSize: "50px",
-                }}
-              >
-                {productDetail.name}
-              </Typography>
+            <Grid item xs={12} sm={7} display={"flex"}>
+              <p className="text-6xl font-bold flex items-center">{productDetail.name}</p>
             </Grid>
-            <Grid item xs={12} sm={4} display={"flex"} alignItems={"center"}>
+            <Grid item xs={12} sm={4}>
               <CountDown
                 endDate={new Date(productDetail.end_auction)}
               ></CountDown>
@@ -111,8 +105,7 @@ const ProductPage: NextPage<Props> = () => {
                 </p>
                 <p className="text-2xl">
                   {" "}
-                  Định giá: {fCurrency(
-                    Number(productDetail.expert_price))} |
+                  Định giá: {fCurrency(Number(productDetail.expert_price))} |
                 </p>
                 <p className="text-2xl"> {productDetail.expert.work_from} </p>
               </Box>
@@ -121,7 +114,9 @@ const ProductPage: NextPage<Props> = () => {
               <DescriptionProduct product={productDetail}></DescriptionProduct>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <HighestPrice listPeopleAuctionProduct={listPeopleAuctionProduct}></HighestPrice>
+              <HighestPrice
+                listPeopleAuctionProduct={listPeopleAuctionProduct}
+              ></HighestPrice>
             </Grid>
             <Grid item xs={12} sm={12}>
               <Box sx={{ position: "relative", marginTop: "30px" }}>
@@ -145,10 +140,12 @@ const ProductPage: NextPage<Props> = () => {
             </Grid>
             <Grid item xs={12} sm={12}>
               <Box sx={{ position: "relative", marginTop: "30px" }}>
-                <Carousel listProduct={listProduct} title="Sản phẩm cùng loại"></Carousel>
+                <Carousel
+                  listProduct={listProduct}
+                  title="Sản phẩm cùng loại"
+                ></Carousel>
               </Box>
             </Grid>
-            
           </Grid>
         </ShopLayout>
       ) : (

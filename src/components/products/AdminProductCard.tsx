@@ -23,6 +23,8 @@ import productAPI from "../../pages/api/productApiFunction";
 import { AuctionOfProduct } from "../Type";
 import { toast } from "react-toastify";
 import ConfirmDialog from "../modal/ConfirmModal";
+import { fCurrency } from "../../utils/formatNumber";
+import { approvedUserAuctionProduct } from "../../activity-tracking/ActivityTrackingService";
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -73,32 +75,36 @@ export const AdminProductCard: React.FC<Props> = ({
 
   const approvedAuctionProduct = async () => {
     if (maxAuctionPeopleOfProduct?.id) {
-      productAPI
-        .approvedAuctionProduct(maxAuctionPeopleOfProduct.id)
-        .then((rs) => {
-          toast.success("Xác nhận đấu giá thành công!", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-        })
-        .catch((rs) => {
-          toast.error("Xác nhận thất bại!", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-        });
+      // productAPI
+      //   .approvedAuctionProduct(maxAuctionPeopleOfProduct.id)
+      //   .then((rs) => {
+          approvedUserAuctionProduct(
+            productItem,
+            maxAuctionPeopleOfProduct.auction_price
+          );
+        //   toast.success("Xác nhận đấu giá thành công!", {
+        //     position: "top-right",
+        //     autoClose: 5000,
+        //     hideProgressBar: false,
+        //     closeOnClick: true,
+        //     pauseOnHover: true,
+        //     draggable: true,
+        //     progress: undefined,
+        //     theme: "light",
+        //   });
+        // })
+        // .catch((rs) => {
+        //   toast.error("Xác nhận thất bại!", {
+        //     position: "top-right",
+        //     autoClose: 5000,
+        //     hideProgressBar: false,
+        //     closeOnClick: true,
+        //     pauseOnHover: true,
+        //     draggable: true,
+        //     progress: undefined,
+        //     theme: "light",
+        //   });
+        // });
     }
   };
 
@@ -124,7 +130,11 @@ export const AdminProductCard: React.FC<Props> = ({
       <ConfirmDialog
         title={
           maxAuctionPeopleOfProduct
-            ? `Xác nhận tài khoản ${maxAuctionPeopleOfProduct?.user?.name} với mức đấu giá ${maxAuctionPeopleOfProduct?.auction_price} cho sản phẩm ${maxAuctionPeopleOfProduct?.product?.name}`
+            ? `Xác nhận tài khoản ${
+                maxAuctionPeopleOfProduct?.user?.name
+              } với mức đấu giá ${fCurrency(
+                Number(maxAuctionPeopleOfProduct?.auction_price)
+              )} cho sản phẩm ${maxAuctionPeopleOfProduct?.product?.name}`
             : ""
         }
         open={openConfirmModal}

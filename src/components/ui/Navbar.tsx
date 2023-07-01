@@ -33,9 +33,9 @@ export const Navbar = ({ myProfile }: any) => {
       <Toolbar>
         <NextLink href="/" passHref>
           <Link display="flex" alignItems="center">
-            <p className="text-lg ml-10">Art</p>
+            <p className="text-lg ml-10 uppercase">Art</p>
             <p
-              className="ml-2 text-2xl"
+              className="ml-2 text-2xl uppercase"
             >
               Auction
             </p>

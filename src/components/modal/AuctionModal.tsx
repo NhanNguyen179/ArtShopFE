@@ -5,6 +5,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import auctionAPI from "../../pages/api/auction";
+import { userAddAuctionPrice } from "../../activity-tracking/ActivityTrackingService";
 
 const style = {
   border: "2px solid #000",
@@ -31,8 +32,11 @@ interface Props {
   onClose: () => void;
 }
 
-export const AuctionModal: FC<Props> = ({ product, onClose, myProfile }: any) => {
-  console.log({myProfile})
+export const AuctionModal: FC<Props> = ({
+  product,
+  onClose,
+  myProfile,
+}: any) => {
   const formik = useFormik({
     initialValues: {
       productId: product.id,
@@ -47,32 +51,36 @@ export const AuctionModal: FC<Props> = ({ product, onClose, myProfile }: any) =>
     }),
     onSubmit: async (values, helpers) => {
       try {
-        if(!myProfile.is_completed){
-          toast.error("Bạn chưa cập nhập đủ thông tin cá nhân cần thiết, vui lòng kiểm tra!", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
+        if (!myProfile.is_completed) {
+          toast.error(
+            "Bạn chưa cập nhập đủ thông tin cá nhân cần thiết, vui lòng kiểm tra!",
+            {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            }
+          );
           return;
         }
         const { productId, auctionPrice } = values;
-        await auctionAPI.createAuction(productId, auctionPrice);
-        toast.success("Đấu giá thành công!", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-        onClose();
+        // await auctionAPI.createAuction(productId, auctionPrice);
+        userAddAuctionPrice(product, auctionPrice);
+        // toast.success("Đấu giá thành công!", {
+        //   position: "top-right",
+        //   autoClose: 5000,
+        //   hideProgressBar: false,
+        //   closeOnClick: true,
+        //   pauseOnHover: true,
+        //   draggable: true,
+        //   progress: undefined,
+        //   theme: "light",
+        // });
+        // onClose();
       } catch (err) {
         toast.error("Đấu giá thất bại!", {
           position: "top-right",

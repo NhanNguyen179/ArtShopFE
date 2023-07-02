@@ -1,12 +1,21 @@
 import { useState } from "react";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
-import { Container, Dialog, Typography, Grid, Box } from "@mui/material";
+import {
+  Container,
+  Dialog,
+  Typography,
+  Grid,
+  Box,
+  DialogContent,
+  Icon,
+} from "@mui/material";
 import { Product } from "../Type";
 import productAPI from "../../pages/api/productApiFunction";
 import { useEffect } from "react";
 import { Carousel } from "../Carousel";
 import axios from "axios";
+import { CheckCircleOutline } from "@mui/icons-material";
 
 export default function ImageUpload({
   open,
@@ -17,7 +26,8 @@ export default function ImageUpload({
 }) {
   const [imageUrl, setImageUrl] = useState<any>(null);
   const [file, setFile] = useState<any>();
-  const [listProduct, setListProduct] = useState<Product[]>([]);
+  const [listProduct, setListProduct] = useState<Product[]>();
+  const [categoryDetect, setCategoryDetect] = useState<string>();
 
   const handleFileUpload = (event: any) => {
     const file = event.target.files[0];
@@ -31,16 +41,6 @@ export default function ImageUpload({
     reader.readAsDataURL(file);
   };
 
-  const fetchData = async () => {
-    Promise.all([productAPI.getProduct(1, "")]).then((values: any) => {
-      setListProduct(values[0].data);
-    });
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
   const handleDetectPicture = () => {
     if (file) {
       const formData = new FormData();
@@ -50,12 +50,12 @@ export default function ImageUpload({
           "https://art-shop.loca.lt/api/v1/products/detect_image/",
           formData
         )
-        .then(async (rs) => {
+        .then(async (rs: any) => {
+          setCategoryDetect(rs.data.name);
           const respone = await axios.get(
             `https://art-shop.loca.lt/api/v1/products/${rs.data.id}/get_product_of_category/`
           );
           setListProduct(respone.data);
-          console.log({ respone });
         });
     } else {
       return;
@@ -63,7 +63,7 @@ export default function ImageUpload({
   };
   return (
     <Dialog
-      style={{ zIndex: 1800, margin: "20px" }}
+      style={{ zIndex: 1800, margin: "10px", padding: "10px" }}
       open={open}
       keepMounted
       onClose={close}
@@ -72,72 +72,128 @@ export default function ImageUpload({
       fullWidth
       maxWidth={false}
     >
-      <Container
-        sx={{
-          mt: 3,
-          padding: 3,
-          display: "flex",
-          maxWidth: "auto !important",
-          flexDirection: "column",
-          gap: "14px",
-          justifyContent: "center",
-          alignItems: "center",
-          width: "auto",
-        }}
-      >
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={6} lg={12}>
-            <Typography variant="h4" textAlign={"center"} marginBottom={"10px"}>
-              {" "}
-              Gợi ý tranh theo sở thích
-            </Typography>
-          </Grid>
-          <Grid item xs={12} md={12} lg={12}>
-            <label htmlFor="upload-image">
-              <Button variant="contained" component="span" fullWidth>
-                Tải tranh
-              </Button>
-              <input
-                id="upload-image"
-                hidden
-                accept="image/*"
-                type="file"
-                onChange={handleFileUpload}
-              />
-            </label>
-          </Grid>
-          <Grid item xs={12} md={12} lg={12}>
-            <Button
-              fullWidth
-              size="medium"
-              type="submit"
-              variant="outlined"
-              color="primary"
-              onClick={() => handleDetectPicture()}
+      <DialogContent dividers className="dialog-content">
+        <Container
+          sx={{
+            mt: 3,
+            padding: 3,
+            display: "flex",
+            flexDirection: "column",
+            gap: "14px",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "auto",
+            maxWidth: "1200px",
+          }}
+        >
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6} lg={12}>
+              <Typography
+                variant="h4"
+                textAlign={"center"}
+                marginBottom={"10px"}
+              >
+                {" "}
+                Gợi ý tranh theo sở thích
+                <p className="italic text-md">
+                  {" "}
+                  *Hệ thống sẽ xử lí và gợi ý tranh phù hợp với sở thích của bạn
+                </p>
+              </Typography>
+            </Grid>
+            <Grid item xs={12} md={12} lg={12}>
+              <label htmlFor="upload-image">
+                <Button variant="contained" component="span" fullWidth>
+                  Tải tranh
+                </Button>
+                <input
+                  id="upload-image"
+                  hidden
+                  accept="image/*"
+                  type="file"
+                  onChange={handleFileUpload}
+                />
+              </label>
+            </Grid>
+
+            <Grid item xs={12} md={12} lg={6}>
+              {imageUrl && (
+                <img
+                  src={imageUrl}
+                  alt="Uploaded Image"
+                  height="300"
+                  width="300"
+                />
+              )}
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              md={12}
+              lg={6}
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "30px",
+              }}
             >
-              Nhận diện tranh
-            </Button>
+              {file && (
+                <Button
+                  fullWidth
+                  size="medium"
+                  type="submit"
+                  variant="outlined"
+                  color="primary"
+                  onClick={() => handleDetectPicture()}
+                  disabled={!file}
+                >
+                  Nhận diện tranh
+                </Button>
+              )}
+
+              {categoryDetect && (
+                <>
+                  <p className="text-2xl font-medium flex gap-2">
+                    {" "}
+                    Tranh thuộc thể loại:
+                    <p className="italic font-bold text-2xl text-green-500 flex gap-1">
+                      {" "}
+                      {categoryDetect}{" "}
+                      <Icon
+                        sx={{
+                          height: "32px",
+                        }}
+                      >
+                        <CheckCircleOutline></CheckCircleOutline>
+                      </Icon>
+                    </p>
+                  </p>
+                  {!listProduct && (
+                    <p className="text-2xl font-medium">
+                      {" "}
+                      Vui lòng đợi tranh dành cho bạn...
+                    </p>
+                  )}
+                </>
+              )}
+            </Grid>
+            <Grid item xs={12} md={12} lg={12}>
+              <Box sx={{ position: "relative", marginTop: "30px" }}>
+                {listProduct ? (
+                  <Carousel
+                    listProduct={listProduct}
+                    title="Sản phẩm cùng loại"
+                  ></Carousel>
+                ) : (
+                  <></>
+                )}
+              </Box>
+            </Grid>
           </Grid>
-          <Grid item xs={12} md={6} lg={6}>
-            {imageUrl && (
-              <img src={imageUrl} alt="Uploaded Image" height="300" />
-            )}
-          </Grid>
-          <Grid item xs={12} md={6} lg={6}>
-            <Typography variant="body2" color={"green"} textAlign={"center"}>
-              ABC
-            </Typography>
-          </Grid>
-          <Grid item xs={12} md={12} lg={12}>
-            <Box sx={{ position: "relative", marginTop: "30px" }}>
-              <Carousel
-                listProduct={listProduct}
-                title="Có thể bạn sẽ thích"
-              ></Carousel>
-            </Box>
-          </Grid>
-        </Grid>
-      </Container>
+        </Container>
+      </DialogContent>
     </Dialog>
   );
 }

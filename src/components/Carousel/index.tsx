@@ -40,7 +40,7 @@ export const Carousel: FC<Props> = ({ listProduct, title }) => {
         <div id="borderBottom"></div>
       </Typography>
       <Slider {...settings}>
-        {listProduct.map((product) => (
+        {listProduct?.map((product) => (
           <SuggestProductItem product={product} key={product.slug} />
         ))}
       </Slider>

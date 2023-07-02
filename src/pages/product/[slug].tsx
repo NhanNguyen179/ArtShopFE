@@ -25,6 +25,7 @@ import { visitProductDetailPageEvent } from "../../activity-tracking/ActivityTra
 import { HighestPrice } from "../../components/HighestPrice";
 import { Carousel } from "../../components/Carousel";
 import { fCurrency } from "../../utils/formatNumber";
+import axios from "axios";
 interface Props {
   product: SeedProduct;
 }
@@ -35,6 +36,7 @@ const ProductPage: NextPage<Props> = () => {
   const [listPeopleAuctionProduct, setListPeopleAuctionProduct] =
     useState<UserAuctionProduct[]>();
   const [listProduct, setListProduct] = useState<Product[]>([]);
+  const [suggestListProduct, setSuggestListProduct] = useState<Product[]>([]);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -45,11 +47,15 @@ const ProductPage: NextPage<Props> = () => {
       productAPI.getDetailProduct(router.query.slug),
       productAPI.getListAuctionPriceProduct(router.query.slug),
       productAPI.getProduct(1, ""),
+      axios.get(
+        `https://art-shop.loca.lt/api/v1/products/${router.query.slug}/get_suggest_list_of_product/`
+      ),
     ]).then((values: any) => {
       setProductDetail(values[0]);
       setListPeopleAuctionProduct(values[1]);
       visitProductDetailPageEvent(values[0]);
       setListProduct(values[2].data);
+      setSuggestListProduct(values[3].data);
     });
   };
 
@@ -60,7 +66,7 @@ const ProductPage: NextPage<Props> = () => {
   }, [router, open]);
   return (
     <>
-      {productDetail && listPeopleAuctionProduct && listProduct ? (
+      {productDetail && listPeopleAuctionProduct && listProduct && suggestListProduct ? (
         <ShopLayout
           title={productDetail.name}
           pageDescription={productDetail.description}
@@ -141,7 +147,7 @@ const ProductPage: NextPage<Props> = () => {
             <Grid item xs={12} sm={12}>
               <Box sx={{ position: "relative", marginTop: "30px" }}>
                 <Carousel
-                  listProduct={listProduct}
+                  listProduct={suggestListProduct}
                   title="Sản phẩm cùng loại"
                 ></Carousel>
               </Box>

@@ -13,13 +13,14 @@ import type { NextPage } from "next";
 import { ShopLayout } from "../components/layouts";
 import { ProductList } from "../components/products";
 import { FullScreenLoading } from "../components/ui";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import productAPI from "./api/productApiFunction";
 import { SeedProduct } from "../database/seed-data";
-import InfiniteScroll from "react-infinite-scroll-component";
 import { useRouter } from "next/router";
 import { Carousel } from "../components/Carousel";
 import ImageUpload from "../components/ImageUpload";
+import { Product } from "../components/Type";
+import axios from "axios";
 
 export type InfinitePage = {
   next: number;
@@ -28,6 +29,9 @@ export type InfinitePage = {
 const HomePage: NextPage = () => {
   const [listProduct, setListProduct] = useState<SeedProduct[]>([]);
   const [infinitePage, setInfinitePage] = useState<InfinitePage>();
+  const [trendingProduct, setTrendingProduct] = useState<Product[]>();
+  const [forYouProduct, setForYouProduct] = useState<Product[]>();
+
   const [openDetectDialog, setOpenDetectDialog] = useState<boolean>(false);
   const router = useRouter();
 
@@ -43,10 +47,28 @@ const HomePage: NextPage = () => {
         }
       });
   };
+
+  const fetchTrackingProduct = () => {
+    Promise.all([
+      axios.get(
+        "https://art-shop.loca.lt/api/v1/products/get_product_trending/"
+      ),
+      axios.get(
+        "https://art-shop.loca.lt/api/v1/products/get_product_suggest_for_user/"
+      ),
+    ]).then((values: any) => {
+      setTrendingProduct(values[0].data);
+      setForYouProduct(values[1].data);
+    });
+  };
   useEffect(() => {
     setListProduct([]);
     getMoreListProduct();
   }, [router]);
+
+  useEffect(() => {
+    fetchTrackingProduct();
+  }, []);
 
   return (
     <ShopLayout
@@ -61,7 +83,7 @@ const HomePage: NextPage = () => {
           paddingTop: 3,
         }}
       >
-        {listProduct ? (
+        {listProduct && trendingProduct && forYouProduct ? (
           <>
             <ImageUpload
               open={openDetectDialog}
@@ -79,12 +101,12 @@ const HomePage: NextPage = () => {
               Nhận diện tranh
             </Button>
             <Carousel
-              listProduct={listProduct}
+              listProduct={trendingProduct}
               title={"Tranh thịnh hành"}
             ></Carousel>
             <br></br>
             <Carousel
-              listProduct={listProduct}
+              listProduct={forYouProduct}
               title={"Dành cho bạn"}
             ></Carousel>
             <br></br>

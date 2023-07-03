@@ -130,8 +130,8 @@ const AddModal: FC<Props> = ({ productDetail }) => {
               });
             });
         } else {
-          productAPI.addProduct(requestData).then(async (rs) => {
-            // await productAPI.addPicture(rs.id, file);
+          productAPI.addProduct(requestData).then(async (rs: any) => {
+            await productAPI.addPicture(rs.id, file);
             toast.success("Thêm sản phẩm thành công!", {
               position: "top-right",
               autoClose: 5000,

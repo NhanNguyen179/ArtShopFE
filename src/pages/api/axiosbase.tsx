@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosBase = axios.create({
-  baseURL: "https://art-shop.onrender.com/api/v1/",
+  baseURL: "https://34.198.71.168:8000/api/v1/",
 });
 
 // Add a request interceptor

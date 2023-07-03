@@ -21,6 +21,7 @@ import { Carousel } from "../components/Carousel";
 import ImageUpload from "../components/ImageUpload";
 import { Product } from "../components/Type";
 import axios from "axios";
+import detectAPI from "./api/detect_function";
 
 export type InfinitePage = {
   next: number;
@@ -50,12 +51,8 @@ const HomePage: NextPage = () => {
 
   const fetchTrackingProduct = () => {
     Promise.all([
-      axios.get(
-        "https://art-shop.loca.lt/api/v1/products/get_product_trending/"
-      ),
-      axios.get(
-        "https://art-shop.loca.lt/api/v1/products/get_product_suggest_for_user/"
-      ),
+      detectAPI.getProductTrending(),
+      detectAPI.getProductTrending(),
     ]).then((values: any) => {
       setTrendingProduct(values[0].data);
       setForYouProduct(values[1].data);

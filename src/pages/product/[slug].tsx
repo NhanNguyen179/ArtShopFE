@@ -47,9 +47,7 @@ const ProductPage: NextPage<Props> = () => {
       productAPI.getDetailProduct(router.query.slug),
       productAPI.getListAuctionPriceProduct(router.query.slug),
       productAPI.getProduct(1, ""),
-      axios.get(
-        `https://art-shop.loca.lt/api/v1/products/${router.query.slug}/get_suggest_list_of_product/`
-      ),
+      productAPI.getSuggestListOfProduct(router.query.slug),
     ]).then((values: any) => {
       setProductDetail(values[0]);
       setListPeopleAuctionProduct(values[1]);
@@ -66,7 +64,10 @@ const ProductPage: NextPage<Props> = () => {
   }, [router, open]);
   return (
     <>
-      {productDetail && listPeopleAuctionProduct && listProduct && suggestListProduct ? (
+      {productDetail &&
+      listPeopleAuctionProduct &&
+      listProduct &&
+      suggestListProduct ? (
         <ShopLayout
           title={productDetail.name}
           pageDescription={productDetail.description}
@@ -82,7 +83,9 @@ const ProductPage: NextPage<Props> = () => {
           </Dialog>
           <Grid container spacing={3}>
             <Grid item xs={12} sm={7} display={"flex"}>
-              <p className="text-6xl font-bold flex items-center">{productDetail.name}</p>
+              <p className="text-6xl font-bold flex items-center">
+                {productDetail.name}
+              </p>
             </Grid>
             <Grid item xs={12} sm={4}>
               <CountDown

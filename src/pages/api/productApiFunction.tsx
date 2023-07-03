@@ -36,6 +36,17 @@ const productAPI = {
       `products/get_list_product_expire_auction/?page=${page.toString()}`
     );
   },
+  async getSuggestListOfProduct(productId: string | string[] | undefined) {
+    return await axiosBase.get(
+      `products/${productId}/get_suggest_list_of_product/`
+    );
+  },
+  async detectImage(formData: FormData) {
+    return await axiosBase.post(`products/detect_image/`, formData);
+  },
+  async getProductOfCategory(categoryId: string) {
+    return await axiosBase.get(`products/${categoryId}/get_product_of_category/`);
+  },
 };
 
 export default productAPI;

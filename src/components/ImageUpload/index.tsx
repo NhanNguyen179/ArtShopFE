@@ -45,18 +45,11 @@ export default function ImageUpload({
     if (file) {
       const formData = new FormData();
       formData.append("files", file);
-      axios
-        .post(
-          "https://art-shop.loca.lt/api/v1/products/detect_image/",
-          formData
-        )
-        .then(async (rs: any) => {
-          setCategoryDetect(rs.data.name);
-          const respone = await axios.get(
-            `https://art-shop.loca.lt/api/v1/products/${rs.data.id}/get_product_of_category/`
-          );
-          setListProduct(respone.data);
-        });
+      productAPI.detectImage(formData).then(async (rs: any) => {
+        setCategoryDetect(rs.data.name);
+        const respone = await productAPI.getProductOfCategory(rs.data.id);
+        setListProduct(respone.data);
+      });
     } else {
       return;
     }

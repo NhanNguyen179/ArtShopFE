@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosTracking = axios.create({
-  baseURL: "http://localhost:5000/event-tracking/",
+  baseURL: "https://activity-tracking-art-shop.vercel.app/",
 });
 
 // Add a request interceptor

@@ -1,7 +1,9 @@
 import axios from "axios";
+// const https = require('https');
+
 
 const axiosBase = axios.create({
-  baseURL: "https://34.198.71.168:8000/api/v1/",
+  baseURL: "https://ec2-34-198-71-168.compute-1.amazonaws.com:8000/api/v1/",
 });
 
 // Add a request interceptor

@@ -52,10 +52,11 @@ const HomePage: NextPage = () => {
   const fetchTrackingProduct = () => {
     Promise.all([
       detectAPI.getProductTrending(),
-      detectAPI.getProductTrending(),
+      detectAPI.getProductSuggestForUser(),
     ]).then((values: any) => {
-      setTrendingProduct(values[0].data);
-      setForYouProduct(values[1].data);
+      console.log({values})
+      setTrendingProduct(values[0]);
+      setForYouProduct(values[1]);
     });
   };
   useEffect(() => {

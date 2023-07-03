@@ -4,7 +4,7 @@ import axiosBase from "./axiosbase";
 const productAPI = {
   async getProduct(page: number, searchString: string | string[] | undefined) {
     return await axiosBase.get(
-      `products?page=${page}&search=${searchString ?? ""}`
+      `products/?page=${page}&search=${searchString ?? ""}`
     );
   },
   async addProduct(data: any) {

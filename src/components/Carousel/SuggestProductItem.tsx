@@ -35,7 +35,7 @@ export const SuggestProductItem: FC<Props> = ({ product }) => {
         <NextLink href={`/product/${product.id}`} passHref>
           <Link>
             <img
-              src={`${product.images[0]}`}
+              src={`${process.env.IMAGE_DOMAIN}${product.images[0]}`}
               srcSet={`${product.images[0]}`}
               alt={product.name}
               style={{ width:"300px", height:"250px" }}

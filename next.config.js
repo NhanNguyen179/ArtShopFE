@@ -4,6 +4,7 @@ const nextConfig = {
   env: {
     ACTIVITY_TRACKING_URL: 'https://activity-tracking-art-shop.vercel.app/',
     ENABLE_ACTIVITY_TRACKING: "true",
+    IMAGE_DOMAIN:"34.198.71.168:8000/media/",
   },
 
 }

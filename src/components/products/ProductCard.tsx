@@ -35,8 +35,8 @@ export const ProductCard: FC<Props> = ({ product }) => {
         <Link>
           <div style={{ maxWidth: "320px", height: "auto" }}>
             <img
-              src={`${product.images[0]}`}
-              srcSet={`${product.images[0]}`}
+              src={`${process.env.IMAGE_DOMAIN}${product.images[0]}`}
+              srcSet={`${process.env.IMAGE_DOMAIN}${product.images[0]}`}
               alt={product.name}
               className=" "
               loading="lazy"

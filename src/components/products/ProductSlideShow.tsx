@@ -13,7 +13,7 @@ export const ProductSlideShow: FC<Props> = ({ images }) => {
     <Zoom>
       <img
         alt="That Wanaka Tree, New Zealand by Laura Smetsers"
-        src={images[0]}
+        src={`${process.env.IMAGE_DOMAIN}${images[0]}`}
         width="100%"
         height="100%"
       />

@@ -145,7 +145,7 @@ export const AdminProductCard: React.FC<Props> = ({
         <CardHeader
           avatar={
             <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-              <img src={`${productItem.images[0]}`}></img>
+              <img src={`${process.env.IMAGE_DOMAIN}${productItem.images[0]}`}></img>
             </Avatar>
           }
           action={

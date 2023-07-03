@@ -45,7 +45,7 @@ const AppConversionRates = dynamic(
 );
 const DashBoardPage = () => {
   const theme = useTheme();
-  const [inforTracking, setInforTracking] = useState({
+  const [inforTracking, setInforTracking] = useState<any>({
     popularProduct: [],
     popularCategory: [],
     amountUserAddAuctionProduct: [],

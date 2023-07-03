@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: false,
   env: {
-    ACTIVITY_TRACKING_URL: 'http://localhost:5000/event-tracking',
+    ACTIVITY_TRACKING_URL: 'https://activity-tracking-art-shop.vercel.app/',
     ENABLE_ACTIVITY_TRACKING: "true",
   },
 

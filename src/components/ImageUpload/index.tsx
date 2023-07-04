@@ -46,8 +46,8 @@ export default function ImageUpload({
       const formData = new FormData();
       formData.append("files", file);
       productAPI.detectImage(formData).then(async (rs: any) => {
-        setCategoryDetect(rs.data.name);
-        const respone = await productAPI.getProductOfCategory(rs.data.id);
+        setCategoryDetect(rs.name);
+        const respone = await productAPI.getProductOfCategory(rs.id);
         setListProduct(respone.data);
       });
     } else {

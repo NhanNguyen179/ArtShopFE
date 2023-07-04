@@ -36,7 +36,7 @@ export const SuggestProductItem: FC<Props> = ({ product }) => {
           <Link>
             <img
               src={`${process.env.IMAGE_DOMAIN}${product.images[0]}`}
-              srcSet={`${product.images[0]}`}
+              srcSet={`${process.env.IMAGE_DOMAIN}${product.images[0]}`}
               alt={product.name}
               style={{ width:"300px", height:"250px" }}
               loading="lazy"

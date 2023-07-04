@@ -53,7 +53,7 @@ const ProductPage: NextPage<Props> = () => {
       setListPeopleAuctionProduct(values[1]);
       visitProductDetailPageEvent(values[0]);
       setListProduct(values[2].data);
-      setSuggestListProduct(values[3].data);
+      setSuggestListProduct(values[3]);
     });
   };
 

@@ -1,4 +1,4 @@
-import { AuctionOfProduct } from "../../components/Type";
+import { AuctionOfProduct, Product } from "../../components/Type";
 import axiosBase from "./axiosbase";
 
 const productAPI = {
@@ -44,7 +44,7 @@ const productAPI = {
   async detectImage(formData: FormData) {
     return await axiosBase.post(`products/detect_image/`, formData);
   },
-  async getProductOfCategory(categoryId: string) {
+  async getProductOfCategory(categoryId: string) : Promise<Product[]> {
     return await axiosBase.get(`products/${categoryId}/get_product_of_category/`);
   },
 };

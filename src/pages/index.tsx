@@ -40,6 +40,8 @@ const HomePage: NextPage = () => {
     productAPI
       .getProduct(infinitePage?.next ?? 1, router.query?.searchString)
       .then((rs: any) => {
+      console.log({rs})
+
         setInfinitePage(rs.page);
         if (listProduct !== undefined) {
           setListProduct((listProduct: any) => [...listProduct, ...rs.data]);

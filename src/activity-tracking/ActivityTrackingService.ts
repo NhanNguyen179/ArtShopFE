@@ -24,7 +24,7 @@ const saveActivityEvent = async (event: BaseEvent) => {
         data: event,
       };
       await axios.post(
-        `${ACTIVITY_TRACKING_URL}/${activityTrackingRoute}`,
+        `${ACTIVITY_TRACKING_URL}${activityTrackingRoute}`,
         requestOptions
       );
     }

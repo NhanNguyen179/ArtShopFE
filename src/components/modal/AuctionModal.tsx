@@ -68,19 +68,19 @@ export const AuctionModal: FC<Props> = ({
           return;
         }
         const { productId, auctionPrice } = values;
-        // await auctionAPI.createAuction(productId, auctionPrice);
+        await auctionAPI.createAuction(productId, auctionPrice);
         userAddAuctionPrice(product, auctionPrice);
-        // toast.success("Đấu giá thành công!", {
-        //   position: "top-right",
-        //   autoClose: 5000,
-        //   hideProgressBar: false,
-        //   closeOnClick: true,
-        //   pauseOnHover: true,
-        //   draggable: true,
-        //   progress: undefined,
-        //   theme: "light",
-        // });
-        // onClose();
+        toast.success("Đấu giá thành công!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        onClose();
       } catch (err) {
         toast.error("Đấu giá thất bại!", {
           position: "top-right",

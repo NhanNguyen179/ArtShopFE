@@ -75,36 +75,36 @@ export const AdminProductCard: React.FC<Props> = ({
 
   const approvedAuctionProduct = async () => {
     if (maxAuctionPeopleOfProduct?.id) {
-      // productAPI
-      //   .approvedAuctionProduct(maxAuctionPeopleOfProduct.id)
-      //   .then((rs) => {
+      productAPI
+        .approvedAuctionProduct(maxAuctionPeopleOfProduct.id)
+        .then((rs) => {
           approvedUserAuctionProduct(
             productItem,
             maxAuctionPeopleOfProduct.auction_price
           );
-        //   toast.success("Xác nhận đấu giá thành công!", {
-        //     position: "top-right",
-        //     autoClose: 5000,
-        //     hideProgressBar: false,
-        //     closeOnClick: true,
-        //     pauseOnHover: true,
-        //     draggable: true,
-        //     progress: undefined,
-        //     theme: "light",
-        //   });
-        // })
-        // .catch((rs) => {
-        //   toast.error("Xác nhận thất bại!", {
-        //     position: "top-right",
-        //     autoClose: 5000,
-        //     hideProgressBar: false,
-        //     closeOnClick: true,
-        //     pauseOnHover: true,
-        //     draggable: true,
-        //     progress: undefined,
-        //     theme: "light",
-        //   });
-        // });
+          toast.success("Xác nhận đấu giá thành công!", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        })
+        .catch((rs) => {
+          toast.error("Xác nhận thất bại!", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        });
     }
   };
 

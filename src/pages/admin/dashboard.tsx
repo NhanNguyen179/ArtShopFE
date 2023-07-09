@@ -142,14 +142,13 @@ const DashBoardPage = () => {
                 <Grid item xs={12} md={6} lg={8}>
                   <AppWebsiteVisits
                     title="Lượt truy cập trang web"
-                    chartLabels={inforTracking.getAmountUserAccessWebsite.dates}
+                    chartLabels={inforTracking.getAmountUserAccessWebsite[0]?.dates}
                     chartData={[
                       {
                         name: "Lượt truy cập",
                         type: "column",
                         fill: "lượt xem",
-                        data: inforTracking.getAmountUserAccessWebsite
-                          .sessionCounts,
+                        data: inforTracking.getAmountUserAccessWebsite[0]?.sessionCounts,
                       },
                     ]}
                   />

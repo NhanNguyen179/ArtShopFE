@@ -48,7 +48,7 @@ export const ProductCard: FC<Props> = ({ product }) => {
 
           <ImageListItemBar
             title={
-              <p className="font-bold text-3xl mb-1 uppercase">
+              <p className="font-medium text-3xl mb-1 uppercase italic">
                 {" "}
                 {product.name}
               </p>
@@ -60,7 +60,7 @@ export const ProductCard: FC<Props> = ({ product }) => {
             }}
             subtitle={
               <div className="w-full">
-                <p className="border-b border-gray-400 border-opacity-70 pb-2 text-lg font-light uppercase opacity-70">
+                <p className="border-b border-gray-400 border-opacity-70 pb-2 text-lg font-light uppercase opacity-70 italic">
                   {" "}
                   {product.author.name}
                 </p>

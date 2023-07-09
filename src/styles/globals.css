@@ -32,7 +32,10 @@ h1 h2 h3 h4 h5 span{
 .dialog-content::-webkit-scrollbar-track {
   background-color: transparent;
 }
-
+.MuiImageListItemBar-root{
+  font-family: 'Mercury Display A,Mercury Display B,MercuryDisplay,serif !important';
+  
+}
 .dialog-content::-webkit-scrollbar-thumb {
   background-color: transparent;
 }

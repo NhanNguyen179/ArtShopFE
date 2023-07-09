@@ -101,65 +101,65 @@ const AddModal: FC<Props> = ({ productDetail }) => {
       price: Yup.number().required("Vui lòng nhập giá bắt đầu"),
     }),
     onSubmit: async (values, helpers) => {
-      console.log({ values });
-      // try {
-      //   const requestData = {
-      //     name: values.name,
-      //     category: values.category,
-      //     author: values.author,
-      //     expert: values.expert,
+      try {
+        const requestData = {
+          name: values.name,
+          category: values.category,
+          author: values.author,
+          expert: values.expert,
 
-      //     sold: values.sold,
-      //     description: values.description,
-      //     price: values.price,
-      //     start_auction: values.start_auction,
-      //     end_auction: values.end_auction,
-      //     expert_price: values.expertPrice,
-      //   };
+          sold: values.sold,
+          description: values.description,
+          price: values.price,
+          start_auction: values.start_auction,
+          end_auction: values.end_auction,
+          expert_price: values.expertPrice,
+        };
 
-      //   if (productDetail) {
-      //     productAPI
-      //       .updateProduct(productDetail.id, requestData)
-      //       .then(async (rs: any) => {
-      //         // await productAPI.addPicture(rs.id, file);
-      //         toast.success("Cập nhập sản phẩm thành công!", {
-      //           position: "top-right",
-      //           autoClose: 5000,
-      //           hideProgressBar: false,
-      //           closeOnClick: true,
-      //           pauseOnHover: true,
-      //           draggable: true,
-      //           progress: undefined,
-      //           theme: "light",
-      //         });
-      //       });
-      //   } else {
-      //     productAPI.addProduct(requestData).then(async (rs: any) => {
-      //       await productAPI.addPicture(rs.id, file);
-      //       toast.success("Thêm sản phẩm thành công!", {
-      //         position: "top-right",
-      //         autoClose: 5000,
-      //         hideProgressBar: false,
-      //         closeOnClick: true,
-      //         pauseOnHover: true,
-      //         draggable: true,
-      //         progress: undefined,
-      //         theme: "light",
-      //       });
-      //     });
-      //   }
-      // } catch (err) {
-      //   toast.error("Lỗi!", {
-      //     position: "top-right",
-      //     autoClose: 5000,
-      //     hideProgressBar: false,
-      //     closeOnClick: true,
-      //     pauseOnHover: true,
-      //     draggable: true,
-      //     progress: undefined,
-      //     theme: "light",
-      //   });
-      // }
+        if (productDetail) {
+          productAPI
+            .updateProduct(productDetail.id, requestData)
+            .then(async (rs: any) => {
+              // await productAPI.addPicture(rs.id, file);
+              toast.success("Cập nhập sản phẩm thành công!", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+            });
+        } else {
+          productAPI.addProduct(requestData).then(async (rs: any) => {
+            await productAPI.addPicture(rs.id, file);
+            toast.success("Thêm sản phẩm thành công!", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
+          });
+        }
+        
+      } catch (err) {
+        toast.error("Lỗi!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
     },
   });
 

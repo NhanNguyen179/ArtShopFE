@@ -3,7 +3,7 @@ import axiosTracking from "./axiostracking";
 const activityTrackingAPI = {
   async getPopularProduct() {
     return await axiosTracking.get("get-popular-product");
-  }, 
+  },
   async getPopularCategory() {
     return await axiosTracking.get("get-popular-category");
   },
@@ -26,7 +26,9 @@ const activityTrackingAPI = {
     return await axiosTracking.get("get-total-approved-auction");
   },
   async getAmountUserAccessWebsite() {
-    return await axiosTracking.get("get-amount-user-access-website");
+    return await axiosTracking.get(
+      "get-amount-user-access-website/?groupByOption=day"
+    );
   },
 };
 

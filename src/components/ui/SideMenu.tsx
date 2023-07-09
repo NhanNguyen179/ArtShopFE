@@ -43,6 +43,10 @@ const userMenu = [
     link: "/auction_user",
     label: "Sản phẩm đang đấu giá",
   },
+  {
+    link: "/auction_user_expire",
+    label: "Sản phẩm đã đấu giá",
+  },
 ];
 const adminMenu = [
   {

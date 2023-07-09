@@ -10,6 +10,10 @@ import {
   Tabs,
   Tab,
   Pagination,
+  Input,
+  IconButton,
+  TextField,
+  InputAdornment,
 } from "@mui/material";
 import { DashBoardLayout } from "../../components/layouts/dashboard/layout";
 import AddModal from "../../components/modal/AddModal";
@@ -18,6 +22,7 @@ import { SeedProduct } from "../../database/seed-data";
 import productAPI from "../api/productApiFunction";
 import { FullScreenLoading } from "../../components/ui";
 import { AdminProductCard } from "../../components/products/AdminProductCard";
+import { ClearOutlined, SearchOutlined } from "@mui/icons-material";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -61,7 +66,7 @@ const ProductPage = () => {
   const [totalPageProduct, setTotalPageProduct] = useState<number>(1);
   const [totalPageProductExpire, setTotalPageProductExpire] =
     useState<number>(1);
-
+  const [searchString, setSearchString] = useState<string>("");
   const [listProductExpireAuction, setListProductExpireAuction] = useState<
     SeedProduct[]
   >([]);
@@ -77,6 +82,10 @@ const ProductPage = () => {
     setPageProduct(value);
   };
 
+  const handleSearch = (e: any) => {
+    setSearchString(e.target.value);
+  };
+
   const handleChangePageProductExpire = (
     event: React.ChangeEvent<unknown>,
     value: number
@@ -84,18 +93,22 @@ const ProductPage = () => {
     setPageProductExpire(value);
   };
   const getProducts = useCallback(async () => {
-    const respone: any = await productAPI.getProduct(pageProduct, "");
-    setListProduct(respone.data);
-    setTotalPageProduct(respone.total_page);
-  }, [pageProduct]);
+    const response: any = await productAPI.getProduct(
+      pageProduct,
+      searchString
+    );
+    setListProduct(response.data);
+    setTotalPageProduct(response.total_page);
+  }, [pageProduct, searchString]);
 
   const getProductsEXpire = useCallback(async () => {
-    const respone: any = await productAPI.getListProductExpireAuction(
-      pageProductExpire
+    const response: any = await productAPI.getListProductExpireAuction(
+      pageProductExpire,
+      searchString
     );
-    setTotalPageProductExpire(respone.total_page);
-    setListProductExpireAuction(respone.data);
-  }, [pageProductExpire]);
+    setTotalPageProductExpire(response.total_page);
+    setListProductExpireAuction(response.data);
+  }, [pageProductExpire, searchString]);
 
   useEffect(() => {
     if (value == 0) {
@@ -113,6 +126,9 @@ const ProductPage = () => {
             onClose={handleClose}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
+            fullWidth
+            keepMounted
+            maxWidth={"md"}
           >
             <AddModal></AddModal>
           </Dialog>
@@ -134,6 +150,28 @@ const ProductPage = () => {
                   <Tab label="Xác nhận sản phẩm" {...a11yProps(1)} />
                 </Tabs>
               </Box>
+              <Box
+                sx={{
+                  padding: "15px",
+                }}
+              >
+                <TextField
+                  fullWidth
+                  onChange={(e) => handleSearch(e)}
+                  value={searchString}
+                  id="standard-bare"
+                  variant="outlined"
+                  label="Tìm kiếm..."
+                  InputProps={{
+                    endAdornment: (
+                      <IconButton>
+                        <SearchOutlined />
+                      </IconButton>
+                    ),
+                  }}
+                />
+              </Box>
+
               <TabPanel value={value} index={0}>
                 <Stack spacing={1}>
                   <div>

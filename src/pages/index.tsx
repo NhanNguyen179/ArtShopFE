@@ -56,7 +56,6 @@ const HomePage: NextPage = () => {
       detectAPI.getProductTrending(),
       detectAPI.getProductSuggestForUser(),
     ]).then((values: any) => {
-      console.log({values})
       setTrendingProduct(values[0]);
       setForYouProduct(values[1]);
     });

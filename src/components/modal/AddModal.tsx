@@ -9,18 +9,23 @@ import {
   MenuItem,
   Dialog,
   IconButton,
+  Icon,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 import { Button } from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { FC, useEffect, useState } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 import authorAPI from "../../pages/api/author";
 import categoryAPI from "../../pages/api/cateogory";
 import productAPI from "../../pages/api/productApiFunction";
 import AddAuthorModal from "./AddAuthorModal";
-import { AddCircleRounded, ImportContacts } from "@mui/icons-material";
+import {
+  AddCircleRounded,
+  CheckCircleOutline,
+  ImportContacts,
+} from "@mui/icons-material";
 import { toast } from "react-toastify";
 import { SeedProduct } from "../../database/seed-data";
 import { FullScreenLoading } from "../ui";
@@ -29,8 +34,6 @@ import AddExpertModal from "./AddExpertModal";
 import expertApi from "../../pages/api/expertApi";
 
 const style = {
-  maxHeight: "600px",
-  overflow: "scroll",
   minWidth: "300px",
   boxShadow: 24,
   pt: 2,
@@ -48,6 +51,8 @@ const AddModal: FC<Props> = ({ productDetail }) => {
   const [listCategories, setListCategories] = useState([]);
   const [openAuthorModal, setOpenAuthorModal] = useState(false);
   const [openExpertModal, setOpenExpertModal] = useState(false);
+  const [imageUrl, setImageUrl] = useState<any>(null);
+  const [categoryDetect, setCategoryDetect] = useState<string>();
 
   const fetchData = async () => {
     Promise.all([
@@ -65,10 +70,8 @@ const AddModal: FC<Props> = ({ productDetail }) => {
     setFile(data);
   };
 
-  useEffect(() => {
-    !openAuthorModal && fetchData();
-  }, [openAuthorModal]);
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
       name: productDetail?.name || "",
       category: productDetail?.category.id ?? "",
@@ -98,66 +101,104 @@ const AddModal: FC<Props> = ({ productDetail }) => {
       price: Yup.number().required("Vui lòng nhập giá bắt đầu"),
     }),
     onSubmit: async (values, helpers) => {
-      try {
-        const requestData = {
-          name: values.name,
-          category: values.category,
-          author: values.author,
-          expert: values.expert,
+      console.log({ values });
+      // try {
+      //   const requestData = {
+      //     name: values.name,
+      //     category: values.category,
+      //     author: values.author,
+      //     expert: values.expert,
 
-          sold: values.sold,
-          description: values.description,
-          price: values.price,
-          start_auction: values.start_auction,
-          end_auction: values.end_auction,
-          expert_price: values.expertPrice,
-        };
+      //     sold: values.sold,
+      //     description: values.description,
+      //     price: values.price,
+      //     start_auction: values.start_auction,
+      //     end_auction: values.end_auction,
+      //     expert_price: values.expertPrice,
+      //   };
 
-        if (productDetail) {
-          productAPI
-            .updateProduct(productDetail.id, requestData)
-            .then(async (rs: any) => {
-              // await productAPI.addPicture(rs.id, file);
-              toast.success("Cập nhập sản phẩm thành công!", {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-              });
-            });
-        } else {
-          productAPI.addProduct(requestData).then(async (rs: any) => {
-            await productAPI.addPicture(rs.id, file);
-            toast.success("Thêm sản phẩm thành công!", {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-            });
-          });
-        }
-      } catch (err) {
-        toast.error("Lỗi!", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-      }
+      //   if (productDetail) {
+      //     productAPI
+      //       .updateProduct(productDetail.id, requestData)
+      //       .then(async (rs: any) => {
+      //         // await productAPI.addPicture(rs.id, file);
+      //         toast.success("Cập nhập sản phẩm thành công!", {
+      //           position: "top-right",
+      //           autoClose: 5000,
+      //           hideProgressBar: false,
+      //           closeOnClick: true,
+      //           pauseOnHover: true,
+      //           draggable: true,
+      //           progress: undefined,
+      //           theme: "light",
+      //         });
+      //       });
+      //   } else {
+      //     productAPI.addProduct(requestData).then(async (rs: any) => {
+      //       await productAPI.addPicture(rs.id, file);
+      //       toast.success("Thêm sản phẩm thành công!", {
+      //         position: "top-right",
+      //         autoClose: 5000,
+      //         hideProgressBar: false,
+      //         closeOnClick: true,
+      //         pauseOnHover: true,
+      //         draggable: true,
+      //         progress: undefined,
+      //         theme: "light",
+      //       });
+      //     });
+      //   }
+      // } catch (err) {
+      //   toast.error("Lỗi!", {
+      //     position: "top-right",
+      //     autoClose: 5000,
+      //     hideProgressBar: false,
+      //     closeOnClick: true,
+      //     pauseOnHover: true,
+      //     draggable: true,
+      //     progress: undefined,
+      //     theme: "light",
+      //   });
+      // }
     },
   });
+
+  useEffect(() => {
+    !openAuthorModal && fetchData();
+  }, [openAuthorModal]);
+
+  const handleDetectPicture = useCallback(
+    (file: File) => {
+      if (file) {
+        const formData = new FormData();
+        formData.append("files", file);
+        productAPI.detectImage(formData).then(async (rs: any) => {
+          setCategoryDetect(rs.name);
+          
+        });
+      } else {
+        return;
+      }
+    },
+    [formik.initialValues]
+  );
+
+  const handleFileUpload = useCallback(
+    (event: any) => {
+      const file = event.target.files[0];
+      setFile(file);
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        setImageUrl(reader.result);
+      };
+
+      reader.readAsDataURL(file);
+      handleDetectPicture(file);
+    },
+    [handleDetectPicture]
+  );
+
   return (
     <>
       {listAuthor && listCategories && listExpert ? (
@@ -180,15 +221,76 @@ const AddModal: FC<Props> = ({ productDetail }) => {
                 {productDetail ? "Cập nhập sản phẩm " : "Thêm sản phẩm"}
               </Typography>
             </Grid>
-            <Grid item xs={12}>
-              <input type="file" onChange={handleChange} />
-              {file && (
-                <div>
-                  <span>{file.name}</span>
-                  <img src={URL.createObjectURL(file)} className="mb-5" />
-                </div>
-              )}
-            </Grid>
+            {!productDetail && (
+              <>
+                <Grid item xs={12} md={12} lg={12}>
+                  <label htmlFor="upload-image">
+                    <Button variant="contained" component="span" fullWidth>
+                      Tải tranh
+                    </Button>
+                    <input
+                      id="upload-image"
+                      hidden
+                      accept="image/*"
+                      type="file"
+                      onChange={handleFileUpload}
+                    />
+                  </label>
+                </Grid>
+
+                <Grid item xs={12} md={12} lg={6}>
+                  {imageUrl && (
+                    <img
+                      src={imageUrl}
+                      alt="Uploaded Image"
+                      height="300"
+                      width="300"
+                    />
+                  )}
+                </Grid>
+                <Grid
+                  item
+                  xs={12}
+                  md={12}
+                  lg={6}
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: "30px",
+                  }}
+                >
+                  {file && !categoryDetect && (
+                    <p className="text-2xl font-medium">
+                      {" "}
+                      Vui lòng đợi nhận diện tranh...
+                    </p>
+                  )}
+
+                  {categoryDetect && (
+                    <>
+                      <p className="text-2xl font-medium flex gap-2">
+                        {" "}
+                        Tranh thuộc thể loại:
+                      </p>
+                      <p className="italic font-bold text-2xl text-green-500 flex gap-1">
+                        {" "}
+                        {categoryDetect}{" "}
+                        <Icon
+                          sx={{
+                            height: "32px",
+                          }}
+                        >
+                          <CheckCircleOutline></CheckCircleOutline>
+                        </Icon>
+                      </p>
+                    </>
+                  )}
+                </Grid>
+              </>
+            )}
+
             <Grid item xs={12}>
               <form noValidate onSubmit={formik.handleSubmit}>
                 <Stack spacing={3}>
@@ -213,7 +315,6 @@ const AddModal: FC<Props> = ({ productDetail }) => {
                     }
                     label="Thể loại tranh"
                     name="category"
-                    onBlur={formik.handleBlur}
                     onChange={formik.handleChange}
                     select
                     value={formik.values.category}
@@ -363,6 +464,9 @@ const AddModal: FC<Props> = ({ productDetail }) => {
                   type="submit"
                   variant="outlined"
                   color="primary"
+                  disabled={
+                    !productDetail ? (categoryDetect ? false : true) : false
+                  }
                 >
                   {!productDetail ? "Thêm sản phẩm" : "Cập nhật sản phẩm"}
                 </Button>

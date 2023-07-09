@@ -31,9 +31,14 @@ const productAPI = {
   async approvedAuctionProduct(idAuction: string) {
     return await axiosBase.put(`auction/${idAuction}/approve_auction/`);
   },
-  async getListProductExpireAuction(page: number) {
+  async getListProductExpireAuction(
+    page: number,
+    searchString: string
+  ): Promise<Product[]> {
     return await axiosBase.get(
-      `products/get_list_product_expire_auction/?page=${page.toString()}`
+      `products/get_list_product_expire_auction/?page=${
+        page.toString() ?? 0
+      }&search=${searchString}`
     );
   },
   async getSuggestListOfProduct(productId: string | string[] | undefined) {
@@ -44,8 +49,10 @@ const productAPI = {
   async detectImage(formData: FormData) {
     return await axiosBase.post(`products/detect_image/`, formData);
   },
-  async getProductOfCategory(categoryId: string) : Promise<Product[]> {
-    return await axiosBase.get(`products/${categoryId}/get_product_of_category/`);
+  async getProductOfCategory(categoryId: string): Promise<Product[]> {
+    return await axiosBase.get(
+      `products/${categoryId}/get_product_of_category/`
+    );
   },
 };
 

@@ -16,7 +16,7 @@ import NextLink from "next/link";
 import { FC, useMemo, useState } from "react";
 import { SeedProduct } from "../../database/seed-data";
 import InfoIcon from "@mui/icons-material/Info";
-import { compareAsc, format } from "date-fns";
+import {  format } from "date-fns";
 import { fCurrency } from "../../utils/formatNumber";
 
 interface Props {

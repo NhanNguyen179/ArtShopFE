@@ -70,6 +70,7 @@ const ProductPage = () => {
   const [listProductExpireAuction, setListProductExpireAuction] = useState<
     SeedProduct[]
   >([]);
+  
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
@@ -80,10 +81,6 @@ const ProductPage = () => {
     value: number
   ) => {
     setPageProduct(value);
-  };
-
-  const handleSearch = (e: any) => {
-    setSearchString(e.target.value);
   };
 
   const handleChangePageProductExpire = (
@@ -109,6 +106,10 @@ const ProductPage = () => {
     setTotalPageProductExpire(response.total_page);
     setListProductExpireAuction(response.data);
   }, [pageProductExpire, searchString]);
+
+  const handleSearch = (e: any) => {
+    setSearchString(e.target.value);
+  };
 
   useEffect(() => {
     if (value == 0) {

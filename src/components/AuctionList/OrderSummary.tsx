@@ -11,24 +11,26 @@ export const OrderSummary: FC<Props> = ({ totalAuctionOfUser }) => {
   return (
     <Grid container>
       <Grid item xs={6}>
-        <Typography>
-          Số lượng sản phẩm:{totalAuctionOfUser.amountOfAuction}
-        </Typography>
+        <p className="text-md font-medium">Số lượng sản phẩm:</p>
       </Grid>
       <Grid item xs={6} display="flex" justifyContent="end">
-        <Typography>{totalAuctionOfUser.amountOfAuction} </Typography>
+        <p className="text-md font-bold">
+          {totalAuctionOfUser.amountOfAuction}{" "}
+        </p>
       </Grid>
       <Grid item xs={6}>
-        <Typography>Tổng cộng:</Typography>
+        <p className="text-md font-medium">Tổng cộng:</p>
       </Grid>
       <Grid item xs={6} display="flex" justifyContent="end">
-        <Typography>{fCurrency(Number(totalAuctionOfUser.totalOfAuction))}</Typography>
+        <p className="text-md font-bold">
+          {fCurrency(Number(totalAuctionOfUser.totalOfAuction))}
+        </p>
       </Grid>
       <Grid item xs={6}>
-        <Typography>Thuế (%) :</Typography>
+        <p className="text-md font-medium">Thuế (%) :</p>
       </Grid>
       <Grid item xs={6} display="flex" justifyContent="end">
-        <Typography>{totalAuctionOfUser.tax * 100}%</Typography>
+        <p className="text-md font-bold">{totalAuctionOfUser.tax * 100}%</p>
       </Grid>
       <Divider
         sx={{
@@ -37,13 +39,13 @@ export const OrderSummary: FC<Props> = ({ totalAuctionOfUser }) => {
           mt: 2,
         }}
       />
-      <Grid item xs={6} sx={{ mt: 2 }}>
-        <Typography variant="subtitle1">Tổng số phải trả:</Typography>
+      <Grid item xs={6}>
+        <p className="text-md font-medium">Tổng số phải trả:</p>
       </Grid>
       <Grid item xs={6} display="flex" justifyContent="end">
-        <Typography variant="subtitle1">
+        <p className="text-md font-bold">
           {fCurrency(Math.round(totalAuctionOfUser.totalPay))}
-        </Typography>
+        </p>
       </Grid>
     </Grid>
   );

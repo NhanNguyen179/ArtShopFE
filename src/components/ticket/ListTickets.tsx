@@ -30,7 +30,7 @@ export const ListTickets: FC<Props> = ({ listPeopleAuctionProduct }) => {
             minHeight: "20px",
             padding: "12px 20px 12px 26px",
             top: "-35px",
-            left: "-60px",
+            left: "-20px",
             display: "flex",
             alignItems: "center",
             zIndex: "2",

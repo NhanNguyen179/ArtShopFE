@@ -32,7 +32,7 @@ export const HighestPrice: FC<Props> = ({ listPeopleAuctionProduct }) => {
                 background: "white !important",
                 minWidth: "200px",
                 top: "-25px",
-                left: "30px",
+                left: "-45px",
                 color: "black",
                 paddingLeft: "20px",
                 paddingRight: "20px",

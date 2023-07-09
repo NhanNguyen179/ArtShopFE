@@ -28,7 +28,7 @@ export type User = {
   total_auction_price: number;
 };
 
-export interface Product {
+export type Product = {
   description: string;
   images: string[];
   slug: string;
@@ -53,7 +53,7 @@ export interface Product {
   expert: Expert;
   expert_price?: number;
   is_completed: boolean;
-}
+};
 
 export type AuctionOfProduct = {
   id: string;
@@ -80,7 +80,6 @@ export type UserAuctionProduct = {
   auction_price: string;
   create_at: string;
 };
-
 
 export type ListAuctionOfUser = {
   product: Product;

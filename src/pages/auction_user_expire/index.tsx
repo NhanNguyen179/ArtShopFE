@@ -10,7 +10,7 @@ import {
 import { AuctionList, OrderSummary } from "../../components/AuctionList";
 import { ShopLayout } from "../../components/layouts/ShopLayout";
 
-const CartPage = () => {
+const AuctionUserExpire = () => {
   return (
     <ShopLayout
       title="Carrito - 3"
@@ -24,11 +24,11 @@ const CartPage = () => {
 
       <Grid container spacing={2}>
         <Grid item xs={12} sm={12}>
-          <AuctionList editable />
+          <AuctionList editable isExpire={true} />
         </Grid>
       </Grid>
     </ShopLayout>
   );
 };
 
-export default CartPage;
+export default AuctionUserExpire;

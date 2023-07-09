@@ -119,16 +119,17 @@ const ProductPage: NextPage<Props> = () => {
                 <p className="text-2xl"> {productDetail.expert.work_from} </p>
               </Box>
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <DescriptionProduct product={productDetail}></DescriptionProduct>
-            </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={12}>
               <HighestPrice
                 listPeopleAuctionProduct={listPeopleAuctionProduct}
               ></HighestPrice>
             </Grid>
-            <Grid item xs={12} sm={12}>
-              <Box sx={{ position: "relative", marginTop: "30px" }}>
+            <Grid item xs={12} sm={6}>
+              <DescriptionProduct product={productDetail}></DescriptionProduct>
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <Box sx={{ position: "relative"}}>
                 <ListTickets
                   listPeopleAuctionProduct={listPeopleAuctionProduct}
                 ></ListTickets>

@@ -1,11 +1,13 @@
 import { Box, Button, Grid, Stack, TextField, Typography } from "@mui/material";
 import { SeedProduct } from "../../database/seed-data";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import auctionAPI from "../../pages/api/auction";
 import { userAddAuctionPrice } from "../../activity-tracking/ActivityTrackingService";
+import ConfirmDialog from "./ConfirmModal";
+import { fCurrency } from "../../utils/formatNumber";
 
 const style = {
   border: "2px solid #000",
@@ -37,6 +39,8 @@ export const AuctionModal: FC<Props> = ({
   onClose,
   myProfile,
 }: any) => {
+  const [openConfirmModal, setOpenConfirmModal] = useState(false);
+
   const formik = useFormik({
     initialValues: {
       productId: product.id,
@@ -95,8 +99,21 @@ export const AuctionModal: FC<Props> = ({
       }
     },
   });
+
   return (
     <Box sx={style}>
+      <ConfirmDialog
+        title={
+          formik.values.auctionPrice
+            ? `Xác nhận tham gia đấu giá với mức giá ${fCurrency(
+                formik.values.auctionPrice
+              )}  cho tranh ${product?.name}`
+            : ""
+        }
+        open={openConfirmModal}
+        setOpen={setOpenConfirmModal}
+        onConfirm={formik.handleSubmit}
+      ></ConfirmDialog>
       <Typography
         id="modal-modal-title"
         variant="h1"
@@ -140,10 +157,12 @@ export const AuctionModal: FC<Props> = ({
           <Button
             fullWidth
             size="medium"
+            type="button"
             sx={{ mt: 3 }}
-            type="submit"
+            onClick={() => setOpenConfirmModal(true)}
             variant="outlined"
             color="primary"
+            disabled={formik.values.auctionPrice < formik.values.highestPrice}
           >
             Đấu giá sản phẩm
           </Button>

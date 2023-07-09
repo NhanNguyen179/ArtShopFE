@@ -54,6 +54,7 @@ const DashBoardPage = () => {
     popularBrowser: [],
     totalUserAddAuctionPrice: [],
     totalApprovedAuction: [],
+    getAmountUserAccessWebsite: [],
   });
   const getInformationTracking = () => {
     Promise.all([
@@ -65,6 +66,7 @@ const DashBoardPage = () => {
       activityTrackingAPI.getRecentAddAuctionPrice(),
       activityTrackingAPI.getTotalApprovedAuction(),
       activityTrackingAPI.getTotalUserAddAuctionPrice(),
+      activityTrackingAPI.getAmountUserAccessWebsite(),
     ]).then((response: any) => {
       let temp = {
         popularProduct: [],
@@ -75,6 +77,7 @@ const DashBoardPage = () => {
         popularBrowser: [],
         totalUserAddAuctionPrice: [],
         totalApprovedAuction: [],
+        getAmountUserAccessWebsite: [],
       };
       temp.amountSessionId = response[0];
       temp.amountUserAddAuctionProduct = response[1];
@@ -84,8 +87,9 @@ const DashBoardPage = () => {
       temp.recentAddAuctionPrice = response[5];
       temp.totalApprovedAuction = response[6];
       temp.totalUserAddAuctionPrice = response[7];
+      temp.getAmountUserAccessWebsite = response[8];
+
       setInforTracking(temp);
-      console.log({ temp });
     });
   };
   useEffect(() => {
@@ -113,10 +117,7 @@ const DashBoardPage = () => {
                 <Grid item xs={12} sm={6} md={4}>
                   <AppWidgetSummary
                     title="Người đã đấu giá"
-                    total={
-                      inforTracking.amountUserAddAuctionProduct[0]
-                        ?.result
-                    }
+                    total={inforTracking.amountUserAddAuctionProduct[0]?.result}
                     icon={<ImportContacts></ImportContacts>}
                   />
                 </Grid>
@@ -124,8 +125,7 @@ const DashBoardPage = () => {
                 <Grid item xs={12} sm={6} md={4}>
                   <AppWidgetSummary
                     title="Lượt đấu giá"
-                    total={inforTracking.totalUserAddAuctionPrice[0]
-                      ?.result}
+                    total={inforTracking.totalUserAddAuctionPrice[0]?.result}
                     color="info"
                     icon={<ImportContacts></ImportContacts>}
                   />
@@ -134,8 +134,7 @@ const DashBoardPage = () => {
                 <Grid item xs={12} sm={6} md={4}>
                   <AppWidgetSummary
                     title="Số lượng tranh đấu giá thành công"
-                    total={inforTracking.totalApprovedAuction[0]
-                      ?.result}
+                    total={inforTracking.totalApprovedAuction[0]?.result}
                     color="warning"
                     icon={<ImportContacts></ImportContacts>}
                   />
@@ -143,25 +142,14 @@ const DashBoardPage = () => {
                 <Grid item xs={12} md={6} lg={8}>
                   <AppWebsiteVisits
                     title="Lượt truy cập trang web"
-                    chartLabels={[
-                      "01/01/2003",
-                      "02/01/2003",
-                      "03/01/2003",
-                      "04/01/2003",
-                      "05/01/2003",
-                      "06/01/2003",
-                      "07/01/2003",
-                      "08/01/2003",
-                      "09/01/2003",
-                      "10/01/2003",
-                      "11/01/2003",
-                    ]}
+                    chartLabels={inforTracking.getAmountUserAccessWebsite.dates}
                     chartData={[
                       {
-                        name: "Team A",
+                        name: "Lượt truy cập",
                         type: "column",
                         fill: "lượt xem",
-                        data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30],
+                        data: inforTracking.getAmountUserAccessWebsite
+                          .sessionCounts,
                       },
                     ]}
                   />

@@ -25,6 +25,9 @@ const activityTrackingAPI = {
   async getTotalApprovedAuction() {
     return await axiosTracking.get("get-total-approved-auction");
   },
+  async getAmountUserAccessWebsite() {
+    return await axiosTracking.get("get-amount-user-access-website");
+  },
 };
 
 export default activityTrackingAPI;

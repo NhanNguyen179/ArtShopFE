@@ -71,8 +71,8 @@ const HomePage: NextPage = () => {
 
   return (
     <ShopLayout
-      title={"Art Auction - Home"}
-      pageDescription={"Find best Tesla products"}
+      title={"Art Auction - Trang chủ"}
+      pageDescription={"Website đấu giá"}
       isPublic={true}
     >
       {" "}

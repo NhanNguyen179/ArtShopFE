@@ -13,7 +13,7 @@ import { ShopLayout } from "../../components/layouts/ShopLayout";
 const CartPage = () => {
   return (
     <ShopLayout
-      title="Carrito - 3"
+      title="Danh sách đấu giá của bạn"
       pageDescription={"Danh sách đấu giá của bạn"}
       isPublic={true}
     >

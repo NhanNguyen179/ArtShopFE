@@ -98,7 +98,7 @@ const DashBoardPage = () => {
   return (
     <DashBoardLayout isPublic={false}>
       <Head>
-        <title>DashBoard Page</title>
+        <title>Trang hoạt động người dùng</title>
       </Head>
       <Box
         component="main"

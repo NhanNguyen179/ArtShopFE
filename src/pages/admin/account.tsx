@@ -8,7 +8,7 @@ const AccountPage = () => {
   return (
     <DashBoardLayout isPublic={false}>
       <Head>
-        <title>Account Page</title>
+        <title>Trang quản lí tài khoản</title>
       </Head>
       <Box
         component="main"

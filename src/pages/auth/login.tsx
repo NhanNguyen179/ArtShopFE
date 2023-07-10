@@ -20,6 +20,7 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/router";
 import authAPI from "../api/auth";
+import { toast } from "react-toastify";
 
 export interface ILoginFormInput {
   email: string;
@@ -48,16 +49,24 @@ const LoginPage = () => {
           email: values.email,
           password: values.password,
         };
-        console.log(requestData);
-        const authData : any = await authAPI.login(requestData);
+        const authData: any = await authAPI.login(requestData);
         localStorage.setItem("token", authData.access_token);
         if (authData.role === "admin") {
           router.push("/admin/product");
         } else {
           router.push("/");
         }
-      } catch (err) {
-        
+      } catch (err: any) {
+        toast.error(err.detail, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
       }
     },
   });

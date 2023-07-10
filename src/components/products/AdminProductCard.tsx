@@ -141,7 +141,7 @@ export const AdminProductCard: React.FC<Props> = ({
         setOpen={setOpenConfirmModal}
         onConfirm={approvedAuctionProduct}
       ></ConfirmDialog>
-      <Card sx={{ maxWidth: 345 }}>
+      <Card sx={{ maxWidth: 345}}>
         <CardHeader
           avatar={
             <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -161,7 +161,7 @@ export const AdminProductCard: React.FC<Props> = ({
 
         <CardContent>
           <Typography variant="body2" color="text.secondary">
-            {productItem.description}
+            {productItem.description.slice(0,200)}
           </Typography>
         </CardContent>
         <CardActions disableSpacing>
@@ -193,7 +193,7 @@ export const AdminProductCard: React.FC<Props> = ({
             <CardMedia
               component="img"
               height="100"
-              image={`${productItem.images[0]}`}
+              image={`${process.env.IMAGE_DOMAIN}${productItem.images[0]}`}
               alt="Paella dish"
             />
           </CardContent>

@@ -45,7 +45,7 @@ interface Props {
   productDetail?: SeedProduct;
   close?: () => void;
 }
-const AddModal: FC<Props> = ({ productDetail, close}) => {
+const AddModal: FC<Props> = ({ productDetail, close }) => {
   const [file, setFile] = useState<File>();
   const [listAuthor, setListAuthor] = useState([]);
   const [listExpert, setListExpert] = useState([]);
@@ -133,7 +133,7 @@ const AddModal: FC<Props> = ({ productDetail, close}) => {
                 theme: "light",
               });
             });
-            close();
+          close && close();
         } else {
           productAPI.addProduct(requestData).then(async (rs: any) => {
             await productAPI.addPicture(rs.id, file);
@@ -148,7 +148,7 @@ const AddModal: FC<Props> = ({ productDetail, close}) => {
               theme: "light",
             });
           });
-          close();
+          close && close();
         }
       } catch (err) {
         toast.error("Lỗi!", {

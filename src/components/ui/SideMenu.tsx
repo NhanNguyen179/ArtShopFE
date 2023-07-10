@@ -130,7 +130,7 @@ export const SideMenu = ({ myProfile }: any) => {
                 <ListItemText primary={"Sản phẩm"} />
               </ListItem>
               <ListItem button>
-                <ListItemIcon onClick={() => navigateTo("/admin/user")}>
+                <ListItemIcon onClick={() => navigateTo("/admin/dashboard")}>
                   <AdminPanelSettings />
                 </ListItemIcon>
                 <ListItemText primary={"Hoạt động người dùng"} />

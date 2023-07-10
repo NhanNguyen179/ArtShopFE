@@ -24,8 +24,9 @@ export const AppConversionRates: FC<Props> =  ({ title, subheader, chartData, ..
   const chartSeries = chartData.map((i) => i.count);
 
   const chartOptions = useChart({
+    colors : ['#20bbe9', '#4576b5'],
+
     tooltip: {
-      color:"red",
       marker: { show: false },
       y: {
         formatter: (seriesName : any) => fNumber(seriesName),

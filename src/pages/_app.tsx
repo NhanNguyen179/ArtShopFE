@@ -12,7 +12,6 @@ import { createTrackingSession } from "../activity-tracking/TrackingSession";
 
 function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
-    console.log("create session")
     createTrackingSession();
   },[])
   return (

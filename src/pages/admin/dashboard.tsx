@@ -108,7 +108,7 @@ const DashBoardPage = () => {
         }}
       >
         {inforTracking && (
-          <Container maxWidth="xl">
+          <Container maxWidth="lg">
             <Stack spacing={3}>
               <div>
                 <Typography variant="h4">Hoạt động người dùng</Typography>

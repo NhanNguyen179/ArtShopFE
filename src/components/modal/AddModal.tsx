@@ -43,8 +43,9 @@ const style = {
 
 interface Props {
   productDetail?: SeedProduct;
+  close?: () => void;
 }
-const AddModal: FC<Props> = ({ productDetail }) => {
+const AddModal: FC<Props> = ({ productDetail, close}) => {
   const [file, setFile] = useState<File>();
   const [listAuthor, setListAuthor] = useState([]);
   const [listExpert, setListExpert] = useState([]);
@@ -80,15 +81,15 @@ const AddModal: FC<Props> = ({ productDetail }) => {
       expertPrice: productDetail?.expert_price ?? 0,
       sold: false,
       description: productDetail?.description ?? "",
-      price: productDetail?.price ?? "",
+      price: productDetail?.price ?? 0,
       start_auction:
         (productDetail?.start_auction &&
           format(new Date(productDetail?.start_auction), "yyyy-MM-dd")) ??
-        "",
+        format(Date.now(), "yyyy-MM-dd"),
       end_auction:
         (productDetail?.end_auction &&
           format(new Date(productDetail?.end_auction), "yyyy-MM-dd")) ??
-        "",
+        format(Date.now(), "yyyy-MM-dd"),
     },
     validationSchema: Yup.object({
       start_auction: Yup.date()
@@ -132,6 +133,7 @@ const AddModal: FC<Props> = ({ productDetail }) => {
                 theme: "light",
               });
             });
+            close();
         } else {
           productAPI.addProduct(requestData).then(async (rs: any) => {
             await productAPI.addPicture(rs.id, file);
@@ -146,8 +148,8 @@ const AddModal: FC<Props> = ({ productDetail }) => {
               theme: "light",
             });
           });
+          close();
         }
-        
       } catch (err) {
         toast.error("Lỗi!", {
           position: "top-right",
@@ -174,7 +176,6 @@ const AddModal: FC<Props> = ({ productDetail }) => {
         formData.append("files", file);
         productAPI.detectImage(formData).then(async (rs: any) => {
           setCategoryDetect(rs.name);
-          
         });
       } else {
         return;
@@ -213,13 +214,9 @@ const AddModal: FC<Props> = ({ productDetail }) => {
           ></AddExpertModal>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={12}>
-              <Typography
-                variant="h4"
-                textAlign={"center"}
-                marginBottom={"10px"}
-              >
+              <p className="text-4xl font-bold italic text-center">
                 {productDetail ? "Cập nhập sản phẩm " : "Thêm sản phẩm"}
-              </Typography>
+              </p>
             </Grid>
             {!productDetail && (
               <>

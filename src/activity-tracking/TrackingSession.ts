@@ -3,17 +3,17 @@ import {
   browserVersion,
   osName,
   osVersion,
-} from 'react-device-detect';
-import { v4 as uuidv4 } from 'uuid';
+} from "react-device-detect";
+import { v4 as uuidv4 } from "uuid";
 
 const uniqueId = uuidv4();
 const layoutType: string =
-  (browserName === ('Chrome' || 'Safari') && 'WebKit') ||
-  (browserName === 'Internet Explorer' && 'Trident') ||
-  (browserName === 'Firefox' && 'Gecko') ||
-  '';
+  (browserName === ("Chrome" || "Safari") && "WebKit") ||
+  (browserName === "Internet Explorer" && "Trident") ||
+  (browserName === "Firefox" && "Gecko") ||
+  "";
 
-const ActivityTrackingSessionKey = 'acttrksession';
+const ActivityTrackingSessionKey = "acttrksession";
 
 export interface ActivityTrackingSession {
   SessionId: string;
@@ -30,7 +30,7 @@ export const getTrackingSession = () => {
   if (sessionDataString) {
     const sessionData: ActivityTrackingSession = JSON.parse(sessionDataString);
     if (!sessionData || !sessionData.SessionId) {
-      throw new Error('no sessionId');
+      throw new Error("no sessionId");
     }
     return sessionData;
   } else {
@@ -46,14 +46,20 @@ export const createTrackingSession = () => {
       BrowserName: browserName,
       BrowserVersion: browserVersion,
       LayoutType: layoutType,
-      ClientOS: osName + ' ' + osVersion,
+      ClientOS: osName + " " + osVersion,
       ClientDescription: `${browserName} ${browserVersion} on ${navigator.product} ${osName} ${osVersion}`,
       UserAgent: navigator.userAgent,
     };
 
     sessionStorage.setItem(
       ActivityTrackingSessionKey,
-      JSON.stringify(browserDetails),
+      JSON.stringify(browserDetails)
     );
+  }
+};
+
+export const deleteTrackingSession = () => {
+  if (window) {
+    sessionStorage.removeItem(ActivityTrackingSessionKey);
   }
 };

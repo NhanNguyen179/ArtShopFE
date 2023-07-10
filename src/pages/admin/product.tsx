@@ -131,7 +131,7 @@ const ProductPage = () => {
             keepMounted
             maxWidth={"md"}
           >
-            <AddModal></AddModal>
+            <AddModal close={handleClose}></AddModal>
           </Dialog>
 
           <Box

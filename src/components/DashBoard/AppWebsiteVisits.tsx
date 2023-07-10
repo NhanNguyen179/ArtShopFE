@@ -23,6 +23,7 @@ export const AppWebsiteVisits: FC<Props> = ({
   ...other
 }) => {
   const chartOptions = useChart({
+    colors : ['#20bbe9', '#4576b5'],
     plotOptions: { bar: { columnWidth: "16%" } },
     fill: { type: chartData.map((i: any) => i.fill) },
     labels: chartLabels,
@@ -51,6 +52,7 @@ export const AppWebsiteVisits: FC<Props> = ({
           series={chartData}
           options={chartOptions}
           height={364}
+        
         />
       </Box>
     </Card>

@@ -43,16 +43,6 @@ export const AppNewsUpdate: FC<Props> = ({
       </Stack>
 
       <Divider />
-
-      <Box sx={{ p: 2, textAlign: "right" }}>
-        <Button
-          size="small"
-          color="inherit"
-          endIcon={<Iconify icon={<ImportContacts></ImportContacts>} />}
-        >
-          View all
-        </Button>
-      </Box>
     </Card>
   );
 };

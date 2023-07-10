@@ -29,6 +29,7 @@ import {
 } from "@mui/icons-material";
 import { UiContext } from "../../context";
 import { User } from "../Type";
+import { deleteTrackingSession } from "../../activity-tracking/TrackingSession";
 
 const userMenu = [
   {
@@ -69,6 +70,7 @@ export const SideMenu = ({ myProfile }: any) => {
 
   const logOut = () => {
     localStorage.removeItem("token");
+    deleteTrackingSession();
     navigateTo("/auth/login");
   };
   return (

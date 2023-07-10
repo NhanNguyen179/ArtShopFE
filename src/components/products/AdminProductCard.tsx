@@ -125,7 +125,7 @@ export const AdminProductCard: React.FC<Props> = ({
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <AddModal productDetail={productItem} />
+        <AddModal productDetail={productItem} close={handleClose}/>
       </Dialog>
       <ConfirmDialog
         title={

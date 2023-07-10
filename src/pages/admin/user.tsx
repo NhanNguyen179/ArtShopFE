@@ -61,6 +61,7 @@ const UserPage = () => {
           theme: "light",
         });
       });
+      fetchData();
   };
   useEffect(() => {
     !openConfirmModal && fetchData();

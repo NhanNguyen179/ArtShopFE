@@ -108,7 +108,7 @@ const Auth: React.FunctionComponent<IAuth> = ({
       return <>{children}</>;
     }
   }
-  router.push("/login");
+  router.push("/auth/login");
 
   return <>This page is authenticated you will be now redirected</>;
 };

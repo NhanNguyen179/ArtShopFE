@@ -57,10 +57,11 @@ const LoginPage = () => {
           router.push("/");
         }
       } catch (err: any) {
-        toast.error(err.detail, {
+        toast.error(err.response.data.detail, {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
+
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,

@@ -13,12 +13,12 @@ import { ShopLayout } from "../../components/layouts/ShopLayout";
 const CartPage = () => {
   return (
     <ShopLayout
-      title="Danh sách đấu giá của bạn"
+      title="Danh sách đang đấu giá của bạn"
       pageDescription={"Danh sách đấu giá của bạn"}
       isPublic={true}
     >
       <Typography variant="h1" component="h1">
-        Danh sách đấu giá:
+        Danh sách đang đấu giá:
       </Typography>
       <br></br>
 

@@ -148,7 +148,7 @@ export const AuctionList: FC<Props> = ({ isExpire }) => {
                               </Box>
 
                               <p className="text-md font-medium uppercase flex gap-3">
-                                Giá tiền phải trả:
+                                Giá tiền đã trả:
                                 <p className="text-md font-extrabold uppercase inline">
                                   {`${fCurrency(
                                     Number(auctionItem.auction_price)
@@ -167,9 +167,10 @@ export const AuctionList: FC<Props> = ({ isExpire }) => {
                               <p className="text-md font-medium uppercase flex gap-3">
                                 Số người đã tham gia đấu giá:
                                 <p className="text-md font-extrabold uppercase inline">
-                                  {`${format(
-                                    new Date(auctionItem.auction_participant),
-                                    "dd-MM-yyyy"
+                                  {`${fCurrency(
+                                    Number(
+                                      auctionItem.auction_participant
+                                    )
                                   )}`}
                                 </p>
                               </p>
@@ -249,7 +250,9 @@ export const AuctionList: FC<Props> = ({ isExpire }) => {
           <Grid item xs={12} sm={4}>
             <Card className="summary-card">
               <CardContent>
-                <p className="text-xl font-extrabold italic">Tổng giá trị đấu giá</p>
+                <p className="text-xl font-extrabold italic">
+                  Tổng giá trị đấu giá
+                </p>
                 <Divider sx={{ my: 1 }} />
                 <OrderSummary totalAuctionOfUser={totalAuctionOfUser} />
               </CardContent>
